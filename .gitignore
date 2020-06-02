@@ -5,8 +5,10 @@ ios/Flutter/Flutter.framework
 ios/Flutter/App.framework
 ios/Runner.xcworkspace/xcuserdata
 build/
+build/ios/
 ios/Pods
+ios/.symlinks
 Podfile.lock
 android/.gradle
-./dart_tool
-./idea
+.dart_tool/
+.idea/
