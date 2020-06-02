@@ -44,7 +44,7 @@ class WelcomeScreen extends StatelessWidget {
               style: TextStyle(
                 color: Colors.black,
                 decoration: TextDecoration.none,
-                fontSize: 33.0,
+                fontSize: 26.0,
                 fontWeight: FontWeight.w700,
                 fontFamily: "Comic",
               ),
@@ -59,7 +59,7 @@ class WelcomeScreen extends StatelessWidget {
               style: TextStyle(
                 color: Colors.black,
                 decoration: TextDecoration.none,
-                fontSize: 33.0,
+                fontSize: 26.0,
                 fontWeight: FontWeight.w700,
                 fontFamily: "Comic",
               ),
@@ -74,7 +74,7 @@ class WelcomeScreen extends StatelessWidget {
               style: TextStyle(
                 color: Colors.grey,
                 decoration: TextDecoration.none,
-                fontSize: 26.0,
+                fontSize: 22.0,
                 fontWeight: FontWeight.w300,
                 fontFamily: "Comic",
               ),
