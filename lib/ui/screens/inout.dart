@@ -335,7 +335,7 @@ class _InOutState extends State<InOut> {
       itemCount: _exerciseData.length,
       itemBuilder: (BuildContext context, int itemIndex) =>
         Container(
-          padding: EdgeInsets.all(0.0),
+          padding: EdgeInsets.all(50.0),
           child: new Image.network(
             _exerciseData[itemIndex]['url'],
             fit: BoxFit.cover,
@@ -355,191 +355,194 @@ class _InOutState extends State<InOut> {
       stringTime = "0" + _time.toString();
     }
     // print("sound ${widget.settings.sound}");
-    return SafeArea(
-      child: Scaffold(
-        body: SlidingUpPanel(
-          isDraggable: false,
-          minHeight: 0.0,
-          maxHeight: 370.0,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
-          controller: _pc,
-          panel: new Container(
-            // color: Colors.transparent,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(color: Colors.black.withOpacity(0.6), spreadRadius: 2000),
-              ],
-            ),
-            padding: const EdgeInsets.all(10.0),
-            child: new Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                new Text("How many reps?",
-                  style: TextStyle(
-                    fontSize: 36.0,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF3A5998),
-                  ),
-                ),
-                new Container(
-                  width: 200.0,
-                  child: new TextField(
-                    controller: txt,
-                    textAlign: TextAlign.center,
+    return Container(
+      color: Colors.white,
+      child: SafeArea(
+        child: Scaffold(
+          body: SlidingUpPanel(
+            isDraggable: false,
+            minHeight: 0.0,
+            maxHeight: 370.0,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
+            controller: _pc,
+            panel: new Container(
+              // color: Colors.transparent,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(color: Colors.black.withOpacity(0.6), spreadRadius: 2000),
+                ],
+              ),
+              padding: const EdgeInsets.all(10.0),
+              child: new Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  new Text("How many reps?",
                     style: TextStyle(
-                      fontSize: 120,
-                      fontFamily: 'HK Grotesk',
+                      fontSize: 36.0,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFF3A5998),
                     ),
-                    focusNode: myFocusNode,
-                    keyboardType: TextInputType.number,
+                  ),
+                  new Container(
+                    width: 200.0,
+                    child: new TextField(
+                      controller: txt,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 120,
+                        fontFamily: 'HK Grotesk',
+                      ),
+                      focusNode: myFocusNode,
+                      keyboardType: TextInputType.number,
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: ButtonTheme(
+                      minWidth: 120.0,
+                      // height: 100.0,
+                      child: CustomFlatButton(
+                        title: "Save",
+                        fontSize: 20,
+                        textColor: Colors.white,
+                        onPressed: () {
+                          if (_current == _exerciseData.length - 1) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => NascarResultsScreen(
+                                  settings: widget.settings,
+                                )),
+                            ); 
+                          } else {
+                            setState(() {
+                              _current = _current + 1;
+                            });
+                            _pc.close();
+                            myFocusNode.unfocus();
+                            exerciseRest(_current, true);
+                          }
+                        },
+                        splashColor: Colors.black12,
+                        borderColor: Colors.black,
+                        borderWidth: 0,
+                        color: Colors.black,
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ),
+            body: Column(
+              children: <Widget>[
+                ListTile(
+                  leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SoccerBasics(
+                          settings: widget.settings,
+                        )),
+                    ); 
+                    _timer.cancel();
+                  }),
+                  title: Center(
+                    child: Text(
+                      'NASCAR',
+                      style: TextStyle(
+                        color:Colors.grey,
+                        fontSize: 12,
+                      ),
+                    )
+                  ),
+                  subtitle: Center(
+                    child: Text(
+                      _exerciseData[_current]['name'],
+                      style: TextStyle(
+                        color:Colors.grey.shade800,
+                        fontSize: 12,
+                      ),
+                    )
+                  ),
+                  trailing:IconButton(icon: Icon(Icons.more_vert), onPressed: (){}),
+                ),
+                // exerciseCarousel,
+                Expanded(
+                  child: exerciseCarousel
+                ),
+                ListTile(
+                  title: Center(
+                    child: Text(
+                      _exerciseComment,
+                      style: TextStyle(
+                        color:Colors.grey,
+                        fontSize: 14,
+                      ),
+                    )
+                  ),
+                  subtitle: Center(
+                    child: Text(
+                      '0:' + stringTime,
+                      style: TextStyle(
+                        color:Colors.grey.shade800,
+                        fontSize: 30,
+                      ),
+                    )
                   ),
                 ),
+                _carouselIndicator(),
                 Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: ButtonTheme(
-                    minWidth: 120.0,
-                    // height: 100.0,
-                    child: CustomFlatButton(
-                      title: "Save",
-                      fontSize: 20,
-                      textColor: Colors.white,
-                      onPressed: () {
-                        if (_current == _exerciseData.length - 1) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => NascarResultsScreen(
-                                settings: widget.settings,
-                              )),
-                          ); 
-                        } else {
+                  padding: const EdgeInsets.fromLTRB(0,0, 0, 15),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      IconButton(icon: Icon(Icons.refresh,size: 50,), onPressed: (){
+                        _timer.cancel();
+                        setState(() {
+                          _playState = true;
+                        });
+                        exerciseRest(_current, false);
+                      }),
+                      IconButton(icon: _prevIcon(), onPressed: (){
+                        if (_current != 0){
+                          _timer.cancel();
+                          setState(() {
+                            _current = _current - 1;
+                            _playState = true;
+                          });
+                          exerciseRest(_current, false);
+                        }
+                      }),
+                      _playPauseButton(),
+                      IconButton(icon: _nextIcon(), onPressed: (){
+                        if (_current != _exerciseData.length - 1) {
+                          _timer.cancel();
                           setState(() {
                             _current = _current + 1;
+                            _playState = true;
                           });
-                          _pc.close();
-                          myFocusNode.unfocus();
-                          exerciseRest(_current, true);
+                          exerciseRest(_current, false);
                         }
-                      },
-                      splashColor: Colors.black12,
-                      borderColor: Colors.black,
-                      borderWidth: 0,
-                      color: Colors.black,
-                    ),
+                      }),
+                      IconButton(icon: Icon(Icons.stop,size: 50,), onPressed: (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SoccerBasics(
+                              settings: widget.settings,
+                            )),
+                        );
+                      }),
+                    ],
                   ),
                 ),
+                SizedBox(
+                  height: 100,
+                ),
               ],
-            )
-          ),
-          body: Column(
-            children: <Widget>[
-              ListTile(
-                leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SoccerBasics(
-                        settings: widget.settings,
-                      )),
-                  ); 
-                  _timer.cancel();
-                }),
-                title: Center(
-                  child: Text(
-                    'NASCAR',
-                    style: TextStyle(
-                      color:Colors.grey,
-                      fontSize: 12,
-                    ),
-                  )
-                ),
-                subtitle: Center(
-                  child: Text(
-                    _exerciseData[_current]['name'],
-                    style: TextStyle(
-                      color:Colors.grey.shade800,
-                      fontSize: 12,
-                    ),
-                  )
-                ),
-                trailing:IconButton(icon: Icon(Icons.more_vert), onPressed: (){}),
-              ),
-              // exerciseCarousel,
-              Expanded(
-                child: exerciseCarousel
-              ),
-              ListTile(
-                title: Center(
-                  child: Text(
-                    _exerciseComment,
-                    style: TextStyle(
-                      color:Colors.grey,
-                      fontSize: 14,
-                    ),
-                  )
-                ),
-                subtitle: Center(
-                  child: Text(
-                    '0:' + stringTime,
-                    style: TextStyle(
-                      color:Colors.grey.shade800,
-                      fontSize: 30,
-                    ),
-                  )
-                ),
-              ),
-              _carouselIndicator(),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0,0, 0, 15),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    IconButton(icon: Icon(Icons.refresh,size: 50,), onPressed: (){
-                      _timer.cancel();
-                      setState(() {
-                        _playState = true;
-                      });
-                      exerciseRest(_current, false);
-                    }),
-                    IconButton(icon: _prevIcon(), onPressed: (){
-                      if (_current != 0){
-                        _timer.cancel();
-                        setState(() {
-                          _current = _current - 1;
-                          _playState = true;
-                        });
-                        exerciseRest(_current, false);
-                      }
-                    }),
-                    _playPauseButton(),
-                    IconButton(icon: _nextIcon(), onPressed: (){
-                      if (_current != _exerciseData.length - 1) {
-                        _timer.cancel();
-                        setState(() {
-                          _current = _current + 1;
-                          _playState = true;
-                        });
-                        exerciseRest(_current, false);
-                      }
-                    }),
-                    IconButton(icon: Icon(Icons.stop,size: 50,), onPressed: (){
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => SoccerBasics(
-                            settings: widget.settings,
-                          )),
-                      );
-                    }),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-            ],
+            ),
           ),
         ),
       ),
