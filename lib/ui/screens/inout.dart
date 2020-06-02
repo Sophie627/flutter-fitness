@@ -97,8 +97,10 @@ class _InOutState extends State<InOut> {
     Parameters: list(List)  - Voice title list  
   */
   void playListVoice(List list) {
-    for (var i = 0; i < list.length; i++) {
-      playMusic(list[i], "voice");
+    if (list != null) {
+      for (var i = 0; i < list.length; i++) {
+        playMusic(list[i], "voice");
+      }
     }
   }
   /* 

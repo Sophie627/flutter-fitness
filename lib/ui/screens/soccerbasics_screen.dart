@@ -188,14 +188,15 @@ class _SoccerBasicsState extends State<SoccerBasics> {
                 // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
                 elevation: 16,
                 child: Container(
-                  height: 280.0,
-                  width: 360.0,
+                  height: 320.0,
+                  // width: 1000.0,
                   child: new Center(
                     child: new Container(
                       child: new Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Padding(
-                            padding: EdgeInsets.all(20.0),
+                            padding: EdgeInsets.all(10.0),
                             child: new Text("Get Ready",
                               style: TextStyle(
                                 fontSize: 28.0,
@@ -203,12 +204,15 @@ class _SoccerBasicsState extends State<SoccerBasics> {
                               ),
                             ),
                           ),
-                          Text("Turn on the music and get ready", style: TextStyle(fontSize: 18.0),),
-                          Text("to start your workout.", style: TextStyle(fontSize: 18.0),),
+                          Text("Turn on the music and get ready to start your workout.", 
+                            overflow: TextOverflow.clip, 
+                            style: TextStyle(fontSize: 18.0),
+                            textAlign: TextAlign.center,
+                          ),
                           Padding(
                             padding: EdgeInsets.all(10.0),
                             child: ButtonTheme(
-                              minWidth: 260.0,
+                              minWidth: 200.0,
                               // height: 100.0,
                               child: CustomFlatButton(
                                 title: "I'm ready!",
@@ -233,7 +237,7 @@ class _SoccerBasicsState extends State<SoccerBasics> {
                           Padding(
                             padding: EdgeInsets.all(10.0),
                             child: ButtonTheme(
-                              minWidth: 260.0,
+                              minWidth: 200.0,
                               // height: 100.0,
                               child: CustomFlatButton(
                                 title: "Need more time",
