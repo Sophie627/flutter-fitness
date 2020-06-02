@@ -40,31 +40,28 @@ class _MainScreenState extends State<MainScreen> {
             leading: new IconButton(
                 icon: new Icon(Icons.menu),
                 onPressed: () => _scaffoldKey.currentState.openDrawer()),
-            title: Row(
-              children: <Widget>[
-                Expanded(
-                  flex: 4,
-                  child: new Image.asset('assets/images/logo.png'),
-                ),
-                Expanded(
-                  flex: 7,
-                  child:new Text(
-                    'Brave Fit',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 24,  
-                      fontFamily: 'Xbka',
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 3,
-                  child:new Text(
-                    'SHOP',
-                  ),
-                ),
-              ],
+            title: new Text(
+              'Brave Fit',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 22,  
+                fontFamily: 'Xbka',
+              ),
             ),
+            actions: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(right: 20.0),
+                child: GestureDetector(
+                  onTap: () {},
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text('SHOP'),
+                    ],
+                  ),
+                )
+              ),
+            ],
           ),
           drawer: Drawer(
             child: ListView(
@@ -164,7 +161,12 @@ class _MainScreenState extends State<MainScreen> {
                                   padding: EdgeInsets.fromLTRB(15.0, 0, 15.0, 0),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(15.0),
-                                    child: new Image.asset('assets/images/narscar.png'),
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width - 30.0,
+                                      child: new Image.asset('assets/images/narscar.png',
+                                        fit: BoxFit.fitWidth,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ]
@@ -186,7 +188,12 @@ class _MainScreenState extends State<MainScreen> {
                                   padding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(15.0),
-                                    child: new Image.asset('assets/images/soccerbasics.png'),
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width - 30.0,
+                                      child: new Image.asset('assets/images/soccerbasics.png',
+                                        fit: BoxFit.fitWidth,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ]
@@ -202,7 +209,12 @@ class _MainScreenState extends State<MainScreen> {
                                   padding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(15.0),
-                                    child: new Image.asset('assets/images/thecore.png'),
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width - 30.0,
+                                      child: new Image.asset('assets/images/thecore.png',
+                                        fit: BoxFit.fitWidth,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ]
@@ -218,7 +230,12 @@ class _MainScreenState extends State<MainScreen> {
                                   padding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(15.0),
-                                    child: new Image.asset('assets/images/getlimber.png'),
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width - 30.0,
+                                      child: new Image.asset('assets/images/getlimber.png',
+                                        fit: BoxFit.fitWidth,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ]
