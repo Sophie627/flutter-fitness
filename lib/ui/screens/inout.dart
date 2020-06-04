@@ -42,6 +42,7 @@ class _InOutState extends State<InOut> {
   String _exerciseComment = '';  //state related to exercise comment
   bool _playState = true; //state related to playing
   String _stageState = "rest"; //state related to stage
+  bool _nightMode = false;//day mode or night mode
 
   List<T> map<T>(List list, Function handler) {
     List<T> result = [];
@@ -358,7 +359,7 @@ class _InOutState extends State<InOut> {
     }
     // print("sound ${widget.settings.sound}");
     return Container(
-      color: Colors.white,
+      color: _nightMode ? Colors.black : Colors.white,
       child: SafeArea(
         child: Scaffold(
           body: SlidingUpPanel(
@@ -437,116 +438,140 @@ class _InOutState extends State<InOut> {
                 ],
               )
             ),
-            body: Column(
-              children: <Widget>[
-                ListTile(
-                  leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SoccerBasics(
-                          settings: widget.settings,
-                        )),
-                    ); 
-                    _timer.cancel();
-                  }),
-                  title: Center(
-                    child: Text(
-                      'NASCAR',
-                      style: TextStyle(
-                        color:Colors.grey,
-                        fontSize: 12,
-                      ),
-                    )
-                  ),
-                  subtitle: Center(
-                    child: Text(
-                      _exerciseData[_current]['name'],
-                      style: TextStyle(
-                        color:Colors.grey.shade800,
-                        fontSize: 12,
-                      ),
-                    )
-                  ),
-                  trailing:IconButton(icon: Icon(Icons.more_vert), onPressed: (){}),
-                ),
-                // exerciseCarousel,
-                Expanded(
-                  child: exerciseCarousel
-                ),
-                ListTile(
-                  title: Center(
-                    child: Text(
-                      _exerciseComment,
-                      style: TextStyle(
-                        color:Colors.grey,
-                        fontSize: 14,
-                      ),
-                    )
-                  ),
-                  subtitle: Center(
-                    child: Text(
-                      '0:' + stringTime,
-                      style: TextStyle(
-                        color:Colors.grey.shade800,
-                        fontSize: 30,
-                      ),
-                    )
-                  ),
-                ),
-                _carouselIndicator(),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0,0, 0, 15),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      IconButton(icon: Icon(Icons.refresh,size: 50,), onPressed: (){
-                        _timer.cancel();
-                        setState(() {
-                          _playState = true;
-                        });
-                        exerciseRest(_current, false);
-                      }),
-                      IconButton(icon: _prevIcon(), onPressed: (){
-                        if (_current != 0){
-                          _timer.cancel();
-                          setState(() {
-                            _current = _current - 1;
-                            _playState = true;
-                          });
-                          exerciseRest(_current, false);
-                        }
-                      }),
-                      _playPauseButton(),
-                      IconButton(icon: _nextIcon(), onPressed: (){
-                        if (_current != _exerciseData.length - 1) {
-                          _timer.cancel();
-                          setState(() {
-                            _current = _current + 1;
-                            _playState = true;
-                          });
-                          exerciseRest(_current, false);
-                        }
-                      }),
-                      IconButton(icon: Icon(Icons.stop,size: 50,), onPressed: (){
-                        _timer.cancel();
+            body: Container(
+              color: _nightMode ? Colors.black : Colors.white,
+              child: Column(
+                children: <Widget>[
+                  ListTile(
+                    leading: IconButton(
+                      color: _nightMode ? Colors.white : Colors.grey,
+                      icon: Icon(Icons.arrow_back), 
+                      onPressed: (){
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => SoccerBasics(
                               settings: widget.settings,
                             )),
-                        );
-                        
-                      }),
-                    ],
+                      ); 
+                      _timer.cancel();
+                    }),
+                    title: Center(
+                      child: Text(
+                        'NASCAR',
+                        style: TextStyle(
+                          color: _nightMode ? Colors.white : Colors.grey,
+                          fontSize: 12,
+                        ),
+                      )
+                    ),
+                    subtitle: Center(
+                      child: Text(
+                        _exerciseData[_current]['name'],
+                        style: TextStyle(
+                          color: _nightMode ? Colors.white : Colors.grey.shade800,
+                          fontSize: 12,
+                        ),
+                      )
+                    ),
+                    trailing:IconButton(
+                      color: _nightMode ? Colors.white : Colors.black,
+                      icon: Icon(Icons.more_vert), 
+                      onPressed: (){
+                        if (_nightMode) {
+                          setState(() {
+                            _nightMode = false;
+                          });
+                        } else {
+                          setState(() {
+                            _nightMode = true;
+                          });
+                        } 
+                    }),
                   ),
-                ),
-                SizedBox(
-                  height: 100,
-                ),
-              ],
+                  // exerciseCarousel,
+                  Expanded(
+                    child: exerciseCarousel
+                  ),
+                  ListTile(
+                    title: Center(
+                      child: Text(
+                        _exerciseComment,
+                        style: TextStyle(
+                          color: _nightMode ? Colors.white : Colors.grey,
+                          fontSize: 14,
+                        ),
+                      )
+                    ),
+                    subtitle: Center(
+                      child: Text(
+                        '0:' + stringTime,
+                        style: TextStyle(
+                          color: _nightMode ? Colors.white : Colors.grey.shade800,
+                          fontSize: 30,
+                        ),
+                      )
+                    ),
+                  ),
+                  _carouselIndicator(),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0,0, 0, 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        IconButton(
+                          color: _nightMode ? Colors.white : Colors.black,
+                          icon: Icon(Icons.refresh,size: 50,), onPressed: (){
+                          _timer.cancel();
+                          setState(() {
+                            _playState = true;
+                          });
+                          exerciseRest(_current, false);
+                        }),
+                        IconButton(icon: _prevIcon(), onPressed: (){
+                          if (_current != 0){
+                            _timer.cancel();
+                            setState(() {
+                              _current = _current - 1;
+                              _playState = true;
+                            });
+                            exerciseRest(_current, false);
+                          }
+                        }),
+                        _playPauseButton(),
+                        IconButton(icon: _nextIcon(), onPressed: (){
+                          if (_current != _exerciseData.length - 1) {
+                            _timer.cancel();
+                            setState(() {
+                              _current = _current + 1;
+                              _playState = true;
+                            });
+                            exerciseRest(_current, false);
+                          }
+                        }),
+                        IconButton(
+                          color: _nightMode ? Colors.white : Colors.black,
+                          icon: Icon(Icons.stop,size: 50,), onPressed: (){
+                          _timer.cancel();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SoccerBasics(
+                                settings: widget.settings,
+                              )),
+                          );
+                          
+                        }),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 100,
+                  ),
+                ],
+              ),
             ),
+            
           ),
         ),
       ),
@@ -568,7 +593,9 @@ class _InOutState extends State<InOut> {
         color: Colors.grey.withOpacity(0.5),
       );
     } else {
-      return Icon(Icons.fast_rewind, size: 50,);
+      return Icon(Icons.fast_rewind, size: 50,
+        color: _nightMode ? Colors.white : Colors.black,
+      );
     }
   }
 
@@ -587,7 +614,9 @@ class _InOutState extends State<InOut> {
         color: Colors.grey.withOpacity(0.5),
       );
     } else {
-      return Icon(Icons.fast_forward,size: 50,);
+      return Icon(Icons.fast_forward,size: 50,
+        color: _nightMode ? Colors.white : Colors.black,
+      );
     }
   }
 
@@ -602,18 +631,26 @@ class _InOutState extends State<InOut> {
   */
   Widget _playPauseButton() {
     if (_playState) {
-      return IconButton(icon: Icon(Icons.pause_circle_outline,size: 50,), onPressed: (){
-        _timer.cancel();
-        setState(() {
-          _playState = false;
-        });
+      return IconButton(
+        icon: Icon(Icons.pause_circle_outline,size: 50, 
+          color: _nightMode ? Colors.white : Colors.black,
+        ), 
+        onPressed: (){
+          _timer.cancel();
+          setState(() {
+            _playState = false;
+          });
       });
     } else {
-      return IconButton(icon: Icon(Icons.play_circle_outline,size: 50,), onPressed: (){
-        startTimer();
-        setState(() {
-          _playState = true;
-        });
+      return IconButton(
+        icon: Icon(Icons.play_circle_outline,size: 50,
+          color: _nightMode ? Colors.white : Colors.black,
+        ), 
+        onPressed: (){
+          startTimer();
+          setState(() {
+            _playState = true;
+          });
       });
     }
   }
