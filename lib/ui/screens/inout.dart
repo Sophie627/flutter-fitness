@@ -529,6 +529,7 @@ class _InOutState extends State<InOut> {
                         }
                       }),
                       IconButton(icon: Icon(Icons.stop,size: 50,), onPressed: (){
+                        _timer.cancel();
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -536,6 +537,7 @@ class _InOutState extends State<InOut> {
                               settings: widget.settings,
                             )),
                         );
+                        
                       }),
                     ],
                   ),
