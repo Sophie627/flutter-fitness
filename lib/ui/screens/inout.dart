@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:onboarding_flow/models/settings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:onboarding_flow/ui/screens/nascarresults.dart';
+import 'package:onboarding_flow/ui/screens/settings_screen.dart';
 import 'package:onboarding_flow/ui/screens/soccerbasics_screen.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:onboarding_flow/ui/widgets/custom_flat_button.dart';
@@ -357,7 +358,22 @@ class _InOutState extends State<InOut> {
     if (_time < 10) {
       stringTime = "0" + _time.toString();
     }
-    // print("sound ${widget.settings.sound}");
+    // print("nightTheme ${widget.settings.nightTheme}");
+    // if(widget.settings.nightTheme == null) {
+    //   setState(() {
+    //     _nightMode = false;
+    //   });
+    // } else {
+    //   if (!widget.settings.nightTheme) {
+    //     setState(() {
+    //       _nightMode = false;
+    //     });
+    //   } else {
+    //     setState(() {
+    //       _nightMode = true;
+    //     });
+    //   }
+    // }
     return Container(
       color: _nightMode ? Colors.black : Colors.white,
       child: SafeArea(
@@ -453,9 +469,9 @@ class _InOutState extends State<InOut> {
                             builder: (context) => SoccerBasics(
                               settings: widget.settings,
                             )),
-                      ); 
-                      _timer.cancel();
-                    }),
+                        ); 
+                        _timer.cancel();
+                      }),
                     title: Center(
                       child: Text(
                         'NASCAR',
@@ -478,15 +494,15 @@ class _InOutState extends State<InOut> {
                       color: _nightMode ? Colors.white : Colors.black,
                       icon: Icon(Icons.more_vert), 
                       onPressed: (){
-                        if (_nightMode) {
-                          setState(() {
-                            _nightMode = false;
-                          });
-                        } else {
-                          setState(() {
-                            _nightMode = true;
-                          });
-                        } 
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SettingsScreen(
+                              settings: widget.settings,
+                            )),
+                        );
+                        _timer.cancel();
+                         
                     }),
                   ),
                   // exerciseCarousel,

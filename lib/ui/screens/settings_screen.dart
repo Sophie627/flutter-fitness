@@ -14,6 +14,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   final settings = Settings(
     sound: false,
     voice: true,
+    nightTheme: false,
   );
 
   bool checked = false;
@@ -126,6 +127,41 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         activeTrackColor: Colors.green,
                         inactiveThumbColor: Colors.white,
                         inactiveTrackColor: Colors.grey,
+                      ),
+                    ],
+                  ),
+                ),
+                new Text("Theme",
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                new Padding(
+                  padding: EdgeInsets.fromLTRB(0, 10.0, 0, 10.0),
+                  child: Column(
+                    children: <Widget>[
+                      RadioListTile<bool>(
+                        activeColor: Colors.black,
+                        title: const Text('Light'),
+                        value: false,
+                        groupValue: settings.nightTheme,
+                        onChanged: (value) {
+                          setState(() {
+                            settings.nightTheme = value;
+                          });
+                        },
+                      ),
+                      RadioListTile<bool>(
+                        activeColor: Colors.black ,
+                        title: const Text('Dark'),
+                        value: true,
+                        groupValue: settings.nightTheme,
+                        onChanged: (value) {
+                          setState(() {
+                            settings.nightTheme = value;
+                          });
+                        },
                       ),
                     ],
                   ),
