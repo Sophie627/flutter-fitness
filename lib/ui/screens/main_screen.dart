@@ -1,13 +1,14 @@
+/*
+  Main Screen file
+  Updated on June 7 2020 by Sophie(bolesalavb@gmail.com)
+*/
 import 'package:flutter/material.dart';
 import 'package:onboarding_flow/business/auth.dart';
 import 'package:onboarding_flow/models/settings.dart';
 import 'package:onboarding_flow/ui/screens/root_screen.dart';
 import 'package:onboarding_flow/ui/screens/settings_screen.dart';
 import 'package:onboarding_flow/ui/screens/activity.dart';
-// import 'package:onboarding_flow/ui/screens/insideoutside.dart';
-// import 'package:onboarding_flow/ui/screens/nascarresults.dart';
 import 'package:onboarding_flow/ui/screens/profile.dart';
-// import 'package:onboarding_flow/ui/screens/totalworkouts.dart';
 import 'package:onboarding_flow/ui/screens/soccerbasics_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:url_launcher/url_launcher.dart';

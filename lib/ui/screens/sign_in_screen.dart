@@ -6,7 +6,7 @@ import 'package:onboarding_flow/business/validator.dart';
 import 'package:flutter/services.dart';
 import 'package:onboarding_flow/ui/widgets/custom_flat_button.dart';
 import 'package:onboarding_flow/ui/widgets/custom_alert_dialog.dart';
-import 'package:onboarding_flow/models/user.dart';
+// import 'package:onboarding_flow/models/user.dart';
 
 class SignInScreen extends StatefulWidget {
   _SignInScreenState createState() => _SignInScreenState();

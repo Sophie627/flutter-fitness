@@ -4,7 +4,6 @@ import 'dart:async';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:onboarding_flow/ui/screens/nascarresults.dart';
-import 'package:onboarding_flow/ui/screens/ready_screen.dart';
 import 'package:onboarding_flow/ui/screens/soccerbasics_screen.dart';
 import 'package:onboarding_flow/ui/widgets/custom_flat_button.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -12,7 +11,6 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:onboarding_flow/models/settings.dart';
-import 'package:onboarding_flow/ui/screens/report_screen.dart';
 
 class Exercise extends StatefulWidget {
   final FirebaseUser firebaseUser;
