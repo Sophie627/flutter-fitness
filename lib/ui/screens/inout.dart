@@ -53,6 +53,65 @@ class _InOutState extends State<InOut> {
     return result;
   }
 
+  /*
+    Future<void> _endWorkoutDialog() async
+    Author: Sophie(bolesalavb@gmail.com)
+    Created Date & Time: Jun 7 2020 10:48 PM
+
+    Future<void>: _endWorkoutDialog
+
+    Description: 'End Workout' Dialog
+  */
+  Future<void> _endWorkoutDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white.withOpacity(0.7),
+          title: Center(
+            child: Text('End Workout?'),
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Center(
+                  child: Text('Going back will restart the timer. Are you sure to you want to do this?',
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Yes'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SoccerBasics(
+                      settings: widget.settings,
+                    )),
+                ); 
+              },
+            ),
+            FlatButton(
+              child: Text('No'),
+              onPressed: () {
+                startTimer();
+                setState(() {
+                  _playState = true;
+                });
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   /* 
     void playMusic(String title, String method)
     Author: Sophie
@@ -314,6 +373,46 @@ class _InOutState extends State<InOut> {
     );
   }
 
+  /*
+    void startPauseTimer
+    Author: Sophie(bolesalavb@gmail.com)
+    Created Date & Time:  Jun 7 2020 10:36 PM
+
+    Function: startPauseTimer()
+
+    Description:  Start/Pause Timer
+  */
+  void startPauseTimer() {
+    if (_playState) {
+      _timer.cancel();
+      setState(() {
+        _playState = false;
+      });
+    } else {
+      startTimer();
+      setState(() {
+        _playState = true;
+      });
+    }
+  }
+
+  /*
+    void displayEndWorkoutDialog()
+    Author: Sophie(bolesalavb@gmil.com)
+    Created Date & Time: Jun 7 2020 10:54 PM
+
+    Function: displayEndWorkoutDialog
+
+    Description: Display 'End Workout' dialog
+  */
+  void displayEndWorkoutDialog() {
+    _endWorkoutDialog();
+    _timer.cancel();
+    setState(() {
+      _playState = false;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -463,14 +562,7 @@ class _InOutState extends State<InOut> {
                       color: _nightMode ? Colors.white : Colors.grey,
                       icon: Icon(Icons.arrow_back), 
                       onPressed: (){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SoccerBasics(
-                              settings: widget.settings,
-                            )),
-                        ); 
-                        _timer.cancel();
+                        displayEndWorkoutDialog();
                       }),
                     title: Center(
                       child: Text(
@@ -568,15 +660,7 @@ class _InOutState extends State<InOut> {
                         IconButton(
                           color: _nightMode ? Colors.white : Colors.black,
                           icon: Icon(Icons.stop,size: 50,), onPressed: (){
-                          _timer.cancel();
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SoccerBasics(
-                                settings: widget.settings,
-                              )),
-                          );
-                          
+                          displayEndWorkoutDialog();
                         }),
                       ],
                     ),
@@ -639,36 +723,21 @@ class _InOutState extends State<InOut> {
   /*
     Widget _playPauseButton()
     Author: Sophie
-    Created Date & Time:  Apr 1 2020 4:10AM
-
+    Created Date & Time:  Apr 1 2020 4:10 AM
+    Updated Date & Time:  Jun 7 2020 10:34 PM
     Widget: _playPauseButton
 
     Description:  Play/Pause Button
   */
   Widget _playPauseButton() {
-    if (_playState) {
-      return IconButton(
-        icon: Icon(Icons.pause_circle_outline,size: 50, 
-          color: _nightMode ? Colors.white : Colors.black,
-        ), 
-        onPressed: (){
-          _timer.cancel();
-          setState(() {
-            _playState = false;
-          });
-      });
-    } else {
-      return IconButton(
-        icon: Icon(Icons.play_circle_outline,size: 50,
-          color: _nightMode ? Colors.white : Colors.black,
-        ), 
-        onPressed: (){
-          startTimer();
-          setState(() {
-            _playState = true;
-          });
-      });
-    }
+    return IconButton(
+      icon: Icon(_playState ? Icons.pause_circle_outline : Icons.play_circle_outline,
+        size: 50, 
+        color: _nightMode ? Colors.white : Colors.black,
+      ), 
+      onPressed: (){
+        startPauseTimer();
+    });
   }
 
   /*
