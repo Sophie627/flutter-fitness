@@ -32,6 +32,7 @@ dependencies:
   table_calendar: ^2.2.2
   dropdownfield: ^1.0.3
   firebase_database: ^3.1.6
+  url_launcher: ^5.4.10
   # firebase_admob: ^0.6.1
 
   # The following adds the Cupertino Icons font to your application.
@@ -66,6 +67,9 @@ flutter:
     - assets/images/thecore.png
     - assets/images/narscar.png
     - assets/images/ball.png
+    - assets/images/facebook.png
+    - assets/images/instagram.png
+    - assets/images/youtube.png
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

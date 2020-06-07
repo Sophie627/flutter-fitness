@@ -4,12 +4,13 @@ import 'package:onboarding_flow/models/settings.dart';
 import 'package:onboarding_flow/ui/screens/root_screen.dart';
 import 'package:onboarding_flow/ui/screens/settings_screen.dart';
 import 'package:onboarding_flow/ui/screens/activity.dart';
-import 'package:onboarding_flow/ui/screens/insideoutside.dart';
-import 'package:onboarding_flow/ui/screens/nascarresults.dart';
+// import 'package:onboarding_flow/ui/screens/insideoutside.dart';
+// import 'package:onboarding_flow/ui/screens/nascarresults.dart';
 import 'package:onboarding_flow/ui/screens/profile.dart';
-import 'package:onboarding_flow/ui/screens/totalworkouts.dart';
+// import 'package:onboarding_flow/ui/screens/totalworkouts.dart';
 import 'package:onboarding_flow/ui/screens/soccerbasics_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MainScreen extends StatefulWidget {
   final FirebaseUser firebaseUser;
@@ -74,7 +75,7 @@ class _MainScreenState extends State<MainScreen> {
                       color: Color(0xFF85C1E9),
                     ),
                     child: Text(
-                        'Brave Fit Fitness',
+                        'Brave Fit',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 24,  
@@ -136,7 +137,22 @@ class _MainScreenState extends State<MainScreen> {
                 ),
                 ListTile(
                   leading: Icon(Icons.directions_railway),
-                  title: Text('Follow us'),
+                  title: Text('Follow Us'),
+                  onTap: () {
+                    // _scaffoldKey.currentState.openEndDrawer();
+                  },
+                ),
+                ListTile(
+                  title: Row(
+                    children: <Widget>[
+                      SizedBox(
+                        width: 20.0,
+                      ),
+                      _followUsBtn("facebook", "https://www.facebook.com/bravefitsoccer/"),
+                      _followUsBtn("instagram", "https://www.instagram.com/braveboyjoy_/"),
+                      _followUsBtn("youtube", "https://www.youtube.com/channel/UCSBiV37GBqxRVdjGM_f18Mw/"),
+                    ],
+                  ),
                   onTap: () {
                     _scaffoldKey.currentState.openEndDrawer();
                   },
@@ -304,7 +320,43 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 
-  
+  /*
+    Widget _followUsBtn(String icon, String url)
+    Author: Sophie(bolesalavb@gmail.com)
+    Created Date & Time:  Jun 7 2020 8:31 PM
+
+    Widget: _followUsBtn
+
+    Description:  Button for following social website such as facebook, instagram, and youtube
+
+    Parameters: icon(String)  - social website name
+                url(String)   - following link
+
+    Return: Padding - 'Follow Us' Button
+  */ 
+  Widget _followUsBtn(String icon, String url) {
+    return Padding(
+      padding: EdgeInsets.only(left: 0.0),
+      child: IconButton(
+        icon: ImageIcon(
+          AssetImage("assets/images/" + icon + ".png"),
+          size: 30.0,
+        ),
+        tooltip: 'Increase volume by 10',
+        onPressed: () {
+          try { 
+            launch(url);
+          }  
+          catch(e) { 
+            print(e); 
+          } 
+          // } else {
+            // throw 'Could not launch $url';
+          // }
+        },
+      )
+    );
+  }
 
   void _logOut() async {
     Auth.signOut();
