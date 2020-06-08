@@ -1,6 +1,7 @@
 /*
   Exercise Screen file
   Created on March 30 2020 by Sophie(bolesalavb@gmail.com)
+  Updated on June 8 2020 by Sophie(bolesalavb@gmail.com)
 */
 
 import 'dart:async';
@@ -10,6 +11,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:onboarding_flow/models/settings.dart';
+import 'package:onboarding_flow/models/exercise.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:onboarding_flow/ui/screens/nascarresults.dart';
 import 'package:onboarding_flow/ui/screens/settings_screen.dart';
@@ -45,6 +47,7 @@ class _InOutState extends State<InOut> {
   bool _playState = true; //state related to playing
   String _stageState = "rest"; //state related to stage
   bool _nightMode = false;//day mode or night mode
+  List _workout = []; // exercise List(name, rep, time)
 
   List<T> map<T>(List list, Function handler) {
     List<T> result = [];
@@ -179,6 +182,7 @@ class _InOutState extends State<InOut> {
       data.documents.forEach((doc) => _exerciseData.add(doc)),
       setState(() {
         _exerciseData = _exerciseData;
+        _workout = new List(_exerciseData.length);
       }),
     });
   }
@@ -261,6 +265,7 @@ class _InOutState extends State<InOut> {
     Parameters: index(int)  - index of current exercise step 
   */
   exerciseScore(index) {
+    txt.text = '';
     _pc.open();
     FocusScope.of(context).requestFocus(myFocusNode);
   }
@@ -414,6 +419,47 @@ class _InOutState extends State<InOut> {
     });
   }
 
+  /*
+    void storeExerciseTime()
+    Author: Sophie(bolesalavb@gmail.com)
+    Created Date & Time:  June 8 2020 5:54 PM
+
+    Function: storeExerciseTime
+
+    Description:  Add exercise time and store.
+  */
+  void storeExerciseTime() {
+    if (_workout[_current] == null) {
+      _workout[_current] = Exercise(
+        name: _exerciseData[_current]['name'],
+      );
+    }
+    if (_stageState == 'train') {
+      _workout[_current].addTime(int.parse(_exerciseData[_current]['durationTime']) - _time);
+    }
+  }
+
+  /*
+    void storeExerciseTimeRep(int rep)
+    Author: Sophie(bolesalavb@gmail.com)
+    Created Time & Date: June 8 2020 6:08 PM
+
+    Function: storeExerciseTimeRep
+
+    Description:  Add exercise time, rep and store
+
+    Parameters: rep(int)  - exercise rep
+  */
+  void storeExerciseTimeRep(int rep) {
+    if (_workout[_current] == null) {
+      _workout[_current] = Exercise(
+        name: _exerciseData[_current]['name'],
+      );
+    }
+    _workout[_current].addTime(int.parse(_exerciseData[_current]['durationTime']));
+    _workout[_current].addRep(rep);
+  } 
+
   @override
   void initState() {
     super.initState();
@@ -448,7 +494,7 @@ class _InOutState extends State<InOut> {
           ),
         ),
     );
-    
+
     if(_firstBuilding) {
       exerciseRest(_current, true);
       setState(() {
@@ -475,6 +521,7 @@ class _InOutState extends State<InOut> {
         });
       }
     }
+
     return Container(
       color: _nightMode ? Colors.black : Colors.white,
       child: SafeArea(
@@ -528,21 +575,25 @@ class _InOutState extends State<InOut> {
                         fontSize: 20,
                         textColor: Colors.white,
                         onPressed: () {
-                          if (_current == _exerciseData.length - 1) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => NascarResultsScreen(
-                                  settings: widget.settings,
-                                )),
-                            ); 
-                          } else {
-                            setState(() {
-                              _current = _current + 1;
-                            });
-                            _pc.close();
-                            myFocusNode.unfocus();
-                            exerciseRest(_current, true);
+                          if (txt.text != '') {
+                            storeExerciseTimeRep(int.parse(txt.text));
+                            if (_current == _exerciseData.length - 1) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => NascarResultsScreen(
+                                    settings: widget.settings,
+                                    workout: _workout,
+                                  )),
+                              ); 
+                            } else {
+                              setState(() {
+                                _current = _current + 1;
+                              });
+                              _pc.close();
+                              myFocusNode.unfocus();
+                              exerciseRest(_current, true);
+                            }
                           }
                         },
                         splashColor: Colors.black12,
@@ -632,15 +683,17 @@ class _InOutState extends State<InOut> {
                         IconButton(
                           color: _nightMode ? Colors.white : Colors.black,
                           icon: Icon(Icons.refresh,size: 50,), onPressed: (){
-                          _timer.cancel();
-                          setState(() {
-                            _playState = true;
-                          });
-                          exerciseRest(_current, false);
+                            _timer.cancel();
+                            storeExerciseTime();
+                            setState(() {
+                              _playState = true;
+                            });
+                            exerciseRest(_current, false);
                         }),
                         IconButton(icon: _prevIcon(), onPressed: (){
                           if (_current != 0){
                             _timer.cancel();
+                            storeExerciseTime();
                             setState(() {
                               _current = _current - 1;
                               _playState = true;
@@ -652,6 +705,7 @@ class _InOutState extends State<InOut> {
                         IconButton(icon: _nextIcon(), onPressed: (){
                           if (_current != _exerciseData.length - 1) {
                             _timer.cancel();
+                            storeExerciseTime();
                             setState(() {
                               _current = _current + 1;
                               _playState = true;
