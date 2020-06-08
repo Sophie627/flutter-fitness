@@ -33,6 +33,7 @@ dependencies:
   dropdownfield: ^1.0.3
   firebase_database: ^3.1.6
   url_launcher: ^5.4.10
+  wakelock: ^0.1.4+1
   # firebase_admob: ^0.6.1
 
   # The following adds the Cupertino Icons font to your application.

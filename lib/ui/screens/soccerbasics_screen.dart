@@ -164,6 +164,9 @@ class _SoccerBasicsState extends State<SoccerBasics> {
                                   _warmupButton(Colors.black, "12 min", 'https://www.youtube.com/watch?v=iqbbwFYXjFc&t=617s'),
                                 ],
                               ),
+                              SizedBox(
+                                height: 50.0,
+                              ),
                             ],
                           ),
                         );

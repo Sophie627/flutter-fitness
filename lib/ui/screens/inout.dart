@@ -17,6 +17,7 @@ import 'package:onboarding_flow/ui/screens/soccerbasics_screen.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:onboarding_flow/ui/widgets/custom_flat_button.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:wakelock/wakelock.dart';
 
 
 class InOut extends StatefulWidget {
@@ -420,6 +421,9 @@ class _InOutState extends State<InOut> {
 
     fetchData();
     myFocusNode = new FocusNode();
+    setState(() {
+      Wakelock.enable();
+    });
   }
 
   @override
@@ -498,7 +502,7 @@ class _InOutState extends State<InOut> {
                 children: <Widget>[
                   new Text("How many reps?",
                     style: TextStyle(
-                      fontSize: 36.0,
+                      fontSize: 30.0,
                       fontWeight: FontWeight.bold,
                       color: Color(0xFF3A5998),
                     ),
@@ -509,7 +513,7 @@ class _InOutState extends State<InOut> {
                       controller: txt,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 120,
+                        fontSize: 100,
                         fontFamily: 'HK Grotesk',
                       ),
                       focusNode: myFocusNode,
