@@ -16,7 +16,6 @@ class _ReadyState extends State<Ready> {
   @override
   void initState() {
     super.initState();
-    
   }
 
   

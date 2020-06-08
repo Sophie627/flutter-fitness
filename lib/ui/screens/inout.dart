@@ -417,7 +417,6 @@ class _InOutState extends State<InOut> {
   @override
   void initState() {
     super.initState();
-    print(widget.settings);
 
     fetchData();
     myFocusNode = new FocusNode();
@@ -461,22 +460,21 @@ class _InOutState extends State<InOut> {
     if (_time < 10) {
       stringTime = "0" + _time.toString();
     }
-    // print("nightTheme ${widget.settings.nightTheme}");
-    // if(widget.settings.nightTheme == null) {
-    //   setState(() {
-    //     _nightMode = false;
-    //   });
-    // } else {
-    //   if (!widget.settings.nightTheme) {
-    //     setState(() {
-    //       _nightMode = false;
-    //     });
-    //   } else {
-    //     setState(() {
-    //       _nightMode = true;
-    //     });
-    //   }
-    // }
+    if(widget.settings == null) {
+      setState(() {
+        _nightMode = false;
+      });
+    } else {
+      if (!widget.settings.nightTheme) {
+        setState(() {
+          _nightMode = false;
+        });
+      } else {
+        setState(() {
+          _nightMode = true;
+        });
+      }
+    }
     return Container(
       color: _nightMode ? Colors.black : Colors.white,
       child: SafeArea(
