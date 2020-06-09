@@ -230,6 +230,9 @@ class _PreviewState extends State<Preview> {
                                     MaterialPageRoute(
                                       builder: (context) => Ready(
                                         settings: widget.settings,
+                                        id: widget.id,
+                                        image: widget.image,
+                                        name: widget.name,
                                       )),
                                   );
                                 },

@@ -15,8 +15,9 @@ import 'package:onboarding_flow/models/settings.dart';
 class Exercise extends StatefulWidget {
   final FirebaseUser firebaseUser;
   final Settings settings;
+  final int id;
 
-  Exercise({this.firebaseUser, this.settings});
+  Exercise({this.firebaseUser, this.settings, this.id});
   _ExerciseState createState() => _ExerciseState();
 }
 
@@ -62,7 +63,7 @@ class _ExerciseState extends State<Exercise> {
     super.initState();
     print(widget.settings);
     
-    Firestore.instance.collection('exercise1').orderBy('no').snapshots().listen((data) =>
+    Firestore.instance.collection('exercise' + widget.id.toString()).orderBy('no').snapshots().listen((data) =>
         data.documents.forEach((doc) => _exerciseData.add(doc)));
     myFocusNode = new FocusNode();
   }

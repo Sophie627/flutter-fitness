@@ -23,8 +23,12 @@ import 'package:wakelock/wakelock.dart';
 
 
 class InOut extends StatefulWidget {
-  Settings settings;
-  InOut({this.settings});
+  final Settings settings;
+  final int id;
+  final String name;
+  final String image;
+
+  InOut({this.settings, this.id, this.name, this.image});
 
   @override
   _InOutState createState() => _InOutState();
@@ -60,7 +64,8 @@ class _InOutState extends State<InOut> {
   /*
     Future<void> _endWorkoutDialog() async
     Author: Sophie(bolesalavb@gmail.com)
-    Created Date & Time: Jun 7 2020 10:48 PM
+    Created Date & Time: June 7 2020 10:48 PM
+    Updated Date & Time: June 9 2020 6:49 PM
 
     Future<void>: _endWorkoutDialog
 
@@ -96,6 +101,9 @@ class _InOutState extends State<InOut> {
                   MaterialPageRoute(
                     builder: (context) => Preview(
                       settings: widget.settings,
+                      id: widget.id,
+                      name: widget.name,
+                      image: widget.image,
                     )),
                 ); 
               },
@@ -172,14 +180,15 @@ class _InOutState extends State<InOut> {
   /* 
     fetchData() async
     Author: Sophie
-    Created Date & Time: March 31 2020 12:11AM
+    Created Date & Time: March 31 2020 12:11 AM
+    Updated Date & Time: June 9 2020 6:49 PM
 
     Function: fetchData
 
     Description:  Using this function, Data related to 'Exercise 1' can be gotten from firebase. 
   */
   fetchData() async {
-    Firestore.instance.collection('exercise1').orderBy('no').snapshots().listen((data) => {
+    Firestore.instance.collection('exercise' + widget.id.toString()).orderBy('no').snapshots().listen((data) => {
       data.documents.forEach((doc) => _exerciseData.add(doc)),
       setState(() {
         _exerciseData = _exerciseData;
@@ -585,6 +594,7 @@ class _InOutState extends State<InOut> {
                                   builder: (context) => NascarResultsScreen(
                                     settings: widget.settings,
                                     workout: _workout,
+                                    name: widget.name,
                                   )),
                               ); 
                             } else {
@@ -620,7 +630,7 @@ class _InOutState extends State<InOut> {
                       }),
                     title: Center(
                       child: Text(
-                        'NASCAR',
+                        widget.name.toUpperCase(),
                         style: TextStyle(
                           color: _nightMode ? Colors.white : Colors.grey,
                           fontSize: 12,

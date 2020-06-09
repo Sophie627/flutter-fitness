@@ -10,8 +10,9 @@ import 'package:onboarding_flow/ui/screens/main_screen.dart';
 class NascarResultsScreen extends StatefulWidget {
   Settings settings;
   List workout;
+  String name;
   
-  NascarResultsScreen({this.settings, this.workout});
+  NascarResultsScreen({this.settings, this.workout, this.name});
   @override
   _NascarResultsScreenState createState() => _NascarResultsScreenState();
 }
@@ -82,7 +83,7 @@ class _NascarResultsScreenState extends State<NascarResultsScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        'NASCAR Results',
+                        widget.name.toUpperCase() + ' Results',
                         style: TextStyle(
                           fontSize: 20,
                         ),

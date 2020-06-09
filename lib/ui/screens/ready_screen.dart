@@ -5,7 +5,11 @@ import 'package:onboarding_flow/ui/screens/inout.dart';
 
 class Ready extends StatefulWidget {
   final Settings settings;
-  Ready({this.settings});
+  final int id;
+  final String name;
+  final String image;
+
+  Ready({this.settings, this.id, this.name, this.image});
 
   _ReadyState createState() => _ReadyState();
 }
@@ -39,6 +43,9 @@ class _ReadyState extends State<Ready> {
               MaterialPageRoute(
                 builder: (context) => InOut(
                   settings: widget.settings,
+                  id: widget.id,
+                  name: widget.name,
+                  image: widget.image,
                 )),
             ); 
           } else {
