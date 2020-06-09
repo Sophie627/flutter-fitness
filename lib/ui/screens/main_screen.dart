@@ -1,7 +1,8 @@
 /*
   Main Screen file
-  Updated on June 7 2020 by Sophie(bolesalavb@gmail.com)
+  Updated on June 9 2020 by Sophie(bolesalavb@gmail.com)
 */
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:onboarding_flow/business/auth.dart';
 import 'package:onboarding_flow/models/settings.dart';
@@ -24,15 +25,39 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  List _workoutData = [];  //All exercise data
+
+  /* 
+    fetchWorkoutData() async
+    Author: Sophie(bolesalavb@gmail.com)
+    Created Date & Time: JUne 9 2020 12:05 PM
+
+    Function: fetchWorkoutData
+
+    Description:  Using this function, Data related to 'workout' can be gotten from firebase. 
+  */
+  fetchWorkoutData() async {
+    Firestore.instance.collection('workout').orderBy('workoutID').snapshots().listen((data) => {
+      data.documents.forEach((doc) => _workoutData.add(doc)),
+      setState(() {
+        _workoutData = _workoutData;
+      }),
+    });
+  }
 
   @override
   void initState() {
     super.initState();
+    fetchWorkoutData();
+
     print(widget.firebaseUser);
   }
 
   @override
   Widget build(BuildContext context) {
+    print("---------");
+    print(_workoutData[0]['name']);
+
     return DefaultTabController(
       length: 2, 
       child: new Scaffold(
@@ -169,100 +194,7 @@ class _MainScreenState extends State<MainScreen> {
                   new Center(
                     child: new Container(
                       color: Colors.white,
-                      child: new Column(
-                        children: <Widget>[
-                          InkWell(
-                            child: Stack(
-                              children: <Widget> [
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(15.0, 0, 15.0, 0),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width - 30.0,
-                                      child: new Image.asset('assets/images/narscar.png',
-                                        fit: BoxFit.fitWidth,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ]
-                            ),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => SoccerBasics(
-                                    settings: widget.settings,
-                                  )),
-                              ); 
-                            },
-                          ),
-                          InkWell(
-                            child: Stack(
-                              children: <Widget> [
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width - 30.0,
-                                      child: new Image.asset('assets/images/soccerbasics.png',
-                                        fit: BoxFit.fitWidth,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ]
-                            ),
-                            onTap: () {
-                              // Navigator.pushNamed(context, "/soccerbasics");
-                            },
-                          ),
-                          InkWell(
-                            child: Stack(
-                              children: <Widget> [
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width - 30.0,
-                                      child: new Image.asset('assets/images/thecore.png',
-                                        fit: BoxFit.fitWidth,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ]
-                            ),
-                            onTap: () {
-                              // Navigator.pushNamed(context, "/exercise");
-                            },
-                          ),
-                          InkWell(
-                            child: Stack(
-                              children: <Widget> [
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 15.0),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                    child: Container(
-                                      width: MediaQuery.of(context).size.width - 30.0,
-                                      child: new Image.asset('assets/images/getlimber.png',
-                                        fit: BoxFit.fitWidth,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ]
-                            ),
-                            onTap: () {
-                              // Navigator.pushNamed(context, "/exercise");
-                            },
-                          ),
-                        ],
-                      ),
+                      child: getWorkoutListWidgets(_workoutData),
                     ),
                   ),
                 ]
@@ -351,9 +283,6 @@ class _MainScreenState extends State<MainScreen> {
           catch(e) { 
             print(e); 
           } 
-          // } else {
-            // throw 'Could not launch $url';
-          // }
         },
       )
     );
@@ -361,5 +290,57 @@ class _MainScreenState extends State<MainScreen> {
 
   void _logOut() async {
     Auth.signOut();
+  }
+
+  /*
+    Widget getWorkoutListWidgets(List workout)
+    Author: Sophie(bolesalavb@gmail.com)
+    Created Date & Time:  June 9 2020 12:40 PM
+
+    Widget: getWorkoutListWidgets
+
+    Description:  List of Workouts
+
+    Parameters: workout(List) - workout List(name,image, createdDate, & workoutID)
+  */
+  Widget getWorkoutListWidgets(List workout)
+  {
+    List<Widget> list = new List<Widget>();
+    if (workout != null) {
+      for(var i = 0; i < workout.length; i++){
+        list.add(
+          InkWell(
+            child: Stack(
+              children: <Widget> [
+                Padding(
+                  padding: i == 0 
+                    ? EdgeInsets.fromLTRB(15.0, 0, 15.0, 0)
+                    : EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15.0),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width - 30.0,
+                      child: new Image.network(workout[i]['image'],
+                        fit: BoxFit.fitWidth,
+                      ),
+                    ),
+                  ),
+                ),
+              ]
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SoccerBasics(
+                    settings: widget.settings,
+                  )),
+              ); 
+            },
+          ),
+        );
+      }
+    }
+    return new Column(children: list);
   }
 }

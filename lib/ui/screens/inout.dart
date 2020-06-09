@@ -168,6 +168,7 @@ class _InOutState extends State<InOut> {
       }
     }
   }
+  
   /* 
     fetchData() async
     Author: Sophie
