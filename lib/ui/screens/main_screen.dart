@@ -55,8 +55,6 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("---------");
-    print(_workoutData[0]['name']);
 
     return DefaultTabController(
       length: 2, 
@@ -334,6 +332,9 @@ class _MainScreenState extends State<MainScreen> {
                 MaterialPageRoute(
                   builder: (context) => Preview(
                     settings: widget.settings,
+                    id: workout[i]['workoutID'],
+                    name: workout[i]['name'],
+                    image: workout[i]['image'],
                   )),
               ); 
             },

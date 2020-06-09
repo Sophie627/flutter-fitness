@@ -12,8 +12,11 @@ import 'package:onboarding_flow/ui/widgets/custom_flat_button.dart';
 class Preview extends StatefulWidget {
   final FirebaseUser firebaseUser;
   final Settings settings;
+  final int id;
+  final String name;
+  final String image;
 
-  Preview({this.firebaseUser, this.settings});
+  Preview({this.firebaseUser, this.settings, this.id, this.name, this.image});
   _PreviewState createState() => _PreviewState();
 }
 
@@ -101,7 +104,7 @@ class _PreviewState extends State<Preview> {
           children: <Widget>[
             new Flexible(
               child: StreamBuilder(
-                stream: Firestore.instance.collection('exercise1').orderBy('no').snapshots(),
+                stream: Firestore.instance.collection('exercise' + widget.id.toString()).orderBy('no').snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) {
                     return Text("Loading...");
@@ -118,7 +121,7 @@ class _PreviewState extends State<Preview> {
                                   children: <Widget> [
                                     new Container(
                                       width: MediaQuery.of(context).size.width,
-                                      child: new Image.asset('assets/images/preview.jpg', fit: BoxFit.fitWidth),
+                                      child: new Image.network(widget.image, fit: BoxFit.fitWidth),
                                     ),
                                     Positioned(
                                       left: 20,
@@ -129,7 +132,7 @@ class _PreviewState extends State<Preview> {
                                           new Text(new DateFormat.yMMMd('en_US').format(now),
                                             style: TextStyle(color: Colors.white),
                                           ),
-                                          new Text("NASCAR",
+                                          new Text(widget.name.toUpperCase(),
                                             style: TextStyle(
                                               color: Colors.white, 
                                               fontSize: 24, 
