@@ -9,15 +9,15 @@ import 'package:onboarding_flow/ui/screens/video_screen.dart';
 import 'package:onboarding_flow/ui/widgets/custom_circle_button.dart';
 import 'package:onboarding_flow/ui/widgets/custom_flat_button.dart';
 
-class SoccerBasics extends StatefulWidget {
+class Preview extends StatefulWidget {
   final FirebaseUser firebaseUser;
   final Settings settings;
 
-  SoccerBasics({this.firebaseUser, this.settings});
-  _SoccerBasicsState createState() => _SoccerBasicsState();
+  Preview({this.firebaseUser, this.settings});
+  _PreviewState createState() => _PreviewState();
 }
 
-class _SoccerBasicsState extends State<SoccerBasics> {
+class _PreviewState extends State<Preview> {
 
   VoidCallback onBackPress;
 

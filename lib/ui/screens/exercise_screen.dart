@@ -4,7 +4,7 @@ import 'dart:async';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:onboarding_flow/ui/screens/nascarresults.dart';
-import 'package:onboarding_flow/ui/screens/soccerbasics_screen.dart';
+import 'package:onboarding_flow/ui/screens/preview_screen.dart';
 import 'package:onboarding_flow/ui/widgets/custom_flat_button.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -243,7 +243,7 @@ class _ExerciseState extends State<Exercise> {
      Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => SoccerBasics(
+        builder: (context) => Preview(
           settings: widget.settings,
         )),
     ); 

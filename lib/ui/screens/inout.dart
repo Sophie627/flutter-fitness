@@ -15,7 +15,7 @@ import 'package:onboarding_flow/models/exercise.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:onboarding_flow/ui/screens/nascarresults.dart';
 import 'package:onboarding_flow/ui/screens/settings_screen.dart';
-import 'package:onboarding_flow/ui/screens/soccerbasics_screen.dart';
+import 'package:onboarding_flow/ui/screens/preview_screen.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:onboarding_flow/ui/widgets/custom_flat_button.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -94,7 +94,7 @@ class _InOutState extends State<InOut> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => SoccerBasics(
+                    builder: (context) => Preview(
                       settings: widget.settings,
                     )),
                 ); 
@@ -168,7 +168,7 @@ class _InOutState extends State<InOut> {
       }
     }
   }
-  
+
   /* 
     fetchData() async
     Author: Sophie

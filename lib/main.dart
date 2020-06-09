@@ -5,7 +5,7 @@ import 'package:onboarding_flow/ui/screens/root_screen.dart';
 import 'package:onboarding_flow/ui/screens/sign_in_screen.dart';
 import 'package:onboarding_flow/ui/screens/sign_up_screen.dart';
 import 'package:onboarding_flow/ui/screens/main_screen.dart';
-import 'package:onboarding_flow/ui/screens/soccerbasics_screen.dart';
+import 'package:onboarding_flow/ui/screens/preview_screen.dart';
 import 'package:onboarding_flow/ui/screens/exercise_screen.dart';
 import 'package:onboarding_flow/ui/screens/inout.dart';
 import 'package:onboarding_flow/ui/screens/report_screen.dart';
@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
         '/signin': (BuildContext context) => new SignInScreen(),
         '/signup': (BuildContext context) => new SignUpScreen(),
         '/main': (BuildContext context) => new MainScreen(),
-        '/soccerbasics': (BuildContext context) => new SoccerBasics(),
+        '/preview': (BuildContext context) => new Preview(),
         '/exercise': (BuildContext context) => new Exercise(),
         '/report': (BuildContext context) => new Report(),
         '/resetpassword': (BuildContext context) => new ResetPassword(),

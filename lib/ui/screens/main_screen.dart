@@ -10,7 +10,7 @@ import 'package:onboarding_flow/ui/screens/root_screen.dart';
 import 'package:onboarding_flow/ui/screens/settings_screen.dart';
 import 'package:onboarding_flow/ui/screens/activity.dart';
 import 'package:onboarding_flow/ui/screens/profile.dart';
-import 'package:onboarding_flow/ui/screens/soccerbasics_screen.dart';
+import 'package:onboarding_flow/ui/screens/preview_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -332,7 +332,7 @@ class _MainScreenState extends State<MainScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => SoccerBasics(
+                  builder: (context) => Preview(
                     settings: widget.settings,
                   )),
               ); 
