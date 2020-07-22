@@ -61,8 +61,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     fetchWorkoutData();
-    isLogin();
-  
+    isLogin(); // For login function
     print(widget.firebaseUser);
   }
 
