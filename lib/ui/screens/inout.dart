@@ -555,7 +555,7 @@ class _InOutState extends State<InOut> {
               child: new Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  new Text("How many reps?",
+                  new Text("How many score?",
                     style: TextStyle(
                       fontSize: 30.0,
                       fontWeight: FontWeight.bold,
@@ -665,71 +665,110 @@ class _InOutState extends State<InOut> {
                   Expanded(
                     child: exerciseCarousel
                   ),
-                  ListTile(
-                    title: Center(
-                      child: Text(
-                        _exerciseComment,
-                        style: TextStyle(
-                          color: _nightMode ? Colors.white : Colors.grey,
-                          fontSize: 14,
-                        ),
-                      )
-                    ),
-                    subtitle: Center(
-                      child: Text(
-                        '0:' + stringTime,
-                        style: TextStyle(
-                          color: _nightMode ? Colors.white : Colors.grey.shade800,
-                          fontSize: 30,
-                        ),
-                      )
+                  // ListTile(
+                  //   title: Center(
+                  //     child: Text(
+                  //       _exerciseComment,
+                  //       style: TextStyle(
+                  //         color: _nightMode ? Colors.white : Colors.grey,
+                  //         fontSize: 14,
+                  //       ),
+                  //     )
+                  //   ),
+                  //   subtitle: Center(
+                  //     child: Text(
+                  //       '0:' + stringTime,
+                  //       style: TextStyle(
+                  //         color: _nightMode ? Colors.white : Colors.grey.shade800,
+                  //         fontSize: 30,
+                  //       ),
+                  //     )
+                  //   ),
+                  // ),
+                  Text(
+                    _exerciseComment,
+                    style: TextStyle(
+                      color: _nightMode ? Colors.white : Colors.grey,
+                      fontSize: 18,
                     ),
                   ),
+                  SizedBox(
+                    height: 25,
+                  ),
                   _carouselIndicator(),
+                  SizedBox(
+                    height: 50,
+                  ),
+                  Text(
+                    '0:' + stringTime,
+                    style: TextStyle(
+                      color: _nightMode ? Colors.white : Colors.grey.shade800,
+                      fontSize: 40,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(0,0, 0, 15),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        IconButton(
-                          color: _nightMode ? Colors.white : Colors.black,
-                          icon: Icon(Icons.refresh,size: 50,), onPressed: (){
-                            _timer.cancel();
-                            storeExerciseTime();
-                            setState(() {
-                              _playState = true;
-                            });
-                            exerciseRest(_current, false);
-                        }),
-                        IconButton(icon: _prevIcon(), onPressed: (){
-                          if (_current != 0){
-                            _timer.cancel();
-                            storeExerciseTime();
-                            setState(() {
-                              _current = _current - 1;
-                              _playState = true;
-                            });
-                            exerciseRest(_current, false);
-                          }
-                        }),
-                        _playPauseButton(),
-                        IconButton(icon: _nextIcon(), onPressed: (){
-                          if (_current != _exerciseData.length - 1) {
-                            _timer.cancel();
-                            storeExerciseTime();
-                            setState(() {
-                              _current = _current + 1;
-                              _playState = true;
-                            });
-                            exerciseRest(_current, false);
-                          }
-                        }),
-                        IconButton(
-                          color: _nightMode ? Colors.white : Colors.black,
-                          icon: Icon(Icons.stop,size: 50,), onPressed: (){
-                          displayEndWorkoutDialog();
-                        }),
-                      ],
+                    padding: const EdgeInsets.fromLTRB(60, 0, 60, 15),
+                    child: Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          IconButton(
+                            color: _nightMode ? Colors.white : Colors.black,
+                            icon: Icon(Icons.refresh,size: 30,), onPressed: (){
+                              _timer.cancel();
+                              storeExerciseTime();
+                              setState(() {
+                                _playState = true;
+                              });
+                              exerciseRest(_current, false);
+                          }),
+                          IconButton(icon: _prevIcon(), onPressed: (){
+                            if (_current != 0){
+                              _timer.cancel();
+                              storeExerciseTime();
+                              setState(() {
+                                _current = _current - 1;
+                                _playState = true;
+                              });
+                              exerciseRest(_current, false);
+                            }
+                          }),
+                          _playPauseButton(),
+                          IconButton(icon: _nextIcon(), onPressed: (){
+                            if (_current != _exerciseData.length - 1) {
+                              _timer.cancel();
+                              storeExerciseTime();
+                              setState(() {
+                                _current = _current + 1;
+                                _playState = true;
+                              });
+                              exerciseRest(_current, false);
+                            }
+                          }),
+                          IconButton(
+                            color: _nightMode ? Colors.black : Colors.white,
+                            icon: Icon(Icons.stop,size: 30,), onPressed: (){
+                            // displayEndWorkoutDialog();
+                          }),
+                        ],
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(1000),
+                        // borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 3,
+                            blurRadius: 5,
+                            offset: Offset(3, 5), // changes position of shadow
+                          ),
+                          // BoxShadow(color: Colors.green, spreadRadius: 3),
+                        ],
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -756,11 +795,11 @@ class _InOutState extends State<InOut> {
   */
   Widget _prevIcon() {
     if (_current == 0) {
-      return Icon(Icons.fast_rewind, size: 50,
+      return Icon(Icons.fast_rewind, size: 30,
         color: Colors.grey.withOpacity(0.5),
       );
     } else {
-      return Icon(Icons.fast_rewind, size: 50,
+      return Icon(Icons.fast_rewind, size: 30,
         color: _nightMode ? Colors.white : Colors.black,
       );
     }
@@ -777,11 +816,11 @@ class _InOutState extends State<InOut> {
   */
   Widget _nextIcon() {
     if (_current == _exerciseData.length - 1) {
-      return Icon(Icons.fast_forward,size: 50,
+      return Icon(Icons.fast_forward,size: 30,
         color: Colors.grey.withOpacity(0.5),
       );
     } else {
-      return Icon(Icons.fast_forward,size: 50,
+      return Icon(Icons.fast_forward,size: 30,
         color: _nightMode ? Colors.white : Colors.black,
       );
     }
@@ -799,7 +838,7 @@ class _InOutState extends State<InOut> {
   Widget _playPauseButton() {
     return IconButton(
       icon: Icon(_playState ? Icons.pause_circle_outline : Icons.play_circle_outline,
-        size: 50, 
+        size: 30, 
         color: _nightMode ? Colors.white : Colors.black,
       ), 
       onPressed: (){
@@ -837,8 +876,8 @@ class _InOutState extends State<InOut> {
             effect:  WormEffect(
               spacing:  4.0,
               radius:  12.0,
-              dotWidth:  10.0,
-              dotHeight:  10.0,
+              dotWidth:  9.0,
+              dotHeight:  9.0,
               paintStyle:  PaintingStyle.fill,
               strokeWidth:  1.5,
               dotColor:  Colors.grey,
