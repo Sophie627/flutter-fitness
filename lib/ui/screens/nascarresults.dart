@@ -93,7 +93,7 @@ class _NascarResultsScreenState extends State<NascarResultsScreen> {
                   getExerciseListWidgets(widget.workout),
                   Center(
                     child: Text(
-                      'Total Steps',
+                      'Total Reps',
                       style: TextStyle(
                         fontSize: 16,
                       ),

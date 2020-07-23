@@ -1,7 +1,7 @@
 /*
   Exercise Screen file
   Created on March 30 2020 by Sophie(bolesalavb@gmail.com)
-  Updated on June 8 2020 by Sophie(bolesalavb@gmail.com)
+  Updated on July 23 2020 by Sophie(bolesalavb@gmail.com)
 */
 
 import 'dart:async';
