@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:onboarding_flow/models/settings.dart';
 import 'package:onboarding_flow/ui/screens/main_screen.dart';
@@ -134,29 +133,33 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 new Padding(
                   padding: EdgeInsets.fromLTRB(0, 10.0, 0, 10.0),
-                  child: Column(
+                  child: Row(
                     children: <Widget>[
-                      RadioListTile<bool>(
-                        activeColor: Colors.black,
-                        title: const Text('Light'),
-                        value: false,
-                        groupValue: settings.nightTheme,
-                        onChanged: (value) {
-                          setState(() {
-                            settings.nightTheme = value;
-                          });
-                        },
+                      Expanded(
+                        child: RadioListTile<bool>(
+                          activeColor: Colors.black,
+                          title: const Text('Light'),
+                          value: false,
+                          groupValue: settings.nightTheme,
+                          onChanged: (value) {
+                            setState(() {
+                              settings.nightTheme = value;
+                            });
+                          },
+                        ),
                       ),
-                      RadioListTile<bool>(
-                        activeColor: Colors.black ,
-                        title: const Text('Dark'),
-                        value: true,
-                        groupValue: settings.nightTheme,
-                        onChanged: (value) {
-                          setState(() {
-                            settings.nightTheme = value;
-                          });
-                        },
+                      Expanded(
+                        child: RadioListTile<bool>(
+                          activeColor: Colors.black ,
+                          title: const Text('Dark'),
+                          value: true,
+                          groupValue: settings.nightTheme,
+                          onChanged: (value) {
+                            setState(() {
+                              settings.nightTheme = value;
+                            });
+                          },
+                        ),
                       ),
                     ],
                   ),
