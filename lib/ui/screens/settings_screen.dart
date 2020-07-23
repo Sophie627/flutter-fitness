@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:onboarding_flow/models/settings.dart';
 import 'package:onboarding_flow/ui/screens/main_screen.dart';
@@ -55,13 +56,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 icon: new Icon(Icons.arrow_back),
                 onPressed: () {
                   _scaffoldKey.currentState.openDrawer();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MainScreen(
-                        settings: settings,
-                      )),
-                  ); 
+                  Navigator.of(context).pop();
                 }),
             title: new Text("SETTINGS",
               style: TextStyle(
