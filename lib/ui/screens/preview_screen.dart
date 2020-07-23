@@ -135,7 +135,7 @@ class _PreviewState extends State<Preview> {
                                           new Text(widget.name.toUpperCase(),
                                             style: TextStyle(
                                               color: Colors.white, 
-                                              fontSize: 24, 
+                                              fontSize: 23, 
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -151,10 +151,10 @@ class _PreviewState extends State<Preview> {
                                 },
                               ),
                               Padding(
-                                padding: EdgeInsets.all(10.0),
+                                padding: EdgeInsets.all(20.0),
                                 child: new Text("Warm-ups to use",
                                   style: TextStyle(
-                                    fontSize: 18.0,
+                                    fontSize: 16.0,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -168,7 +168,16 @@ class _PreviewState extends State<Preview> {
                                 ],
                               ),
                               SizedBox(
-                                height: 50.0,
+                                height: 10.0,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                                child: Divider(
+                                  thickness: 1,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10.0,
                               ),
                             ],
                           ),
@@ -301,12 +310,12 @@ class _PreviewState extends State<Preview> {
               );
             },
             color: color,
-            size: 25.0,
+            size: 22.0,
           ),
         ),
         new Text(txt,
           style: TextStyle(
-            fontSize: 16.0,
+            fontSize: 14.0,
             fontWeight: FontWeight.w600,
           ),
         ),
