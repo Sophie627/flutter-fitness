@@ -74,7 +74,7 @@ class _ReadyState extends State<Ready> {
       body: new Center(
         child: new Text(_start.toString(),
           style: TextStyle(
-            fontSize: 480,
+            fontSize: 360,
             fontFamily: 'HK Grotesk',
             color: Colors.white,
           ),
