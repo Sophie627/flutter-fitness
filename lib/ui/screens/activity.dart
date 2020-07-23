@@ -84,10 +84,10 @@ CalendarController _calendarController= CalendarController();
                               ),
                             ),
                             Text(
-                              'TOTAL WORKOUTS COMPLETED',
+                              'TOTAL SKILLS COMPLETED',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontSize: 12,
+                                fontSize: 13,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black,
                               ),
@@ -96,7 +96,7 @@ CalendarController _calendarController= CalendarController();
                               child: Container(
                                 margin: EdgeInsets.only(top: 10.0),
                                 decoration: BoxDecoration(
-                                    color: Colors.greenAccent,
+                                    color: Color(0xFF87B7E1),
                                     borderRadius: BorderRadius.only(
                                       bottomLeft: Radius.circular(10),
                                       bottomRight: Radius.circular(10),
@@ -133,10 +133,10 @@ CalendarController _calendarController= CalendarController();
                             ),
                           ),
                           Text(
-                            'TOTAL CHALLENGES COMPLETED',
+                            'TOTAL WORKOUTS COMPLETED',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: 12,
+                              fontSize: 13,
                               fontWeight: FontWeight.bold,
                               color: Colors.black,
                             ),
@@ -145,7 +145,7 @@ CalendarController _calendarController= CalendarController();
                             child: Container(
                               margin: EdgeInsets.only(top: 10.0),
                               decoration: BoxDecoration(
-                                  color: Colors.greenAccent,
+                                  color: Color(0xFF87B7E1),
                                   borderRadius: BorderRadius.only(
                                     bottomLeft: Radius.circular(10),
                                     bottomRight: Radius.circular(10),

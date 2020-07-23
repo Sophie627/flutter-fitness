@@ -15,7 +15,7 @@ class _TotalWorkoutsState extends State<TotalWorkouts> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.greenAccent,
+      backgroundColor: Color(0xFF87B7E1),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -42,7 +42,7 @@ class _TotalWorkoutsState extends State<TotalWorkouts> {
               Padding(
                 padding: const EdgeInsets.only(left:20,top:20,),
                 child: Text(
-                  '7 TOTAL WORKOUTS COMPLETED',
+                  '7 TOTAL SKILLS COMPLETED',
                   style: TextStyle(
                     color: Theme.of(context).accentColor,
                     fontWeight: FontWeight.bold,
@@ -72,7 +72,7 @@ class _TotalWorkoutsState extends State<TotalWorkouts> {
                     dense:true, 
                     contentPadding: EdgeInsets.symmetric(horizontal: 16.0,vertical:0,),
                     leading: Text(
-                      'WORKOUTS',
+                      'SKILLS',
                       style: TextStyle(
                         fontWeight:FontWeight.bold,
                       ),
