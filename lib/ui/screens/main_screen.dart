@@ -4,6 +4,7 @@
 */
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:onboarding_flow/business/auth.dart';
 import 'package:onboarding_flow/models/settings.dart';
 import 'package:onboarding_flow/ui/screens/root_screen.dart';
@@ -303,6 +304,8 @@ class _MainScreenState extends State<MainScreen> {
   */
   Widget getWorkoutListWidgets(List workout)
   {
+    var now = new DateTime.now();
+
     List<Widget> list = new List<Widget>();
     if (workout != null) {
       for(var i = 0; i < workout.length; i++){
@@ -323,6 +326,28 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                     ),
                   ),
+                ),
+                Positioned(
+                  left: 35,
+                  bottom: 20,
+                  child: new Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      new Text(new DateFormat.yMMMd('en_US').format(now),
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      new Text(workout[i]['name'].toUpperCase(),
+                        style: TextStyle(
+                          color: Colors.white, 
+                          fontSize: 23, 
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      new Text("16Mins. | HIIT | Beginner",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ],
+                  )
                 ),
               ]
             ),
