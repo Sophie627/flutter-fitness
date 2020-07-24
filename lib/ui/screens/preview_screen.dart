@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
@@ -24,6 +25,68 @@ class _PreviewState extends State<Preview> {
 
   VoidCallback onBackPress;
 
+  /*
+    Future<void> _getReadyDialog() async
+    Author: Sophie(bolesalavb@gmail.com)
+    Created Date & Time: July 24 2020 4:51 AM
+
+    Future<void>: _getReadyDialog
+
+    Description: 'Get Ready' Dialog
+  */
+  Future<void> _getReadyDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return CupertinoAlertDialog(
+          title: Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+            child: Text('Get Ready?'),
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  child: Text('Turn on the music and get ready to start your workout.',
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('I am ready!'),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Ready(
+                      settings: widget.settings,
+                      id: widget.id,
+                      name: widget.name,
+                      image: widget.image,
+                    )),
+                ); 
+              },
+            ),
+            FlatButton(
+              child: Text('Need more time',
+                style: TextStyle(
+                  fontSize: 13.0
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   void initState() {
@@ -194,91 +257,7 @@ class _PreviewState extends State<Preview> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          showDialog(
-            barrierDismissible: false,
-            context: context,
-            builder: (context) {
-              return Dialog(
-                backgroundColor: Colors.white,
-                // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
-                elevation: 16,
-                child: Container(
-                  height: 320.0,
-                  // width: 1000.0,
-                  child: new Center(
-                    child: new Container(
-                      child: new Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.all(10.0),
-                            child: new Text("Get Ready",
-                              style: TextStyle(
-                                fontSize: 28.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                          Text("Turn on the music and get ready to start your workout.", 
-                            overflow: TextOverflow.clip, 
-                            style: TextStyle(fontSize: 18.0),
-                            textAlign: TextAlign.center,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(10.0),
-                            child: ButtonTheme(
-                              minWidth: 200.0,
-                              // height: 100.0,
-                              child: CustomFlatButton(
-                                title: "I'm ready!",
-                                fontSize: 20,
-                                textColor: Colors.black,
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => Ready(
-                                        settings: widget.settings,
-                                        id: widget.id,
-                                        image: widget.image,
-                                        name: widget.name,
-                                      )),
-                                  );
-                                },
-                                splashColor: Colors.black12,
-                                borderColor: Color(0xFFDCE2ED),
-                                borderWidth: 0,
-                                color: Color(0xFFDCE2ED),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.all(10.0),
-                            child: ButtonTheme(
-                              minWidth: 200.0,
-                              // height: 100.0,
-                              child: CustomFlatButton(
-                                title: "Need more time",
-                                fontSize: 20,
-                                textColor: Colors.white,
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                splashColor: Colors.black12,
-                                borderColor: Color(0xFF3A5998),
-                                borderWidth: 0,
-                                color: Color(0xFF3A5998),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ), 
-                ),
-              );
-            }
-          );
+          _getReadyDialog();
         },
         label: new Text("  Start Workout  ",
           style: TextStyle(

@@ -1,7 +1,7 @@
 /*
   Exercise Screen file
   Created on March 30 2020 by Sophie(bolesalavb@gmail.com)
-  Updated on July 23 2020 by Sophie(bolesalavb@gmail.com)
+  Updated on July 24 2020 by Sophie(bolesalavb@gmail.com)
 */
 
 import 'dart:async';
@@ -9,6 +9,7 @@ import 'dart:async';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:onboarding_flow/models/settings.dart';
 import 'package:onboarding_flow/models/exercise.dart';
@@ -62,10 +63,71 @@ class _InOutState extends State<InOut> {
   }
 
   /*
+    Future<void> _repeatExerciseDialog() async
+    Author: Sophie(bolesalavb@gmail.com)
+    Created Date & Time: July 24 2020 5:15 AM
+
+    Future<void>: _repeatExerciseDialog
+
+    Description: 'Repeat Exercise' Dialog
+  */
+  Future<void> _repeatExerciseDialog() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return CupertinoAlertDialog(
+          // backgroundColor: Colors.white,
+          title: Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+            child: Text('Repeat Exercise?'),
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  child: Text('Are you sure?',
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('No'),
+              onPressed: () {
+                startTimer();
+                setState(() {
+                  _playState = true;
+                });
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: Text('Yes'),
+              onPressed: () {
+                // _timer.cancel();
+                storeExerciseTime();
+                setState(() {
+                  _playState = true;
+                });
+                exerciseRest(_current, false);
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  /*
     Future<void> _endWorkoutDialog() async
     Author: Sophie(bolesalavb@gmail.com)
     Created Date & Time: June 7 2020 10:48 PM
-    Updated Date & Time: June 9 2020 6:49 PM
+    Updated Date & Time: July 24 2020 4:41 AM
 
     Future<void>: _endWorkoutDialog
 
@@ -76,15 +138,17 @@ class _InOutState extends State<InOut> {
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Colors.white.withOpacity(0.7),
-          title: Center(
+        return CupertinoAlertDialog(
+          // backgroundColor: Colors.white,
+          title: Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
             child: Text('End Workout?'),
           ),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
-                Center(
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                   child: Text('Going back will restart the timer. Are you sure to you want to do this?',
                     textAlign: TextAlign.center,
                   ),
@@ -430,6 +494,23 @@ class _InOutState extends State<InOut> {
   }
 
   /*
+    void displayRepeatExerciseDialog()
+    Author: Sophie(bolesalavb@gmil.com)
+    Created Date & Time: July 24 2020 5:05 AM
+
+    Function: displayRepeatExerciseDialog
+
+    Description: Display 'Repeat Exercise' dialog
+  */
+  void displayRepeatExerciseDialog() {
+    _repeatExerciseDialog();
+    _timer.cancel();
+    setState(() {
+      _playState = false;
+    });
+  }
+
+  /*
     void storeExerciseTime()
     Author: Sophie(bolesalavb@gmail.com)
     Created Date & Time:  June 8 2020 5:54 PM
@@ -665,26 +746,6 @@ class _InOutState extends State<InOut> {
                   Expanded(
                     child: exerciseCarousel
                   ),
-                  // ListTile(
-                  //   title: Center(
-                  //     child: Text(
-                  //       _exerciseComment,
-                  //       style: TextStyle(
-                  //         color: _nightMode ? Colors.white : Colors.grey,
-                  //         fontSize: 14,
-                  //       ),
-                  //     )
-                  //   ),
-                  //   subtitle: Center(
-                  //     child: Text(
-                  //       '0:' + stringTime,
-                  //       style: TextStyle(
-                  //         color: _nightMode ? Colors.white : Colors.grey.shade800,
-                  //         fontSize: 30,
-                  //       ),
-                  //     )
-                  //   ),
-                  // ),
                   Text(
                     _exerciseComment,
                     style: TextStyle(
@@ -718,12 +779,7 @@ class _InOutState extends State<InOut> {
                           IconButton(
                             color: _nightMode ? Colors.white : Colors.black,
                             icon: Icon(Icons.refresh,size: 30,), onPressed: (){
-                              _timer.cancel();
-                              storeExerciseTime();
-                              setState(() {
-                                _playState = true;
-                              });
-                              exerciseRest(_current, false);
+                              displayRepeatExerciseDialog();
                           }),
                           IconButton(icon: _prevIcon(), onPressed: (){
                             if (_current != 0){
