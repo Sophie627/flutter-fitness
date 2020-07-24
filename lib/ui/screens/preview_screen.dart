@@ -148,13 +148,8 @@ class _PreviewState extends State<Preview> {
         centerTitle: true,
         leading: new IconButton(
             icon: new Icon(Icons.arrow_back),
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => MainScreen(
-                  settings: widget.settings,
-                )),
-            )),
+            onPressed: () => Navigator.of(context).popUntil(ModalRoute.withName('/main')),
+          ),
         title: Text(
           'Preview',
           textAlign: TextAlign.center,  

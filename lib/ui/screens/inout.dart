@@ -109,7 +109,7 @@ class _InOutState extends State<InOut> {
               child: Text('Yes'),
               onPressed: () {
                 // _timer.cancel();
-                storeExerciseTime();
+                storeExerciseTimeRep(0, true);
                 setState(() {
                   _playState = true;
                 });
@@ -160,16 +160,7 @@ class _InOutState extends State<InOut> {
             FlatButton(
               child: Text('Yes'),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Preview(
-                      settings: widget.settings,
-                      id: widget.id,
-                      name: widget.name,
-                      image: widget.image,
-                    )),
-                ); 
+                Navigator.of(context).popUntil(ModalRoute.withName('/main'));
               },
             ),
             FlatButton(
@@ -256,7 +247,7 @@ class _InOutState extends State<InOut> {
       data.documents.forEach((doc) => _exerciseData.add(doc)),
       setState(() {
         _exerciseData = _exerciseData;
-        _workout = new List(_exerciseData.length);
+        // _workout = new List(_exerciseData.length);
       }),
     });
   }
@@ -511,44 +502,27 @@ class _InOutState extends State<InOut> {
   }
 
   /*
-    void storeExerciseTime()
-    Author: Sophie(bolesalavb@gmail.com)
-    Created Date & Time:  June 8 2020 5:54 PM
-
-    Function: storeExerciseTime
-
-    Description:  Add exercise time and store.
-  */
-  void storeExerciseTime() {
-    if (_workout[_current] == null) {
-      _workout[_current] = Exercise(
-        name: _exerciseData[_current]['name'],
-      );
-    }
-    if (_stageState == 'train') {
-      _workout[_current].addTime(int.parse(_exerciseData[_current]['durationTime']) - _time);
-    }
-  }
-
-  /*
-    void storeExerciseTimeRep(int rep)
+    void storeExerciseTimeRep(int rep, bool type)
     Author: Sophie(bolesalavb@gmail.com)
     Created Time & Date: June 8 2020 6:08 PM
+    Updated Time & Date: July 24 2020 5:58 AM
 
     Function: storeExerciseTimeRep
 
     Description:  Add exercise time, rep and store
 
     Parameters: rep(int)  - exercise rep
+                type(bool) - if rep is 0, true, if not false
   */
-  void storeExerciseTimeRep(int rep) {
-    if (_workout[_current] == null) {
-      _workout[_current] = Exercise(
-        name: _exerciseData[_current]['name'],
-      );
-    }
-    _workout[_current].addTime(int.parse(_exerciseData[_current]['durationTime']));
-    _workout[_current].addRep(rep);
+  void storeExerciseTimeRep(int rep, bool type) {
+    int time = type 
+      ? int.parse(_exerciseData[_current]['durationTime']) - _time
+      : int.parse(_exerciseData[_current]['durationTime']);
+    _workout.add(Exercise(
+      name: _exerciseData[_current]['name'],
+      rep: rep,
+      time: time,
+    ));
   } 
 
   @override
@@ -572,6 +546,8 @@ class _InOutState extends State<InOut> {
 
   @override
   Widget build(BuildContext context) {
+    
+    print("setting ${widget.settings}");
 
     exerciseCarousel = CarouselSlider.builder(
       height: 500,
@@ -667,7 +643,7 @@ class _InOutState extends State<InOut> {
                         textColor: Colors.white,
                         onPressed: () {
                           if (txt.text != '') {
-                            storeExerciseTimeRep(int.parse(txt.text));
+                            storeExerciseTimeRep(int.parse(txt.text), false);
                             if (_current == _exerciseData.length - 1) {
                               Navigator.push(
                                 context,
@@ -784,7 +760,7 @@ class _InOutState extends State<InOut> {
                           IconButton(icon: _prevIcon(), onPressed: (){
                             if (_current != 0){
                               _timer.cancel();
-                              storeExerciseTime();
+                              storeExerciseTimeRep(0, true);
                               setState(() {
                                 _current = _current - 1;
                                 _playState = true;
@@ -796,7 +772,7 @@ class _InOutState extends State<InOut> {
                           IconButton(icon: _nextIcon(), onPressed: (){
                             if (_current != _exerciseData.length - 1) {
                               _timer.cancel();
-                              storeExerciseTime();
+                              storeExerciseTimeRep(0, true);
                               setState(() {
                                 _current = _current + 1;
                                 _playState = true;
