@@ -109,9 +109,10 @@ class _MainScreenState extends State<MainScreen> {
                       ),
                   ),
                 ),
+                _signList(),
                 ListTile(
                   leading: Icon(Icons.contacts),
-                  title: Text('Profile'),
+                  title: _menuText('Profile'),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -125,7 +126,7 @@ class _MainScreenState extends State<MainScreen> {
                 ),
                 ListTile(
                   leading: Icon(Icons.brush),
-                  title: Text('Activity'),
+                  title: _menuText('Activity'),
                   onTap: () {
                      Navigator.push(
                       context,
@@ -139,7 +140,7 @@ class _MainScreenState extends State<MainScreen> {
                 ),
                 ListTile(
                   leading: Icon(Icons.school),
-                  title: Text('Learn'),
+                  title: _menuText('Learn'),
                   onTap: () {
                     // Navigator.pushNamed(context, '/totalworkouts');
                     _scaffoldKey.currentState.openEndDrawer();
@@ -147,7 +148,7 @@ class _MainScreenState extends State<MainScreen> {
                 ),
                 ListTile(
                   leading: Icon(Icons.settings),
-                  title: Text('Settings'),
+                  title: _menuText('Settings'),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -162,7 +163,7 @@ class _MainScreenState extends State<MainScreen> {
                 ),
                 ListTile(
                   leading: Icon(Icons.directions_railway),
-                  title: Text('Follow Us'),
+                  title: _menuText('Follow Us'),
                   onTap: () {
                     // _scaffoldKey.currentState.openEndDrawer();
                   },
@@ -182,7 +183,6 @@ class _MainScreenState extends State<MainScreen> {
                     _scaffoldKey.currentState.openEndDrawer();
                   },
                 ),
-                _signList(),
               ],
             ),
           ),
@@ -228,7 +228,7 @@ class _MainScreenState extends State<MainScreen> {
     if (widget.firebaseUser == null) {
       return ListTile(
         leading: Icon(Icons.home),
-        title: Text('To First Screen'),
+        title: _menuText('To First Screen'),
         onTap: () {
           Navigator.push(
             context,
@@ -243,7 +243,7 @@ class _MainScreenState extends State<MainScreen> {
     } else {
       return ListTile(
         leading: Icon(Icons.power_settings_new),
-        title: Text('Sign Out'),
+        title: _menuText('Sign Out'),
         onTap: () {
           _logOut();
           _scaffoldKey.currentState.openEndDrawer();
@@ -289,6 +289,26 @@ class _MainScreenState extends State<MainScreen> {
 
   void _logOut() async {
     Auth.signOut();
+  }
+
+  /*
+    Widget _menuText(String txt)
+    Author: Sophie(bolesalavb@gmail.com)
+    Created Date & Time: July 23 10:40 PM
+
+    Widget _menuText
+
+    Description: Text at menu
+
+    Parameters: txt(String)  -  text of menu
+  */
+  Widget _menuText(String txt)
+  {
+    return Text(txt,
+      style: TextStyle(
+        fontSize: 19.0
+      ),
+    );
   }
 
   /*
