@@ -710,9 +710,7 @@ class _InOutState extends State<InOut> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => SettingsScreen(
-                              settings: widget.settings,
-                            )),
+                            builder: (context) => SettingsScreen()),
                         );
                         _timer.cancel();
                          

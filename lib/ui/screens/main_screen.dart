@@ -153,9 +153,7 @@ class _MainScreenState extends State<MainScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SettingsScreen(
-                          settings: widget.settings,
-                        )),
+                        builder: (context) => SettingsScreen()),
                     ); 
                     // Navigator.pushNamed(context, '/settings');
                     _scaffoldKey.currentState.openEndDrawer();

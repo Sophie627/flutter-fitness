@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:onboarding_flow/models/settings.dart';
+import 'package:onboarding_flow/redux/actions.dart';
 import 'package:onboarding_flow/ui/screens/main_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -131,6 +133,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                // StoreConnector<bool, void Function(bool)>(
+                //   converter: (store) {
+                //     return store.dispatch(NightTheme(val))
+                //   },
+                // ),
                 new Padding(
                   padding: EdgeInsets.fromLTRB(0, 10.0, 0, 10.0),
                   child: Row(
