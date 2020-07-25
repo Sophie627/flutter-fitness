@@ -4,14 +4,8 @@ class Settings {
   bool nightTheme;
 
   Settings({
-    this.sound = false,
-    this.voice = true,
-    this.nightTheme = false,
+    this.sound,
+    this.voice,
+    this.nightTheme,
   });
-
-  Settings.fromSettings(Settings another) {
-    sound = another.sound;
-    voice = another.voice;
-    nightTheme = another.nightTheme;
-  }
 }

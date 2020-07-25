@@ -42,7 +42,6 @@ class _ReadyState extends State<Ready> {
               context,
               MaterialPageRoute(
                 builder: (context) => InOut(
-                  settings: widget.settings,
                   id: widget.id,
                   name: widget.name,
                   image: widget.image,

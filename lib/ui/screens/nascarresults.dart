@@ -3,6 +3,7 @@
   Updated on June 8 2020 by Sophie(bolesalavb@gmail.com)
 */
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:onboarding_flow/models/settings.dart';
 import 'package:onboarding_flow/models/exercise.dart';
 import 'package:onboarding_flow/ui/screens/main_screen.dart';
@@ -71,111 +72,132 @@ class _NascarResultsScreenState extends State<NascarResultsScreen> {
     
     print('workoutTime ${workoutTime}');
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children:[
-            Expanded(
-              child: ListView(
-                children: <Widget>[
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        widget.name.toUpperCase() + ' Results',
-                        style: TextStyle(
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                  ),
-                  getExerciseListWidgets(widget.workout),
-                  Center(
-                    child: Text(
-                      'Total Reps',
-                      style: TextStyle(
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                  Center(
-                    child: Text(
-                      totalSteps.toString(),
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                    child: Divider(
-                      thickness: 1,
-                    ),
-                  ),
-                  Center(
-                    child: Text(
-                      workoutTime,
-                      style: TextStyle(
-                        fontSize: 40,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  Center(
-                    child: Text(
-                      'Workout Time',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
-              )
-            ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
+      body: Builder(
+        builder: (context) => 
+          SafeArea(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children:[
                 Expanded(
-                  child: RaisedButton(
-                    onPressed: (){
-                      Navigator.of(context).popUntil(ModalRoute.withName('/main'));
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => MainScreen(
-                      //       settings: widget.settings,
-                      //     )),
-                      // );
-                    },
-                    child: Text(
-                      'FINISH',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+                  child: ListView(
+                    children: <Widget>[
+                      Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            widget.name.toUpperCase() + ' Results',
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                      ),
+                      getExerciseListWidgets(widget.workout),
+                      Center(
+                        child: Text(
+                          'Total Reps',
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                      Center(
+                        child: Text(
+                          totalSteps.toString(),
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                        child: Divider(
+                          thickness: 1,
+                        ),
+                      ),
+                      Center(
+                        child: Text(
+                          workoutTime,
+                          style: TextStyle(
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      Center(
+                        child: Text(
+                          'Workout Time',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children:[
+                    Expanded(
+                      child: RaisedButton(
+                        onPressed: (){
+                          Navigator.of(context).popUntil(ModalRoute.withName('/main'));
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => MainScreen(
+                          //       settings: widget.settings,
+                          //     )),
+                          // );
+                        },
+                        child: Text(
+                          'FINISH',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      color: Colors.black,
                       ),
                     ),
-                  color: Colors.black,
-                  ),
-                ),
-                Expanded(child: RaisedButton(
-                  onPressed: (){},
-                  child: Text(
-                    'SHARE',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+                    Expanded(child: RaisedButton(
+                      onPressed: (){
+                        String clipboard = '';
+                        for(var i = 0; i < widget.workout.length; i++){
+                          clipboard += widget.workout[i].name + ' ' + widget.workout[i].rep.toString() + 'rep\n';
+                        }
+                        clipboard += 'Total Rep ' + totalSteps.toString() + 'rep\n';
+                        clipboard += 'Workout Time ' + ' ' + workoutTime;
+                        print(clipboard);
+                        Clipboard.setData(ClipboardData(text: clipboard)).then((result) {
+                          final snackBar = SnackBar(
+                            content: Text('Copied to Clipboard'),
+                            action: SnackBarAction(
+                              label: 'Undo',
+                              onPressed: () {},
+                            ),
+                          );
+                          Scaffold.of(context).showSnackBar(snackBar);
+                        });
+                      },
+                      child: Text(
+                        'SHARE',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      color: Colors.greenAccent,
+                      ),
                     ),
-                  ),
-                  color: Colors.greenAccent,
-                  ),
+                  ]
                 ),
               ]
-            ),
-          ]
-        )
+            )
+          ),
       ),
     );
   }

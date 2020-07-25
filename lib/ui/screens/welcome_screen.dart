@@ -1,10 +1,24 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:onboarding_flow/ui/widgets/custom_flat_button.dart';
 
 class WelcomeScreen extends StatelessWidget {
-  
+
   @override
   Widget build(BuildContext context) {
+
+    //preloading images...
+    Firestore.instance.collection('workout').orderBy('workoutID').snapshots().listen((data) => {
+      data.documents.forEach((doc) {
+        precacheImage(NetworkImage(doc['image']), context);
+        Firestore.instance.collection('exercise' + doc['workoutID'].toString()).orderBy('no').snapshots().listen((data) => {
+          data.documents.forEach((doc) {
+            if (doc['url'] != null) precacheImage(NetworkImage(doc['url']), context);
+          }),
+        });
+      }),
+    });
+
     return Scaffold(
       body: new ListView(
         children: <Widget>[

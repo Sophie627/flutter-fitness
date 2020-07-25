@@ -241,7 +241,7 @@ class _PreviewState extends State<Preview> {
                           ),
                         );
                       } else {
-                        return _buildList(context, snapshot.data.documents[index - 1]);
+                        if(snapshot.data.documents[index - 1]['url'] != null) return _buildList(context, snapshot.data.documents[index - 1]);
                       }
                     },
                   ); 

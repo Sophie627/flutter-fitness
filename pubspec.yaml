@@ -34,8 +34,7 @@ dependencies:
   firebase_database: ^3.1.6
   url_launcher: ^5.4.10
   wakelock: ^0.1.4+1
-  flutter_redux: ^0.6.0
-  redux: ^4.0.0+2
+  localstorage: ^3.0.0
   # firebase_admob: ^0.6.1
 
   # The following adds the Cupertino Icons font to your application.

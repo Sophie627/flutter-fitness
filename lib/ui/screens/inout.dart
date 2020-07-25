@@ -21,15 +21,15 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:onboarding_flow/ui/widgets/custom_flat_button.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:wakelock/wakelock.dart';
+import '../../globals.dart' as globals;
 
 
 class InOut extends StatefulWidget {
-  final Settings settings;
   final int id;
   final String name;
   final String image;
 
-  InOut({this.settings, this.id, this.name, this.image});
+  InOut({this.id, this.name, this.image});
 
   @override
   _InOutState createState() => _InOutState();
@@ -53,6 +53,12 @@ class _InOutState extends State<InOut> {
   String _stageState = "rest"; //state related to stage
   bool _nightMode = false;//day mode or night mode
   List _workout = []; // exercise List(name, rep, time)
+
+  // final settings = Settings(
+  //   sound: globals.sound,
+  //   voice: globals.voice,
+  //   nightTheme: globals.nightTheme,
+  // );
 
   List<T> map<T>(List list, Function handler) {
     List<T> result = [];
@@ -197,17 +203,13 @@ class _InOutState extends State<InOut> {
     }
 
     if (method == "sound") {
-      if(widget.settings == null) {
-        // loadMusic();
-      } else if (widget.settings.sound) {
+      if (globals.sound) {
         loadMusic();
       }
     }
 
     if (method == "voice") {
-      if(widget.settings == null) {
-        loadMusic();
-      } else if (widget.settings.voice) {
+      if (globals.voice) {
         loadMusic();
       }
     }
@@ -547,7 +549,7 @@ class _InOutState extends State<InOut> {
   @override
   Widget build(BuildContext context) {
     
-    print("setting ${widget.settings}");
+    print("setting ${globals.nightTheme}");
 
     exerciseCarousel = CarouselSlider.builder(
       height: 500,
@@ -573,21 +575,17 @@ class _InOutState extends State<InOut> {
     if (_time < 10) {
       stringTime = "0" + _time.toString();
     }
-    if(widget.settings == null) {
+    
+    if (!globals.nightTheme) {
       setState(() {
         _nightMode = false;
       });
     } else {
-      if (!widget.settings.nightTheme) {
-        setState(() {
-          _nightMode = false;
-        });
-      } else {
-        setState(() {
-          _nightMode = true;
-        });
-      }
+      setState(() {
+        _nightMode = true;
+      });
     }
+    
 
     return Container(
       color: _nightMode ? Colors.black : Colors.white,
@@ -612,7 +610,7 @@ class _InOutState extends State<InOut> {
               child: new Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  new Text("How many score?",
+                  new Text("How many?",
                     style: TextStyle(
                       fontSize: 30.0,
                       fontWeight: FontWeight.bold,
@@ -649,7 +647,6 @@ class _InOutState extends State<InOut> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => NascarResultsScreen(
-                                    settings: widget.settings,
                                     workout: _workout,
                                     name: widget.name,
                                   )),
@@ -707,12 +704,14 @@ class _InOutState extends State<InOut> {
                       color: _nightMode ? Colors.white : Colors.black,
                       icon: Icon(Icons.more_vert), 
                       onPressed: (){
+                        globals.exerciseScreen = true;
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => SettingsScreen()),
+                            builder: (context) => SettingsScreen(
+                            )),
                         );
-                        _timer.cancel();
+                        // _timer.cancel();
                          
                     }),
                   ),
@@ -788,13 +787,13 @@ class _InOutState extends State<InOut> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(1000),
                         // borderRadius: BorderRadius.circular(10),
-                        color: Colors.white,
+                        color: _nightMode ? Colors.black :Colors.white,
                         boxShadow: [
                           BoxShadow(
                             color: Colors.grey.withOpacity(0.5),
                             spreadRadius: 3,
                             blurRadius: 5,
-                            offset: Offset(3, 5), // changes position of shadow
+                            offset: Offset(0, 0), // changes position of shadow
                           ),
                           // BoxShadow(color: Colors.green, spreadRadius: 3),
                         ],

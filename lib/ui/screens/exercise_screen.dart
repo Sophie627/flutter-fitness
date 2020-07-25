@@ -241,7 +241,7 @@ class _ExerciseState extends State<Exercise> {
   }
 
   void backPress() {
-     Navigator.push(
+    Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => Preview(

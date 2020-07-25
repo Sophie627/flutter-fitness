@@ -39,7 +39,9 @@ class _MainScreenState extends State<MainScreen> {
   */
   fetchWorkoutData() async {
     Firestore.instance.collection('workout').orderBy('workoutID').snapshots().listen((data) => {
-      data.documents.forEach((doc) => _workoutData.add(doc)),
+      data.documents.forEach((doc) {
+        _workoutData.add(doc);
+      }),
       setState(() {
         _workoutData = _workoutData;
       }),
@@ -50,7 +52,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     fetchWorkoutData();
-
+  
     print(widget.firebaseUser);
   }
 
@@ -153,7 +155,8 @@ class _MainScreenState extends State<MainScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => SettingsScreen()),
+                        builder: (context) => SettingsScreen(
+                        )),
                     ); 
                     // Navigator.pushNamed(context, '/settings');
                     _scaffoldKey.currentState.openEndDrawer();
