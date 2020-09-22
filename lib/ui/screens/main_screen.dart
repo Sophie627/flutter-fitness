@@ -176,7 +176,7 @@ class _MainScreenState extends State<MainScreen> {
                         width: 20.0,
                       ),
                       _followUsBtn("facebook", "https://www.facebook.com/bravefitsoccer/"),
-                      _followUsBtn("instagram", "https://www.instagram.com/braveboyjoy_/"),
+                      _followUsBtn("instagram", "https://www.instagram.com/bravefitsoccer/"),
                       _followUsBtn("youtube", "https://www.youtube.com/channel/UCSBiV37GBqxRVdjGM_f18Mw/"),
                     ],
                   ),
@@ -354,9 +354,9 @@ class _MainScreenState extends State<MainScreen> {
                   child: new Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      new Text(new DateFormat.yMMMd('en_US').format(now),
-                        style: TextStyle(color: Colors.white),
-                      ),
+                      // new Text(new DateFormat.yMMMd('en_US').format(now),
+                      //   style: TextStyle(color: Colors.white),
+                      // ),
                       new Text(workout[i]['name'].toUpperCase(),
                         style: TextStyle(
                           color: Colors.white, 

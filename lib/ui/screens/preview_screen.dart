@@ -187,9 +187,9 @@ class _PreviewState extends State<Preview> {
                                       child: new Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: <Widget>[
-                                          new Text(new DateFormat.yMMMd('en_US').format(now),
-                                            style: TextStyle(color: Colors.white),
-                                          ),
+                                          // new Text(new DateFormat.yMMMd('en_US').format(now),
+                                          //   style: TextStyle(color: Colors.white),
+                                          // ),
                                           new Text(widget.name.toUpperCase(),
                                             style: TextStyle(
                                               color: Colors.white, 
@@ -250,17 +250,20 @@ class _PreviewState extends State<Preview> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          _getReadyDialog();
-        },
-        label: new Text("  Start Workout  ",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 15.0,
+      floatingActionButton: Padding(
+        padding: EdgeInsets.only(bottom: 30.0),
+        child: FloatingActionButton.extended(
+          onPressed: () {
+            _getReadyDialog();
+          },
+          label: new Text("  Start Workout  ",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 15.0,
+            ),
           ),
+          backgroundColor: Colors.black,
         ),
-        backgroundColor: Colors.black,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
