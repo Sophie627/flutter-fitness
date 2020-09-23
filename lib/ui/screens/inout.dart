@@ -40,7 +40,7 @@ class _InOutState extends State<InOut> {
   PanelController _pc = new PanelController();
   var txt = TextEditingController();
   FocusNode myFocusNode;
-  AudioPlayer advancedPlayer;
+  AudioPlayer advancedPlayer = AudioPlayer(mode: PlayerMode.LOW_LATENCY);
   CarouselSlider exerciseCarousel;
   final controller = PageController(viewportFraction: 0.8);
   
@@ -211,6 +211,7 @@ class _InOutState extends State<InOut> {
   void playMusic(String title, String method) {
     Future loadMusic() async {
       advancedPlayer = await AudioCache().play("music/" + title + ".mp3");
+
     }
 
     if (method == "sound") {
