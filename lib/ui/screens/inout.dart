@@ -119,7 +119,18 @@ class _InOutState extends State<InOut> {
                 setState(() {
                   _playState = true;
                 });
-                exerciseRest(_current, false);
+                if (_stageState == 'rest') {
+                  if(_current == 0) {
+                    exerciseRest(0, false);
+                  } else {
+                    setState(() {
+                      _current --;
+                    });
+                    exerciseRest(_current, false);
+                  }
+                } else {
+                  exerciseRest(_current, false);
+                }
                 Navigator.of(context).pop();
               },
             ),

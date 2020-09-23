@@ -201,7 +201,7 @@ class _MainScreenState extends State<MainScreen> {
               ),
             ),
             new Container(
-              color: Colors.lightGreen,
+              color: Colors.white,
             ),
           ]), 
           bottomNavigationBar: new TabBar(
