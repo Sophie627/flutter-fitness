@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:onboarding_flow/ui/screens/Splashscreen.dart';
 import 'package:onboarding_flow/ui/screens/settings_screen.dart';
 import "package:onboarding_flow/ui/screens/walk_screen.dart";
 import 'package:onboarding_flow/ui/screens/root_screen.dart';
@@ -57,6 +58,7 @@ class MyApp extends StatelessWidget {
         '/nascarresults': (BuildContext context) => new NascarResultsScreen(),
         '/profile': (BuildContext context) => new ProfileScreen(),
         '/totalworkouts': (BuildContext context) => new TotalWorkouts(),
+        '/splash': (BuildContext context) => new SplashScreen(),
         '/inout': (BuildContext context) => new InOut(),
       },
       theme: ThemeData(
@@ -72,7 +74,7 @@ class MyApp extends StatelessWidget {
   Widget _handleCurrentScreen() {
     // bool seen = (prefs.getBool('seen') ?? false);
     // if (true) {
-      return new RootScreen();
+      return new SplashScreen();
     // } else {
     //   return new WalkthroughScreen(prefs: prefs);
     // }

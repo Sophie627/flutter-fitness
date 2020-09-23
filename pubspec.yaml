@@ -64,6 +64,7 @@ flutter:
     - assets/images/default.png
     - assets/images/preview.jpg
     - assets/images/logo.png
+    - assets/images/splash.png
     - assets/images/getlimber.png
     - assets/images/soccerbasics.png
     - assets/images/thecore.png
