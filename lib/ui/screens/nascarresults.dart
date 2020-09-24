@@ -2,18 +2,22 @@
   Result Screen file
   Updated on June 8 2020 by Sophie(bolesalavb@gmail.com)
 */
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:onboarding_flow/models/settings.dart';
 import 'package:onboarding_flow/models/exercise.dart';
+import 'package:onboarding_flow/models/user.dart';
 import 'package:onboarding_flow/ui/screens/main_screen.dart';
 
 class NascarResultsScreen extends StatefulWidget {
   Settings settings;
   List workout;
+  List userWorkout;
   String name;
   
-  NascarResultsScreen({this.settings, this.workout, this.name});
+  NascarResultsScreen({this.settings, this.workout, this.name, this.userWorkout});
   @override
   _NascarResultsScreenState createState() => _NascarResultsScreenState();
 }
@@ -22,6 +26,25 @@ class _NascarResultsScreenState extends State<NascarResultsScreen> {
   int totalSteps = 0;
   int totalTime = 0;
   String workoutTime;
+  // String uid = '';
+
+  // List workoutData = [];
+
+  void updateUserWorkout() async {
+    List workoutData = widget.userWorkout;
+    widget.workout.forEach((element) => { 
+      workoutData.add({
+        'name': element.name,
+        'rep': element.rep,
+        'time': element.time,
+        "date": DateTime.now(),
+      }),
+    });
+    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    Firestore.instance
+      .document("users/${user.uid}")
+      .updateData({'workout': workoutData});
+  }
 
   /*
     void getTotalStep()
@@ -65,12 +88,17 @@ class _NascarResultsScreenState extends State<NascarResultsScreen> {
 
     getTotalStep();
     getTotalTime();
+    updateUserWorkout();
   }
 
   @override
   Widget build(BuildContext context) {
+    // Firestore.instance
+    //   .document("users/${uid}")
+    //   .updateData({'workout': workoutData});
+    // print('uid ${uid}');
     
-    print('workoutTime ${workoutTime}');
+    print('workout ${widget.workout[0].name}');
     return Scaffold(
       body: Builder(
         builder: (context) => 
@@ -144,14 +172,14 @@ class _NascarResultsScreenState extends State<NascarResultsScreen> {
                     Expanded(
                       child: RaisedButton(
                         onPressed: (){
-                          Navigator.of(context).popUntil(ModalRoute.withName('/main'));
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => MainScreen(
-                          //       settings: widget.settings,
-                          //     )),
-                          // );
+                          //Navigator.of(context).popUntil(ModalRoute.withName('/main'));
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MainScreen(
+                                //settings: widget.settings,
+                              )),
+                          );
                         },
                         child: Text(
                           'FINISH',

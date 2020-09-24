@@ -9,6 +9,7 @@ import 'dart:async';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:onboarding_flow/models/settings.dart';
@@ -66,6 +67,24 @@ class _InOutState extends State<InOut> {
       result.add(handler(i, list[i]));
     }
     return result;
+  }
+
+  List workoutData = [];
+
+  void fetchCurrentUserWorkoutData() async {
+    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    //Firestore.instance.document("users/${uid}").updateData({'workout': "ok"});
+    Firestore.instance.collection('users').document(user.uid).snapshots().listen((data) => { 
+      print("--------------"),
+      print(data['workout']),
+      setState(() {
+        if( data['workout']  == null ) {
+          workoutData = [];
+        } else {
+          workoutData = data['workout'];
+        }
+      }),
+    });
   }
 
   /*
@@ -544,6 +563,7 @@ class _InOutState extends State<InOut> {
     super.initState();
 
     fetchData();
+    fetchCurrentUserWorkoutData();
     myFocusNode = new FocusNode();
     setState(() {
       Wakelock.enable();
@@ -661,6 +681,7 @@ class _InOutState extends State<InOut> {
                                   builder: (context) => NascarResultsScreen(
                                     workout: _workout,
                                     name: widget.name,
+                                    userWorkout: workoutData,
                                   )),
                               ); 
                             } else {

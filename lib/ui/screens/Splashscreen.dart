@@ -17,6 +17,7 @@ class SplashState extends State<SplashScreen> {
   
   @override
   Widget build(BuildContext context) {
+   
     return Scaffold(
       body: initScreen(context),
     );
@@ -35,6 +36,7 @@ class SplashState extends State<SplashScreen> {
   }
   
   initScreen(BuildContext context) {
+
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
