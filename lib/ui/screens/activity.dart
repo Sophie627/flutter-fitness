@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:onboarding_flow/models/settings.dart';
 import 'package:onboarding_flow/ui/screens/main_screen.dart';
@@ -13,12 +15,56 @@ class ActivityScreen extends StatefulWidget {
 }
 
 class _ActivityScreenState extends State<ActivityScreen> {
-CalendarController _calendarController= CalendarController();
+  CalendarController _calendarController= CalendarController();
+
+  List workoutData = [];
+  List skillName = [];
+  List skillRep = [];
+  List skillDate = [];
+  bool isLoading = true;
+
+  void fetchCurrentUserWorkoutData() async {
+    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    Firestore.instance.collection('users').document(user.uid).snapshots().listen((data)  { 
+      setState(() {
+        if( data['workout']  == null ) {
+          workoutData = [];
+        } else {
+          workoutData = data['workout'];
+        }
+      });
+      handleWorkoutData(workoutData);
+      setState(() {
+        isLoading = false;
+      });
+    });
+  }
   
+  void handleWorkoutData(List data) {
+    data.forEach((element) {
+      if(skillName.indexOf(element['name']) == -1) {
+        setState(() {
+          skillName.add(element['name']);
+          skillRep.add(element['rep']);
+          skillDate.add(element['date']);
+        });
+      } else {
+        int index = skillName.indexOf(element['name']);
+        if(skillRep[index] < element['rep']) {
+          setState(() {
+            skillRep[index] = element['rep'];
+            skillDate[index] = element['date'];
+          });
+        }
+      }
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     _calendarController = CalendarController();
+    fetchCurrentUserWorkoutData();
   }
 
   @override
@@ -29,7 +75,32 @@ CalendarController _calendarController= CalendarController();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    print(skillName);
+    return isLoading
+    ? Container(
+        color: Colors.white,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Padding(padding: EdgeInsets.only(top: 20.0)),
+              Text(
+                "Loading...",
+                style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.black
+                ),
+              ),
+              Padding(padding: EdgeInsets.only(top: 20.0)),
+              CircularProgressIndicator(
+                backgroundColor: Colors.black,
+                strokeWidth: 1,
+            )
+          ],
+        ),
+      ),
+    )
+    : Container(
       color: Colors.grey.shade400,
       child: SafeArea(
         child: Scaffold(
@@ -70,6 +141,9 @@ CalendarController _calendarController= CalendarController();
                             MaterialPageRoute(
                               builder: (context) => TotalWorkouts(
                                 settings: widget.settings,
+                                skillName: skillName,
+                                skillRep: skillRep,
+                                skillDate: skillDate,
                               )),
                           );
                         },
@@ -77,7 +151,7 @@ CalendarController _calendarController= CalendarController();
                           cardChild: Column(children: [
                             SizedBox(height: 25),
                             Text(
-                              '7',
+                              skillName.length.toString(),
                               style: TextStyle(
                                 fontSize: 35,
                                 color: Colors.black,

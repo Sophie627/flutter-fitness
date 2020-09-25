@@ -5,8 +5,11 @@ import 'package:onboarding_flow/models/settings.dart';
 
 class TotalWorkouts extends StatefulWidget {
   Settings settings;
+  List skillName;
+  List skillRep;
+  List skillDate;
 
-  TotalWorkouts({this.settings});
+  TotalWorkouts({this.settings, this.skillName, this.skillRep, this.skillDate});
   @override
   _TotalWorkoutsState createState() => _TotalWorkoutsState();
 }
@@ -14,6 +17,41 @@ class TotalWorkouts extends StatefulWidget {
 class _TotalWorkoutsState extends State<TotalWorkouts> {
   @override
   Widget build(BuildContext context) {
+    List<Widget> skillLists = [];
+    for(int i = 0; i <widget.skillName.length; i++) {
+      skillLists.add(
+        Column(
+          children: <Widget>[
+            ListTile(
+              dense:true, 
+              contentPadding: EdgeInsets.symmetric(horizontal: 16.0,vertical:0,),
+              leading: Column(
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment:  CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    DateFormat.yMMMd().format(widget.skillDate[i].toDate()),
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 10,
+                    ),
+                    ),
+                  Text(
+                    widget.skillName[i]
+                  ),
+                ],
+              ),
+                trailing: Text(widget.skillRep[i].toString() + " Reps",
+                  style: TextStyle(
+                    fontSize: 18,
+                  ),
+                ),
+            ),
+            Divider(),
+          ],
+        )
+      );
+    }
     return Scaffold(
       backgroundColor: Color(0xFF87B7E1),
       body: Column(
@@ -42,7 +80,7 @@ class _TotalWorkoutsState extends State<TotalWorkouts> {
               Padding(
                 padding: const EdgeInsets.only(left:20,top:20,),
                 child: Text(
-                  '7 TOTAL SKILLS COMPLETED',
+                  widget.skillName.length.toString() + ' TOTAL SKILLS COMPLETED',
                   style: TextStyle(
                     color: Theme.of(context).accentColor,
                     fontWeight: FontWeight.bold,
@@ -80,153 +118,156 @@ class _TotalWorkoutsState extends State<TotalWorkouts> {
                       
                   ),
                   Divider(),
-                   ListTile(
-                    dense:true, 
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16.0,vertical:0,),
-                    leading: Column(
-                      crossAxisAlignment:  CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          DateFormat.yMMMd().format(DateTime.now()),
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 10,
-                          ),
-                          ),
-                          Text(
-                            'Love To Squat'
-                          ),
-                      ],
-                    ),
-                     trailing: IconButton(icon: Icon(Icons.arrow_forward_ios), onPressed: (){}),
+                  Column(
+                    children: skillLists,
                   ),
-                  Divider(),
-                   ListTile(
-                    dense:true, 
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16.0,vertical:0,),
-                    leading: Column(
-                      crossAxisAlignment:  CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          DateFormat.yMMMd().format(DateTime.now()),
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 10,
-                          ),
-                          ),
-                          Text(
-                            'Reach the Finish Line'
-                          ),
-                      ],
-                    ),
-                     trailing: IconButton(icon: Icon(Icons.arrow_forward_ios), onPressed: (){}),
-                  ),
-                  Divider(),
-                   ListTile(
-                    dense:true, 
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16.0,vertical:0,),
-                    leading: Column(
-                      crossAxisAlignment:  CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          DateFormat.yMMMd().format(DateTime.now()),
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 10,
-                          ),
-                          ),
-                          Text(
-                            'Final Lap'
-                          ),
-                      ],
-                    ),
-                     trailing: IconButton(icon: Icon(Icons.arrow_forward_ios), onPressed: (){}),
-                  ),
-                  Divider(),
-                   ListTile(
-                    dense:true, 
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16.0,vertical:0,),
-                    leading: Column(
-                      crossAxisAlignment:  CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          DateFormat.yMMMd().format(DateTime.now()),
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 10,
-                          ),
-                          ),
-                          Text(
-                            'Final Lap'
-                          ),
-                      ],
-                    ),
-                     trailing: IconButton(icon: Icon(Icons.arrow_forward_ios), onPressed: (){}),
-                  ),
-                  Divider(),
-                   ListTile(
-                    dense:true, 
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16.0,vertical:0,),
-                    leading: Column(
-                      crossAxisAlignment:  CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          DateFormat.yMMMd().format(DateTime.now()),
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 10,
-                          ),
-                          ),
-                          Text(
-                            'Step it Up'
-                          ),
-                      ],
-                    ),
-                     trailing: IconButton(icon: Icon(Icons.arrow_forward_ios), onPressed: (){}),
-                  ),
-                  Divider(),
-                   ListTile(
-                    dense:true, 
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16.0,vertical:0,),
-                    leading: Column(
-                      crossAxisAlignment:  CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          DateFormat.yMMMd().format(DateTime.now()),
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 10,
-                          ),
-                          ),
-                          Text(
-                            'Push The Limit'
-                          ),
-                      ],
-                    ),
-                     trailing: IconButton(icon: Icon(Icons.arrow_forward_ios), onPressed: (){}),
-                  ),
-                  Divider(),
-                   ListTile(
-                    dense:true, 
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16.0,vertical:0,),
-                    leading: Column(
-                      crossAxisAlignment:  CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          DateFormat.yMMMd().format(DateTime.now()),
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 10,
-                          ),
-                          ),
-                          Text(
-                            'Like A Champion'
-                          ),
-                      ],
-                    ),
-                     trailing: IconButton(icon: Icon(Icons.arrow_forward_ios), onPressed: (){}),
-                  ),
-                  Divider(),
+                  //  ListTile(
+                  //   dense:true, 
+                  //   contentPadding: EdgeInsets.symmetric(horizontal: 16.0,vertical:0,),
+                  //   leading: Column(
+                  //     crossAxisAlignment:  CrossAxisAlignment.start,
+                  //     children: <Widget>[
+                  //       Text(
+                  //         DateFormat.yMMMd().format(DateTime.now()),
+                  //         style: TextStyle(
+                  //           color: Colors.grey,
+                  //           fontSize: 10,
+                  //         ),
+                  //         ),
+                  //         Text(
+                  //           'Love To Squat'
+                  //         ),
+                  //     ],
+                  //   ),
+                  //    trailing: IconButton(icon: Icon(Icons.arrow_forward_ios), onPressed: (){}),
+                  // ),
+                  // Divider(),
+                  //  ListTile(
+                  //   dense:true, 
+                  //   contentPadding: EdgeInsets.symmetric(horizontal: 16.0,vertical:0,),
+                  //   leading: Column(
+                  //     crossAxisAlignment:  CrossAxisAlignment.start,
+                  //     children: <Widget>[
+                  //       Text(
+                  //         DateFormat.yMMMd().format(DateTime.now()),
+                  //         style: TextStyle(
+                  //           color: Colors.grey,
+                  //           fontSize: 10,
+                  //         ),
+                  //         ),
+                  //         Text(
+                  //           'Reach the Finish Line'
+                  //         ),
+                  //     ],
+                  //   ),
+                  //    trailing: IconButton(icon: Icon(Icons.arrow_forward_ios), onPressed: (){}),
+                  // ),
+                  // Divider(),
+                  //  ListTile(
+                  //   dense:true, 
+                  //   contentPadding: EdgeInsets.symmetric(horizontal: 16.0,vertical:0,),
+                  //   leading: Column(
+                  //     crossAxisAlignment:  CrossAxisAlignment.start,
+                  //     children: <Widget>[
+                  //       Text(
+                  //         DateFormat.yMMMd().format(DateTime.now()),
+                  //         style: TextStyle(
+                  //           color: Colors.grey,
+                  //           fontSize: 10,
+                  //         ),
+                  //         ),
+                  //         Text(
+                  //           'Final Lap'
+                  //         ),
+                  //     ],
+                  //   ),
+                  //    trailing: IconButton(icon: Icon(Icons.arrow_forward_ios), onPressed: (){}),
+                  // ),
+                  // Divider(),
+                  //  ListTile(
+                  //   dense:true, 
+                  //   contentPadding: EdgeInsets.symmetric(horizontal: 16.0,vertical:0,),
+                  //   leading: Column(
+                  //     crossAxisAlignment:  CrossAxisAlignment.start,
+                  //     children: <Widget>[
+                  //       Text(
+                  //         DateFormat.yMMMd().format(DateTime.now()),
+                  //         style: TextStyle(
+                  //           color: Colors.grey,
+                  //           fontSize: 10,
+                  //         ),
+                  //         ),
+                  //         Text(
+                  //           'Final Lap'
+                  //         ),
+                  //     ],
+                  //   ),
+                  //    trailing: IconButton(icon: Icon(Icons.arrow_forward_ios), onPressed: (){}),
+                  // ),
+                  // Divider(),
+                  //  ListTile(
+                  //   dense:true, 
+                  //   contentPadding: EdgeInsets.symmetric(horizontal: 16.0,vertical:0,),
+                  //   leading: Column(
+                  //     crossAxisAlignment:  CrossAxisAlignment.start,
+                  //     children: <Widget>[
+                  //       Text(
+                  //         DateFormat.yMMMd().format(DateTime.now()),
+                  //         style: TextStyle(
+                  //           color: Colors.grey,
+                  //           fontSize: 10,
+                  //         ),
+                  //         ),
+                  //         Text(
+                  //           'Step it Up'
+                  //         ),
+                  //     ],
+                  //   ),
+                  //    trailing: IconButton(icon: Icon(Icons.arrow_forward_ios), onPressed: (){}),
+                  // ),
+                  // Divider(),
+                  //  ListTile(
+                  //   dense:true, 
+                  //   contentPadding: EdgeInsets.symmetric(horizontal: 16.0,vertical:0,),
+                  //   leading: Column(
+                  //     crossAxisAlignment:  CrossAxisAlignment.start,
+                  //     children: <Widget>[
+                  //       Text(
+                  //         DateFormat.yMMMd().format(DateTime.now()),
+                  //         style: TextStyle(
+                  //           color: Colors.grey,
+                  //           fontSize: 10,
+                  //         ),
+                  //         ),
+                  //         Text(
+                  //           'Push The Limit'
+                  //         ),
+                  //     ],
+                  //   ),
+                  //    trailing: IconButton(icon: Icon(Icons.arrow_forward_ios), onPressed: (){}),
+                  // ),
+                  // Divider(),
+                  //  ListTile(
+                  //   dense:true, 
+                  //   contentPadding: EdgeInsets.symmetric(horizontal: 16.0,vertical:0,),
+                  //   leading: Column(
+                  //     crossAxisAlignment:  CrossAxisAlignment.start,
+                  //     children: <Widget>[
+                  //       Text(
+                  //         DateFormat.yMMMd().format(DateTime.now()),
+                  //         style: TextStyle(
+                  //           color: Colors.grey,
+                  //           fontSize: 10,
+                  //         ),
+                  //         ),
+                  //         Text(
+                  //           'Like A Champion'
+                  //         ),
+                  //     ],
+                  //   ),
+                  //    trailing: IconButton(icon: Icon(Icons.arrow_forward_ios), onPressed: (){}),
+                  // ),
+                  // Divider(),
                 ]
               ),
             ),
