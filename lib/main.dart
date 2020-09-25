@@ -18,6 +18,7 @@ import 'package:onboarding_flow/ui/screens/insideoutside.dart';
 import 'package:onboarding_flow/ui/screens/nascarresults.dart';
 import 'package:onboarding_flow/ui/screens/profile.dart';
 import 'package:onboarding_flow/ui/screens/totalworkouts.dart';
+import 'package:onboarding_flow/ui/screens/welcome_screen.dart';
 // import 'package:onboarding_flow/ui/screens/settings_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -60,6 +61,7 @@ class MyApp extends StatelessWidget {
         '/totalworkouts': (BuildContext context) => new TotalWorkouts(),
         '/splash': (BuildContext context) => new SplashScreen(),
         '/inout': (BuildContext context) => new InOut(),
+        '/welcome': (BuildContext context) => new WelcomeScreen(),
       },
       theme: ThemeData(
         primaryColor: Colors.white,

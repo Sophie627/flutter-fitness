@@ -172,14 +172,14 @@ class _NascarResultsScreenState extends State<NascarResultsScreen> {
                     Expanded(
                       child: RaisedButton(
                         onPressed: (){
-                          //Navigator.of(context).popUntil(ModalRoute.withName('/main'));
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => MainScreen(
-                                //settings: widget.settings,
-                              )),
-                          );
+                          Navigator.of(context).popUntil(ModalRoute.withName('/main'));
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => MainScreen(
+                          //       //settings: widget.settings,
+                          //     )),
+                          // );
                         },
                         child: Text(
                           'FINISH',

@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:onboarding_flow/ui/screens/main_screen.dart';
 import 'package:onboarding_flow/ui/screens/root_screen.dart';
+import 'package:onboarding_flow/ui/screens/welcome_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -28,11 +31,16 @@ class SplashState extends State<SplashScreen> {
     return new Timer(duration, route);
   }
 
-  route() {
-    Navigator.pushReplacement(context, MaterialPageRoute(
-        builder: (context) => RootScreen()
-      )
-    ); 
+  route() async {
+    if (await FirebaseAuth.instance.currentUser() == null) {
+      Navigator.pushNamed(context, "/welcome");
+    } else {
+      Navigator.pushNamed(context, "/main");
+    }
+    // Navigator.pushReplacement(context, MaterialPageRoute(
+    //     builder: (context) => RootScreen()
+    //   )
+    // ); 
   }
   
   initScreen(BuildContext context) {

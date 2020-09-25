@@ -200,7 +200,8 @@ class _SignInScreenState extends State<SignInScreen> {
         SystemChannels.textInput.invokeMethod('TextInput.hide');
         _changeBlackVisible();
         await Auth.signIn(email, password)
-            .then((uid) => Navigator.of(context).pop());
+            .then((uid) => Navigator.pushNamed(context, "/main"));
+            // .then((uid) => Navigator.of(context).pop());
       } catch (e) {
         print("Error in email sign in: $e");
         String exception = Auth.getExceptionText(e);

@@ -26,7 +26,8 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  List _workoutData = [];  //All exercise data
+  List _workoutData = [];
+  bool _isLogin = true;  //All exercise data
 
   /* 
     fetchWorkoutData() async
@@ -48,10 +49,19 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
+  void isLogin() async {
+    if (await FirebaseAuth.instance.currentUser() == null) {
+      setState(() {
+        _isLogin = false;
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     fetchWorkoutData();
+    isLogin();
   
     print(widget.firebaseUser);
   }
@@ -226,7 +236,7 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Widget _signList() {
-    if (widget.firebaseUser == null) {
+    if (!_isLogin) {
       return ListTile(
         leading: Icon(Icons.home),
         title: _menuText('To First Screen'),
@@ -290,6 +300,7 @@ class _MainScreenState extends State<MainScreen> {
 
   void _logOut() async {
     Auth.signOut();
+    Navigator.pushNamed(context, "/welcome");
   }
 
   /*

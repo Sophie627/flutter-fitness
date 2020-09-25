@@ -212,7 +212,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
               email: email,
               firstName: fullname,
               profilePictureURL: ''));
-          onBackPress();
+          // onBackPress();
+          Navigator.pushNamed(context, "/main");
         });
       } catch (e) {
         print("Error in sign up: $e");
