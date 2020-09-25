@@ -41,9 +41,11 @@ class _NascarResultsScreenState extends State<NascarResultsScreen> {
       }),
     });
     final FirebaseUser user = await FirebaseAuth.instance.currentUser();
-    Firestore.instance
+    if (user != null) {
+      Firestore.instance
       .document("users/${user.uid}")
       .updateData({'workout': workoutData});
+    }
   }
 
   /*

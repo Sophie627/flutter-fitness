@@ -22,22 +22,30 @@ class _ActivityScreenState extends State<ActivityScreen> {
   List skillRep = [];
   List skillDate = [];
   bool isLoading = true;
+  bool isLogin = true;
 
   void fetchCurrentUserWorkoutData() async {
     final FirebaseUser user = await FirebaseAuth.instance.currentUser();
-    Firestore.instance.collection('users').document(user.uid).snapshots().listen((data)  { 
+    if (user == null) {
       setState(() {
-        if( data['workout']  == null ) {
-          workoutData = [];
-        } else {
-          workoutData = data['workout'];
-        }
-      });
-      handleWorkoutData(workoutData);
-      setState(() {
+        isLogin = false;
         isLoading = false;
       });
-    });
+    } else {
+      Firestore.instance.collection('users').document(user.uid).snapshots().listen((data)  { 
+        setState(() {
+          if( data['workout']  == null ) {
+            workoutData = [];
+          } else {
+            workoutData = data['workout'];
+          }
+        });
+        handleWorkoutData(workoutData);
+        setState(() {
+          isLoading = false;
+        });
+      });
+    }
   }
   
   void handleWorkoutData(List data) {
@@ -86,10 +94,10 @@ class _ActivityScreenState extends State<ActivityScreen> {
               Padding(padding: EdgeInsets.only(top: 20.0)),
               Text(
                 "Loading...",
-                style: TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.black
-                ),
+                // style: TextStyle(
+                //   fontSize: 20.0,
+                //   color: Colors.black
+                // ),
               ),
               Padding(padding: EdgeInsets.only(top: 20.0)),
               CircularProgressIndicator(
@@ -126,7 +134,8 @@ class _ActivityScreenState extends State<ActivityScreen> {
               ),
             ),
           ),
-          body: Column(
+          body: isLogin 
+          ? Column(
             children: <Widget>[
               Expanded(
                 flex: 1,
@@ -262,7 +271,8 @@ class _ActivityScreenState extends State<ActivityScreen> {
                 ),
               ),
             ],
-          ),
+          )
+          : Center(child: Text('No data. Please sign in...'),),
         ),
       ),
     );

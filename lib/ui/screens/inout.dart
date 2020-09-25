@@ -74,17 +74,19 @@ class _InOutState extends State<InOut> {
   void fetchCurrentUserWorkoutData() async {
     final FirebaseUser user = await FirebaseAuth.instance.currentUser();
     //Firestore.instance.document("users/${uid}").updateData({'workout': "ok"});
-    Firestore.instance.collection('users').document(user.uid).snapshots().listen((data) => { 
-      print("--------------"),
-      print(data['workout']),
-      setState(() {
-        if( data['workout']  == null ) {
-          workoutData = [];
-        } else {
-          workoutData = data['workout'];
-        }
-      }),
-    });
+    if (user != null) {
+      Firestore.instance.collection('users').document(user.uid).snapshots().listen((data) => { 
+        print("--------------"),
+        print(data['workout']),
+        setState(() {
+          if( data['workout']  == null ) {
+            workoutData = [];
+          } else {
+            workoutData = data['workout'];
+          }
+        }),
+      });
+    }
   }
 
   /*
