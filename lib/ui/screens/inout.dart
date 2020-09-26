@@ -2,6 +2,7 @@
   Exercise Screen file
   Created on March 30 2020 by Sophie(bolesalavb@gmail.com)
   Updated on July 24 2020 by Sophie(bolesalavb@gmail.com)
+  Updated on Sep 26 2020 by Sophie(bolesalavb@gmail.com)
 */
 
 import 'dart:async';
@@ -384,6 +385,9 @@ class _InOutState extends State<InOut> {
   */
   timeProcess(int time, String type) {
     print("_time ${_time}");
+    if (_exerciseData[_current]['voice'] != null && _exerciseData[_current]['voice'][type] != null && _exerciseData[_current]['voice'][type][_time.toString()] != null) {
+      playMusic(_exerciseData[_current]['voice'][type][_time.toString()], 'voice');
+    }
     switch (type) {
       case "train":
         if (time == (int.parse(_exerciseData[_current]['durationTime']) / 2).round()) {
@@ -396,44 +400,20 @@ class _InOutState extends State<InOut> {
             });
             break;
           case 3:
-            playListVoice(_exerciseData[_current]['3s']);
             playMusic("countdown", "sound");
-            break;
-          case 2:
-            playListVoice(_exerciseData[_current]['2s']);
-            break;
-          case 1:
-            playListVoice(_exerciseData[_current]['1s']);
-            break;
-          case 0:
-            playListVoice(_exerciseData[_current]['train0s']);
             break;
           default:
         }
         break;
       case "rest":
         switch (time) {
-          case 10:
-            playListVoice(_exerciseData[_current]['10s']);
-            break;
           case 8:
-            playListVoice(_exerciseData[_current]['8s']);
             setState(() {
               _exerciseComment = _exerciseData[_current]['name'] + " starts in...";
             });
             break;
           case 3:
-            playListVoice(_exerciseData[_current]['3s']);
             playMusic("countdown", "sound");
-            break;
-          case 2:
-            playListVoice(_exerciseData[_current]['2s']);
-            break;
-          case 1:
-            playListVoice(_exerciseData[_current]['1s']);
-            break;
-          case 0:
-            playListVoice(_exerciseData[_current]['0s']);
             break;
           default:
         }
@@ -583,7 +563,7 @@ class _InOutState extends State<InOut> {
   @override
   Widget build(BuildContext context) {
     
-    print("setting ${globals.nightTheme}");
+    print("exerciseDate ${_exerciseData[0]['voice']['rest']['7']}");
 
     exerciseCarousel = CarouselSlider.builder(
       height: 500,
