@@ -8,12 +8,12 @@
 import 'dart:async';
 
 import 'package:audioplayers/audio_cache.dart';
-// import 'package:audioplayers/audioplayers.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:just_audio/just_audio.dart';
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:onboarding_flow/models/settings.dart';
 import 'package:onboarding_flow/models/exercise.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -43,7 +43,7 @@ class _InOutState extends State<InOut> {
   PanelController _pc = new PanelController();
   var txt = TextEditingController();
   FocusNode myFocusNode;
-  final advancedPlayer = AudioPlayer();
+  // final advancedPlayer = AudioPlayer();
   // AudioPlayer advancedPlayer = AudioPlayer(mode: PlayerMode.LOW_LATENCY);
   CarouselSlider exerciseCarousel;
   final controller = PageController(viewportFraction: 0.8);
@@ -234,8 +234,13 @@ class _InOutState extends State<InOut> {
   */
   void playMusic(String title, String method) {
     Future loadMusic() async {
-      var duration = await advancedPlayer.setAsset("music/" + title + ".mp3");
-      await advancedPlayer.play();
+      AssetsAudioPlayer.newPlayer().open(
+          Audio("assets/music/" + title + ".mp3"),
+          autoStart: true,
+          showNotification: true,
+      );
+      // var duration = await advancedPlayer.setAsset("music/" + title + ".mp3");
+      // await advancedPlayer.play();
       // advancedPlayer = await AudioCache().play("music/" + title + ".mp3");
 
     }
