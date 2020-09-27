@@ -8,11 +8,12 @@
 import 'dart:async';
 
 import 'package:audioplayers/audio_cache.dart';
-import 'package:audioplayers/audioplayers.dart';
+// import 'package:audioplayers/audioplayers.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:just_audio/just_audio.dart';
 import 'package:onboarding_flow/models/settings.dart';
 import 'package:onboarding_flow/models/exercise.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -42,7 +43,8 @@ class _InOutState extends State<InOut> {
   PanelController _pc = new PanelController();
   var txt = TextEditingController();
   FocusNode myFocusNode;
-  AudioPlayer advancedPlayer = AudioPlayer(mode: PlayerMode.LOW_LATENCY);
+  final advancedPlayer = AudioPlayer();
+  // AudioPlayer advancedPlayer = AudioPlayer(mode: PlayerMode.LOW_LATENCY);
   CarouselSlider exerciseCarousel;
   final controller = PageController(viewportFraction: 0.8);
   
@@ -232,8 +234,9 @@ class _InOutState extends State<InOut> {
   */
   void playMusic(String title, String method) {
     Future loadMusic() async {
-      // int result = await advancedPlayer.play("music/" + title + ".mp3", isLocal: true);
-      advancedPlayer = await AudioCache().play("music/" + title + ".mp3");
+      var duration = await advancedPlayer.setAsset("music/" + title + ".mp3");
+      await advancedPlayer.play();
+      // advancedPlayer = await AudioCache().play("music/" + title + ".mp3");
 
     }
 
@@ -287,21 +290,21 @@ class _InOutState extends State<InOut> {
         // _workout = new List(_exerciseData.length);
       });
       print("-----------");
-      _exerciseData.forEach((element) { 
-        if(element['voice'] != null) {
-          print("voice ${element['voice']}");
-          if(element['voice']['rest'] != null) {
-            element['voice']['rest'].values.toList().forEach((musicName) async {
-              await AudioCache().load("music/" + musicName + ".mp3");
-            });
-          }
-          if(element['voice']['train'] != null) {
-            element['voice']['train'].values.toList().forEach((musicName) async {
-              await AudioCache().load("music/" + musicName + ".mp3");
-            });
-          }
-        }
-      });
+      // _exerciseData.forEach((element) { 
+      //   if(element['voice'] != null) {
+      //     print("voice ${element['voice']}");
+      //     if(element['voice']['rest'] != null) {
+      //       element['voice']['rest'].values.toList().forEach((musicName) async {
+      //         await AudioCache().load("music/" + musicName + ".mp3");
+      //       });
+      //     }
+      //     if(element['voice']['train'] != null) {
+      //       element['voice']['train'].values.toList().forEach((musicName) async {
+      //         await AudioCache().load("music/" + musicName + ".mp3");
+      //       });
+      //     }
+      //   }
+      // });
     });
   }
 

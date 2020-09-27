@@ -10,6 +10,7 @@ import 'package:onboarding_flow/models/settings.dart';
 import 'package:onboarding_flow/models/exercise.dart';
 import 'package:onboarding_flow/models/user.dart';
 import 'package:onboarding_flow/ui/screens/main_screen.dart';
+import 'package:share/share.dart';
 
 class NascarResultsScreen extends StatefulWidget {
   Settings settings;
@@ -202,6 +203,7 @@ class _NascarResultsScreenState extends State<NascarResultsScreen> {
                         clipboard += 'Total Rep ' + totalSteps.toString() + 'rep\n';
                         clipboard += 'Workout Time ' + ' ' + workoutTime;
                         print(clipboard);
+                        Share.share(clipboard);
                         Clipboard.setData(ClipboardData(text: clipboard)).then((result) {
                           final snackBar = SnackBar(
                             content: Text('Copied to Clipboard'),
