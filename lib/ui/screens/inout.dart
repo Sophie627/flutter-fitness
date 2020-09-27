@@ -232,6 +232,7 @@ class _InOutState extends State<InOut> {
   */
   void playMusic(String title, String method) {
     Future loadMusic() async {
+      // int result = await advancedPlayer.play("music/" + title + ".mp3", isLocal: true);
       advancedPlayer = await AudioCache().play("music/" + title + ".mp3");
 
     }
@@ -279,12 +280,28 @@ class _InOutState extends State<InOut> {
     Description:  Using this function, Data related to 'Exercise 1' can be gotten from firebase. 
   */
   fetchData() async {
-    Firestore.instance.collection('exercise' + widget.id.toString()).orderBy('no').snapshots().listen((data) => {
-      data.documents.forEach((doc) => _exerciseData.add(doc)),
+    Firestore.instance.collection('exercise' + widget.id.toString()).orderBy('no').snapshots().listen((data) {
+      data.documents.forEach((doc) => _exerciseData.add(doc));
       setState(() {
         _exerciseData = _exerciseData;
         // _workout = new List(_exerciseData.length);
-      }),
+      });
+      print("-----------");
+      _exerciseData.forEach((element) { 
+        if(element['voice'] != null) {
+          print("voice ${element['voice']}");
+          if(element['voice']['rest'] != null) {
+            element['voice']['rest'].values.toList().forEach((musicName) async {
+              await AudioCache().load("music/" + musicName + ".mp3");
+            });
+          }
+          if(element['voice']['train'] != null) {
+            element['voice']['train'].values.toList().forEach((musicName) async {
+              await AudioCache().load("music/" + musicName + ".mp3");
+            });
+          }
+        }
+      });
     });
   }
 
@@ -563,8 +580,6 @@ class _InOutState extends State<InOut> {
   @override
   Widget build(BuildContext context) {
     
-    print("exerciseDate ${_exerciseData[0]['voice']['rest']['7']}");
-
     exerciseCarousel = CarouselSlider.builder(
       height: 500,
       itemCount: _exerciseData.length,
