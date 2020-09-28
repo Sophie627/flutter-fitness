@@ -10,8 +10,9 @@ import 'package:onboarding_flow/models/settings.dart';
 import 'package:onboarding_flow/models/exercise.dart';
 import 'package:onboarding_flow/models/user.dart';
 import 'package:onboarding_flow/ui/screens/main_screen.dart';
-import 'package:share/share.dart';
-import 'package:screenshot_share/screenshot_share.dart';
+import 'package:screenshot_share_image/screenshot_share_image.dart';
+// import 'package:share/share.dart';
+// import 'package:screenshot_share/screenshot_share.dart';
 
 class NascarResultsScreen extends StatefulWidget {
   Settings settings;
@@ -209,25 +210,7 @@ class _NascarResultsScreenState extends State<NascarResultsScreen> {
                     ),
                     Expanded(child: RaisedButton(
                       onPressed: (){
-                        String clipboard = '';
-                        for(var i = 0; i < widget.workout.length; i++){
-                          clipboard += widget.workout[i].name + ' ' + widget.workout[i].rep.toString() + 'rep\n';
-                        }
-                        clipboard += 'Total Rep ' + totalSteps.toString() + 'rep\n';
-                        clipboard += 'Workout Time ' + ' ' + workoutTime;
-                        print(clipboard);
-                        ScreenshotShare.takeScreenshotAndShare();
-                        // Share.share(clipboard);
-                        // Clipboard.setData(ClipboardData(text: clipboard)).then((result) {
-                        //   final snackBar = SnackBar(
-                        //     content: Text('Copied to Clipboard'),
-                        //     action: SnackBarAction(
-                        //       label: 'Undo',
-                        //       onPressed: () {},
-                        //     ),
-                        //   );
-                        //   Scaffold.of(context).showSnackBar(snackBar);
-                        // });
+                        ScreenshotShareImage.takeScreenshotShareImage();
                       },
                       child: Text(
                         'SHARE',

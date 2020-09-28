@@ -52,16 +52,10 @@
 @import path_provider;
 #endif
 
-#if __has_include(<screenshot_share/ScreenshotSharePlugin.h>)
-#import <screenshot_share/ScreenshotSharePlugin.h>
+#if __has_include(<screenshot_share_image/ScreenshotShareImagePlugin.h>)
+#import <screenshot_share_image/ScreenshotShareImagePlugin.h>
 #else
-@import screenshot_share;
-#endif
-
-#if __has_include(<share/FLTSharePlugin.h>)
-#import <share/FLTSharePlugin.h>
-#else
-@import share;
+@import screenshot_share_image;
 #endif
 
 #if __has_include(<shared_preferences/FLTSharedPreferencesPlugin.h>)
@@ -105,8 +99,7 @@
   [FLTFirebaseCorePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseCorePlugin"]];
   [FLTFirebaseDatabasePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseDatabasePlugin"]];
   [FLTPathProviderPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTPathProviderPlugin"]];
-  [ScreenshotSharePlugin registerWithRegistrar:[registry registrarForPlugin:@"ScreenshotSharePlugin"]];
-  [FLTSharePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTSharePlugin"]];
+  [ScreenshotShareImagePlugin registerWithRegistrar:[registry registrarForPlugin:@"ScreenshotShareImagePlugin"]];
   [FLTSharedPreferencesPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTSharedPreferencesPlugin"]];
   [SqflitePlugin registerWithRegistrar:[registry registrarForPlugin:@"SqflitePlugin"]];
   [FLTURLLauncherPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTURLLauncherPlugin"]];

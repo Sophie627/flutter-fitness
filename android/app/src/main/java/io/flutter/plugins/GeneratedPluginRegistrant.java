@@ -23,8 +23,7 @@ public final class GeneratedPluginRegistrant {
     flutterEngine.getPlugins().add(new io.flutter.plugins.firebase.core.FirebaseCorePlugin());
     flutterEngine.getPlugins().add(new io.flutter.plugins.firebase.database.FirebaseDatabasePlugin());
     flutterEngine.getPlugins().add(new io.flutter.plugins.pathprovider.PathProviderPlugin());
-      devansh.perfectbuzz.screenshotshare.ScreenshotSharePlugin.registerWith(shimPluginRegistry.registrarFor("devansh.perfectbuzz.screenshotshare.ScreenshotSharePlugin"));
-    flutterEngine.getPlugins().add(new io.flutter.plugins.share.SharePlugin());
+      mt.innovation.screenshotshareimage.ScreenshotShareImagePlugin.registerWith(shimPluginRegistry.registrarFor("mt.innovation.screenshotshareimage.ScreenshotShareImagePlugin"));
     flutterEngine.getPlugins().add(new io.flutter.plugins.sharedpreferences.SharedPreferencesPlugin());
     flutterEngine.getPlugins().add(new com.tekartik.sqflite.SqflitePlugin());
     flutterEngine.getPlugins().add(new io.flutter.plugins.urllauncher.UrlLauncherPlugin());
