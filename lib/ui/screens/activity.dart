@@ -18,6 +18,8 @@ class _ActivityScreenState extends State<ActivityScreen> {
   CalendarController _calendarController= CalendarController();
 
   List workoutData = [];
+  List workoutHistory = [];
+  List workoutName = [];
   List skillName = [];
   List skillRep = [];
   List skillDate = [];
@@ -40,7 +42,15 @@ class _ActivityScreenState extends State<ActivityScreen> {
             workoutData = data['workout'];
           }
         });
+        setState(() {
+          if( data['workoutHistory']  == null ) {
+            workoutHistory = [];
+          } else {
+            workoutHistory = data['workoutHistory'];
+          }
+        });
         handleWorkoutData(workoutData);
+        handleWorkoutHistory(workoutHistory);
         setState(() {
           isLoading = false;
         });
@@ -48,6 +58,16 @@ class _ActivityScreenState extends State<ActivityScreen> {
     }
   }
   
+  void handleWorkoutHistory(List data) {
+    data.forEach((element) {
+      if(workoutName.indexOf(element['name']) == -1) {
+        setState(() {
+          workoutName.add(element['name']);
+        });
+      }
+    });
+  }
+
   void handleWorkoutData(List data) {
     data.forEach((element) {
       if(skillName.indexOf(element['name']) == -1) {
@@ -209,7 +229,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
                         cardChild: Column(children: [
                             SizedBox(height: 25),
                           Text(
-                            '0',
+                            workoutName.length.toString(),
                             style: TextStyle(
                               fontSize: 35,
                               color: Colors.black,

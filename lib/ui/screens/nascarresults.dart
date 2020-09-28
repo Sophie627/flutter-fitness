@@ -17,9 +17,10 @@ class NascarResultsScreen extends StatefulWidget {
   Settings settings;
   List workout;
   List userWorkout;
+  List userWorkoutHistory;
   String name;
   
-  NascarResultsScreen({this.settings, this.workout, this.name, this.userWorkout});
+  NascarResultsScreen({this.settings, this.workout, this.name, this.userWorkout, this.userWorkoutHistory});
   @override
   _NascarResultsScreenState createState() => _NascarResultsScreenState();
 }
@@ -34,6 +35,8 @@ class _NascarResultsScreenState extends State<NascarResultsScreen> {
 
   void updateUserWorkout() async {
     List workoutData = widget.userWorkout;
+    List workoutHistory = widget.userWorkoutHistory;
+
     widget.workout.forEach((element) => { 
       workoutData.add({
         'name': element.name,
@@ -42,11 +45,20 @@ class _NascarResultsScreenState extends State<NascarResultsScreen> {
         "date": DateTime.now(),
       }),
     });
+    workoutHistory.add(
+      {
+        'name': widget.name,
+        'date': DateTime.now(),
+      }
+    );
     final FirebaseUser user = await FirebaseAuth.instance.currentUser();
     if (user != null) {
       Firestore.instance
       .document("users/${user.uid}")
       .updateData({'workout': workoutData});
+      Firestore.instance
+      .document("users/${user.uid}")
+      .updateData({'workoutHistory': workoutHistory});
     }
   }
 

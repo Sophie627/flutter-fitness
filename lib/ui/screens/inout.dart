@@ -74,6 +74,7 @@ class _InOutState extends State<InOut> {
   }
 
   List workoutData = [];
+  List workoutHistory = [];
 
   void fetchCurrentUserWorkoutData() async {
     final FirebaseUser user = await FirebaseAuth.instance.currentUser();
@@ -81,12 +82,19 @@ class _InOutState extends State<InOut> {
     if (user != null) {
       Firestore.instance.collection('users').document(user.uid).snapshots().listen((data) => { 
         print("--------------"),
-        print(data['workout']),
+        print(data['workoutHistory']),
         setState(() {
           if( data['workout']  == null ) {
             workoutData = [];
           } else {
             workoutData = data['workout'];
+          }
+        }),
+        setState(() {
+          if( data['workoutHistory']  == null ) {
+            workoutHistory = [];
+          } else {
+            workoutHistory = data['workoutHistory'];
           }
         }),
       });
@@ -704,6 +712,7 @@ class _InOutState extends State<InOut> {
                                     workout: _workout,
                                     name: widget.name,
                                     userWorkout: workoutData,
+                                    userWorkoutHistory: workoutHistory,
                                   )),
                               ); 
                             } else {
