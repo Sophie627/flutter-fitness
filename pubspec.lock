@@ -415,6 +415,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.24.1"
+  screenshot_share:
+    dependency: "direct main"
+    description:
+      name: screenshot_share
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.2"
   share:
     dependency: "direct main"
     description:

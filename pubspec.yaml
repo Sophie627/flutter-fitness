@@ -37,6 +37,7 @@ dependencies:
   localstorage: ^3.0.0
   share: ^0.6.5+2
   assets_audio_player: ^2.0.10
+  screenshot_share: ^0.0.2
   # firebase_admob: ^0.6.1
 
   # The following adds the Cupertino Icons font to your application.
