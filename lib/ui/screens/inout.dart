@@ -17,6 +17,7 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:onboarding_flow/models/settings.dart';
 import 'package:onboarding_flow/models/exercise.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:onboarding_flow/ui/screens/main_screen.dart';
 import 'package:onboarding_flow/ui/screens/nascarresults.dart';
 import 'package:onboarding_flow/ui/screens/settings_screen.dart';
 import 'package:onboarding_flow/ui/screens/preview_screen.dart';
@@ -201,7 +202,14 @@ class _InOutState extends State<InOut> {
             FlatButton(
               child: Text('Yes'),
               onPressed: () {
-                Navigator.of(context).popUntil(ModalRoute.withName('/main'));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MainScreen(
+                      //settings: widget.settings,
+                    )),
+                );
+                // Navigator.of(context).popUntil(ModalRoute.withName('/main'));
               },
             ),
             FlatButton(
@@ -234,10 +242,11 @@ class _InOutState extends State<InOut> {
   */
   void playMusic(String title, String method) {
     Future loadMusic() async {
-      AssetsAudioPlayer.newPlayer().open(
+      await AssetsAudioPlayer.newPlayer()
+      .open(
           Audio("assets/music/" + title + ".mp3"),
           autoStart: true,
-          showNotification: true,
+          // showNotification: true,
       );
       // var duration = await advancedPlayer.setAsset("music/" + title + ".mp3");
       // await advancedPlayer.play();
@@ -332,6 +341,7 @@ class _InOutState extends State<InOut> {
         _exerciseComment = "";
         _stageState = 'rest';
       });
+      
     } else {
       // if (normal) {
         setState(() {
@@ -347,6 +357,9 @@ class _InOutState extends State<InOut> {
       //     _stageState = 'rest';
       //   });
       // }
+    }
+    if (_exerciseData[_current]['voice'] != null && _exerciseData[_current]['voice']['rest'] != null && _exerciseData[_current]['voice']['rest'][_time.toString()] != null) {
+      playMusic(_exerciseData[_current]['voice']['rest'][_time.toString()], 'voice');
     }
     if (!_firstBuilding) {
       exerciseCarousel.animateToPage(_current,
@@ -376,6 +389,9 @@ class _InOutState extends State<InOut> {
       _exerciseComment = _exerciseData[index]['name'];
       _stageState = 'train';
     });
+    if (_exerciseData[_current]['voice'] != null && _exerciseData[_current]['voice']['train'] != null && _exerciseData[_current]['voice']['train'][_time.toString()] != null) {
+      playMusic(_exerciseData[_current]['voice']['train'][_time.toString()], 'voice');
+    }
     startTimer();
   }
 
@@ -409,10 +425,11 @@ class _InOutState extends State<InOut> {
                 type(String)  - current stage of exercise step
   */
   timeProcess(int time, String type) {
-    print("_time ${_time}");
-    if (_exerciseData[_current]['voice'] != null && _exerciseData[_current]['voice'][type] != null && _exerciseData[_current]['voice'][type][_time.toString()] != null) {
-      playMusic(_exerciseData[_current]['voice'][type][_time.toString()], 'voice');
+    
+    if (_exerciseData[_current]['voice'] != null && _exerciseData[_current]['voice'][type] != null && _exerciseData[_current]['voice'][type][(_time - 1).toString()] != null) {
+      playMusic(_exerciseData[_current]['voice'][type][(_time - 1).toString()], 'voice');
     }
+    print("_time ${_time}");
     switch (type) {
       case "train":
         if (time == (int.parse(_exerciseData[_current]['durationTime']) / 2).round()) {
@@ -462,6 +479,7 @@ class _InOutState extends State<InOut> {
       oneSec,
       (Timer timer) => setState(
         () {
+          timeProcess(_time, _stageState);
           if (_time < 1) {
             timer.cancel();
             switch (_stageState) {
@@ -475,7 +493,6 @@ class _InOutState extends State<InOut> {
             }
           } else {
             // print("_time ${_time}");
-            timeProcess(_time, _stageState);
             print(_time);
             _time = _time - 1;
           }
