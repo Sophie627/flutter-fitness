@@ -375,7 +375,7 @@ class _MainScreenState extends State<MainScreen> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      new Text("16Mins. | HIIT | Beginner",
+                      new Text(workout[i]['description'],
                         style: TextStyle(color: Colors.white),
                       ),
                     ],
