@@ -35,8 +35,9 @@ dependencies:
   url_launcher: ^5.4.10
   wakelock: ^0.1.4+1
   localstorage: ^3.0.0
-  # share: ^0.6.5+2
   assets_audio_player: ^2.0.10
+  # just_audio: ^0.5.0
+  # stereo: ^1.0.2
   screenshot_share_image: ^0.0.5
   # screenshot_share: ^0.0.2
   # firebase_admob: ^0.6.1
