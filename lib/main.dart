@@ -7,7 +7,6 @@ import 'package:onboarding_flow/ui/screens/sign_in_screen.dart';
 import 'package:onboarding_flow/ui/screens/sign_up_screen.dart';
 import 'package:onboarding_flow/ui/screens/main_screen.dart';
 import 'package:onboarding_flow/ui/screens/preview_screen.dart';
-// import 'package:onboarding_flow/ui/screens/exercise_screen.dart';
 import 'package:onboarding_flow/ui/screens/inout.dart';
 import 'package:onboarding_flow/ui/screens/report_screen.dart';
 import 'package:onboarding_flow/ui/screens/reset_password_screen.dart';
@@ -19,7 +18,6 @@ import 'package:onboarding_flow/ui/screens/nascarresults.dart';
 import 'package:onboarding_flow/ui/screens/profile.dart';
 import 'package:onboarding_flow/ui/screens/totalworkouts.dart';
 import 'package:onboarding_flow/ui/screens/welcome_screen.dart';
-// import 'package:onboarding_flow/ui/screens/settings_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -48,7 +46,6 @@ class MyApp extends StatelessWidget {
         '/signup': (BuildContext context) => new SignUpScreen(),
         '/main': (BuildContext context) => new MainScreen(),
         '/preview': (BuildContext context) => new Preview(),
-        // '/exercise': (BuildContext context) => new Exercise(),
         '/report': (BuildContext context) => new Report(),
         '/resetpassword': (BuildContext context) => new ResetPassword(),
         '/ready': (BuildContext context) => new Ready(),
@@ -65,7 +62,6 @@ class MyApp extends StatelessWidget {
       },
       theme: ThemeData(
         primaryColor: Colors.white,
-        // primarySwatch: Colors.grey,
         primarySwatch: Colors.green,
         accentColor: Colors.white,
       ),
@@ -74,11 +70,6 @@ class MyApp extends StatelessWidget {
   }
 
   Widget _handleCurrentScreen() {
-    // bool seen = (prefs.getBool('seen') ?? false);
-    // if (true) {
-      return new SplashScreen();
-    // } else {
-    //   return new WalkthroughScreen(prefs: prefs);
-    // }
+    return new SplashScreen();
   }
 }

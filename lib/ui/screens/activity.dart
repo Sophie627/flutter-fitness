@@ -20,6 +20,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
   List workoutData = [];
   List workoutHistory = [];
   List workoutName = [];
+  Map<DateTime, List<dynamic>> workoutDate = {};
   List skillName = [];
   List skillRep = [];
   List skillDate = [];
@@ -65,6 +66,13 @@ class _ActivityScreenState extends State<ActivityScreen> {
           workoutName.add(element['name']);
         });
       }
+      DateTime date = DateTime.fromMillisecondsSinceEpoch(element['date'].seconds * 1000);
+      DateTime tmp = DateTime(date.year, date.month, date.day);
+      if(workoutDate.keys.toList().indexOf(tmp) == -1 ) {
+        setState(() {
+          workoutDate.addAll({tmp : ['']});
+        });
+      }
     });
   }
 
@@ -103,7 +111,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(skillName);
+    print(workoutDate);
     return isLoading
     ? Container(
         color: Colors.white,
@@ -279,6 +287,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
                 flex: 3,
                 child: ReUseableCard(
                   cardChild: TableCalendar(
+                    events: workoutDate,
                     calendarController: _calendarController,
                     headerVisible: true,
                     locale: 'en_US',
