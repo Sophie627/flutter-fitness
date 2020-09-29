@@ -16,8 +16,17 @@ class Preview extends StatefulWidget {
   final int id;
   final String name;
   final String image;
+  final String description;
 
-  Preview({this.firebaseUser, this.settings, this.id, this.name, this.image});
+  Preview({
+    this.firebaseUser, 
+    this.settings, 
+    this.id, 
+    this.name, 
+    this.image,
+    this.description,
+  });
+
   _PreviewState createState() => _PreviewState();
 }
 
@@ -197,7 +206,7 @@ class _PreviewState extends State<Preview> {
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
-                                          new Text("16Mins. | HIIT | Beginner",
+                                          new Text(widget.description,
                                             style: TextStyle(color: Colors.white),
                                           ),
                                         ],

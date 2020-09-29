@@ -392,6 +392,7 @@ class _MainScreenState extends State<MainScreen> {
                     id: workout[i]['workoutID'],
                     name: workout[i]['name'],
                     image: workout[i]['image'],
+                    description: workout[i]['description'],
                   )),
               ); 
             },

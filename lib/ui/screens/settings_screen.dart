@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onboarding_flow/models/settings.dart';
-import 'package:onboarding_flow/ui/screens/exercise_screen.dart';
+// import 'package:onboarding_flow/ui/screens/exercise_screen.dart';
 import 'package:onboarding_flow/ui/screens/main_screen.dart';
 import '../../globals.dart' as globals;
 
