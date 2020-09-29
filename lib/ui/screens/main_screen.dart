@@ -71,7 +71,8 @@ class _MainScreenState extends State<MainScreen> {
 
     return DefaultTabController(
       length: 2, 
-      child: new Scaffold(
+      child: WillPopScope(
+        child: new Scaffold(
           key: _scaffoldKey,
           appBar: new AppBar(
             elevation: 0.5,
@@ -230,8 +231,15 @@ class _MainScreenState extends State<MainScreen> {
             indicatorColor: Colors.black,
           ),
           backgroundColor: Colors.white,
-        ),
-      );
+        ), 
+        onWillPop: () async {
+          if (Navigator.of(context).userGestureInProgress)
+            return false;
+          else
+            return true;
+        },
+      ),
+    );
     
   }
 
