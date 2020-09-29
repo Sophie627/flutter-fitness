@@ -22,6 +22,7 @@ public final class GeneratedPluginRegistrant {
     flutterEngine.getPlugins().add(new io.flutter.plugins.firebaseauth.FirebaseAuthPlugin());
     flutterEngine.getPlugins().add(new io.flutter.plugins.firebase.core.FirebaseCorePlugin());
     flutterEngine.getPlugins().add(new io.flutter.plugins.firebase.database.FirebaseDatabasePlugin());
+    flutterEngine.getPlugins().add(new com.ryanheise.just_audio.JustAudioPlugin());
     flutterEngine.getPlugins().add(new io.flutter.plugins.pathprovider.PathProviderPlugin());
       mt.innovation.screenshotshareimage.ScreenshotShareImagePlugin.registerWith(shimPluginRegistry.registrarFor("mt.innovation.screenshotshareimage.ScreenshotShareImagePlugin"));
     flutterEngine.getPlugins().add(new io.flutter.plugins.sharedpreferences.SharedPreferencesPlugin());

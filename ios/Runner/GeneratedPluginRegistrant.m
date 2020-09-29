@@ -46,6 +46,12 @@
 @import firebase_database;
 #endif
 
+#if __has_include(<just_audio/JustAudioPlugin.h>)
+#import <just_audio/JustAudioPlugin.h>
+#else
+@import just_audio;
+#endif
+
 #if __has_include(<path_provider/FLTPathProviderPlugin.h>)
 #import <path_provider/FLTPathProviderPlugin.h>
 #else
@@ -98,6 +104,7 @@
   [FLTFirebaseAuthPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseAuthPlugin"]];
   [FLTFirebaseCorePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseCorePlugin"]];
   [FLTFirebaseDatabasePlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTFirebaseDatabasePlugin"]];
+  [JustAudioPlugin registerWithRegistrar:[registry registrarForPlugin:@"JustAudioPlugin"]];
   [FLTPathProviderPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTPathProviderPlugin"]];
   [ScreenshotShareImagePlugin registerWithRegistrar:[registry registrarForPlugin:@"ScreenshotShareImagePlugin"]];
   [FLTSharedPreferencesPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTSharedPreferencesPlugin"]];
