@@ -253,8 +253,10 @@ class _InOutState extends State<InOut> {
   */
   void playMusic(String title, String method) {
     Future loadMusic() async {
+      print(globals.volume);
       final player = AudioPlayer();
       await player.setAsset("assets/music/" + title + ".mp3");
+      await player.setVolume(globals.volume);
       player.play();
       // await AssetsAudioPlayer.withId(_time.toString())
       // .open(

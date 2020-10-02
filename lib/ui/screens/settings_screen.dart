@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:onboarding_flow/models/settings.dart';
+// import 'package:flutter_volume_slider/flutter_volume_slider.dart';
 // import 'package:onboarding_flow/ui/screens/exercise_screen.dart';
 import 'package:onboarding_flow/ui/screens/main_screen.dart';
 import '../../globals.dart' as globals;
@@ -16,9 +17,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
     sound: globals.sound,
     voice: globals.voice,
     nightTheme: globals.nightTheme,
+    volume: globals.volume,
   );
 
   bool checked = false;
+  double value = globals.volume;
   // String switchTextSound = "OFF";
   // String switchTextVoice = "ON";
 
@@ -29,22 +32,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // if (!checked && widget.settings != null) {
-    //   if (!widget.settings.sound) {
-    //     setState(() {
-    //       settings.sound = false;
-    //       switchTextSound = "OFF";
-    //       checked = true;
-    //     });
-    //   }
-    //   if (!widget.settings.voice) {
-    //     setState(() {
-    //       settings.voice = false;
-    //       switchTextVoice = "OFF";
-    //       checked = true;
-    //     });
-    //   }
-    // }
     return DefaultTabController(
       length: 2, 
       child: new Scaffold(
@@ -165,6 +152,39 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ),
                       ),
                     ],
+                  ),
+                ),
+                new Text("VOLUME",
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                new Padding(
+                  padding: EdgeInsets.fromLTRB(0, 10.0, 0, 10.0),
+                  child: Center(
+                    child: Row(
+                      children: <Widget>[
+                        Icon(Icons.volume_up),
+                        Expanded(
+                          child: Slider(
+                            value: value,
+                            min: 1,
+                            max: 10,
+                            divisions: 9,
+                            activeColor: Colors.lightGreen,
+                            inactiveColor: Colors.white54,
+                            label: "Volume $value",
+                            onChanged: (_value){
+                              globals.volume = _value;
+                              setState((){
+                                value = _value;
+                              });
+                              print(_value);
+                            },
+                          ),)
+                      ],
+                    ),
                   ),
                 ),
               ],
