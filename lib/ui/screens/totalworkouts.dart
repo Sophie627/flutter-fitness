@@ -55,10 +55,6 @@ class _TotalWorkoutsState extends State<TotalWorkouts> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => ChartScreen(
-                          // workout: _workout,
-                          // name: widget.name,
-                          // userWorkout: workoutData,
-                          // userWorkoutHistory: workoutHistory,
                         )),
                     );
                   }),

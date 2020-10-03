@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:bezier_chart/bezier_chart.dart';
 
 class ChartScreen extends StatefulWidget {
   @override
@@ -28,8 +29,8 @@ class _ChartScreenState extends State<ChartScreen> {
           Row(
             children: <Widget>[
               Image.asset(
-                'assets/burpees.gif',
-                fit: BoxFit.cover,
+                'assets/images/1.gif',
+                fit: BoxFit.fitWidth,
                 height: 150,
                 width: 150,
               ),
@@ -91,184 +92,70 @@ class _ChartScreenState extends State<ChartScreen> {
               ),
             ),
           ),
-          Divider(
-            thickness: 1,
-          ),
-          Expanded(
-            child: GridView.count(
-              primary: false,
-              padding: const EdgeInsets.all(20),
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              crossAxisCount: 4,
-              children: <Widget>[
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: Colors.grey.shade300,
-                    ),
-                  ),
-                  child: GridTile(
-                    header: Text(
-                      '44',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.blue,
-                      ),
-                    ),
-                    child: Text(''),
-                    footer: Text(
-                      DateFormat.yMMMd().format(DateTime.now()),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 10,
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: Colors.grey.shade300,
-                    ),
-                  ),
-                  child: GridTile(
-                    header: Text(
-                      '45',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.blue,
-                      ),
-                    ),
-                    child: Text(''),
-                    footer: Text(
-                      DateFormat.yMMMd().format(DateTime.now()),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 10,
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: Colors.grey.shade300,
-                    ),
-                  ),
-                  child: GridTile(
-                    header: Text(
-                      '47',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.blue,
-                      ),
-                    ),
-                    child: Text(''),
-                    footer: Text(
-                      DateFormat.yMMMd().format(DateTime.now()),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 10,
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: Colors.grey.shade300,
-                    ),
-                  ),
-                  child: GridTile(
-                    header: Text(
-                      '46',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.blue,
-                      ),
-                    ),
-                    child: Text(''),
-                    footer: Text(
-                      DateFormat.yMMMd().format(DateTime.now()),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 10,
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: Colors.grey.shade300,
-                    ),
-                  ),
-                  child: GridTile(
-                    header: Text(
-                      '49',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.blue,
-                      ),
-                    ),
-                    child: Text(''),
-                    footer: Text(
-                      DateFormat.yMMMd().format(DateTime.now()),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 10,
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: Colors.grey.shade300,
-                    ),
-                  ),
-                  child: GridTile(
-                    header: Text(
-                      '50',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.blue,
-                      ),
-                    ),
-                    child: Text(''),
-                    footer: Text(
-                      DateFormat.yMMMd().format(DateTime.now()),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 10,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          )
+          sample3(context),
         ],
       ),
+    );
+  }
+
+  Widget sample3(BuildContext context) {
+    final fromDate = DateTime(2019, 05, 22);
+    final toDate = DateTime.now();
+    final date1 = DateTime.now().subtract(Duration(days: 2));
+    final date2 = DateTime.now().subtract(Duration(days: 3));
+    return Expanded(
+      child: Center(
+        child: Container(
+          color: Colors.red,
+          height: MediaQuery.of(context).size.height / 2,
+          width: MediaQuery.of(context).size.width,
+          child: BezierChart(
+            fromDate: fromDate,
+            bezierChartScale: BezierChartScale.WEEKLY,
+            toDate: toDate,
+            onIndicatorVisible: (val) {
+              print("Indicator Visible :$val");
+            },
+            onDateTimeSelected: (datetime) {
+              print("selected datetime: $datetime");
+            },
+            onScaleChanged: (scale) {
+              print("Scale: $scale");
+            },
+            selectedDate: toDate,
+            //this is optional
+            footerDateTimeBuilder: (DateTime value, BezierChartScale scaleType) {
+              final newFormat = DateFormat('dd/MM');
+              return newFormat.format(value);
+            },
+            series: [
+              BezierLine(
+                label: "Duty",
+                onMissingValue: (dateTime) {
+                  if (dateTime.day.isEven) {
+                    return 10.0;
+                  }
+                  return 5.0;
+                },
+                data: [
+                  DataPoint<DateTime>(value: 10, xAxis: date1),
+                  DataPoint<DateTime>(value: 50, xAxis: date2),
+                ],
+              ),
+            ],
+            config: BezierChartConfig(
+              displayDataPointWhenNoValue: false,
+              verticalIndicatorStrokeWidth: 3.0,
+              pinchZoom: true,
+              physics: ClampingScrollPhysics(),
+              verticalIndicatorColor: Colors.black26,
+              showVerticalIndicator: true,
+              verticalIndicatorFixedPosition: false,
+              backgroundColor: Colors.red,
+            ),
+          ),
+        ),
+      )
     );
   }
 }
