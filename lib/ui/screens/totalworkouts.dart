@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:onboarding_flow/ui/screens/activity.dart';
 import 'package:onboarding_flow/models/settings.dart';
+import 'package:onboarding_flow/ui/screens/chart_screen.dart';
 
 class TotalWorkouts extends StatefulWidget {
   Settings settings;
@@ -41,11 +42,28 @@ class _TotalWorkoutsState extends State<TotalWorkouts> {
                   ),
                 ],
               ),
-                trailing: Text(widget.skillRep[i].toString() + " Reps",
-                  style: TextStyle(
-                    fontSize: 18,
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Text(widget.skillRep[i].toString() + " Reps",
+                    style: TextStyle(
+                      fontSize: 18,
+                    ),
                   ),
-                ),
+                  IconButton(icon: Icon(Icons.arrow_forward_ios), onPressed: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChartScreen(
+                          // workout: _workout,
+                          // name: widget.name,
+                          // userWorkout: workoutData,
+                          // userWorkoutHistory: workoutHistory,
+                        )),
+                    );
+                  }),
+                ],
+              ), 
             ),
             Divider(),
           ],

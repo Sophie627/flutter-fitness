@@ -256,18 +256,8 @@ class _InOutState extends State<InOut> {
       print(globals.volume);
       final player = AudioPlayer();
       await player.setAsset("assets/music/" + title + ".mp3");
-      await player.setVolume(globals.volume);
+      globals.volume > 5 ? await player.setVolume(globals.volume - 4) : await player.setVolume(1 / (6 - globals.volume));
       player.play();
-      // await AssetsAudioPlayer.withId(_time.toString())
-      // .open(
-      //     Audio("assets/music/" + title + ".mp3"),
-      //     // autoStart: true,
-      //     // showNotification: true,
-      // );
-      // var duration = await advancedPlayer.setAsset("music/" + title + ".mp3");
-      // await advancedPlayer.play();
-      // advancedPlayer = await AudioCache().play("music/" + title + ".mp3");
-
     }
 
     if (method == "sound") {
@@ -320,21 +310,6 @@ class _InOutState extends State<InOut> {
         // _workout = new List(_exerciseData.length);
       });
       print("-----------");
-      // _exerciseData.forEach((element) { 
-      //   if(element['voice'] != null) {
-      //     print("voice ${element['voice']}");
-      //     if(element['voice']['rest'] != null) {
-      //       element['voice']['rest'].values.toList().forEach((musicName) async {
-      //         await AudioCache().load("music/" + musicName + ".mp3");
-      //       });
-      //     }
-      //     if(element['voice']['train'] != null) {
-      //       element['voice']['train'].values.toList().forEach((musicName) async {
-      //         await AudioCache().load("music/" + musicName + ".mp3");
-      //       });
-      //     }
-      //   }
-      // });
     });
   }
 
