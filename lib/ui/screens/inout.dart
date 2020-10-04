@@ -635,226 +635,234 @@ class _InOutState extends State<InOut> {
     return Container(
       color: _nightMode ? Colors.black : Colors.white,
       child: SafeArea(
-        child: Scaffold(
-          body: SlidingUpPanel(
-            isDraggable: false,
-            minHeight: 0.0,
-            maxHeight: 370.0,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
-            controller: _pc,
-            panel: new Container(
-              // color: Colors.transparent,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(color: Colors.black.withOpacity(0.6), spreadRadius: 2000),
-                ],
-              ),
-              padding: const EdgeInsets.all(10.0),
-              child: new Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  new Text("How many?",
-                    style: TextStyle(
-                      fontSize: 30.0,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF3A5998),
-                    ),
-                  ),
-                  new Container(
-                    width: 200.0,
-                    child: new TextField(
-                      controller: txt,
-                      textAlign: TextAlign.center,
+        child: WillPopScope(
+          child: Scaffold(
+            body: SlidingUpPanel(
+              isDraggable: false,
+              minHeight: 0.0,
+              maxHeight: 370.0,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
+              controller: _pc,
+              panel: new Container(
+                // color: Colors.transparent,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(color: Colors.black.withOpacity(0.6), spreadRadius: 2000),
+                  ],
+                ),
+                padding: const EdgeInsets.all(10.0),
+                child: new Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    new Text("How many?",
                       style: TextStyle(
-                        fontSize: 100,
-                        fontFamily: 'HK Grotesk',
-                      ),
-                      focusNode: myFocusNode,
-                      keyboardType: TextInputType.number,
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: ButtonTheme(
-                      minWidth: 120.0,
-                      // height: 100.0,
-                      child: CustomFlatButton(
-                        title: "Save",
-                        fontSize: 20,
-                        textColor: Colors.white,
-                        onPressed: () {
-                          if (txt.text != '') {
-                            storeExerciseTimeRep(int.parse(txt.text), false);
-                            if (_current == _exerciseData.length - 1) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => NascarResultsScreen(
-                                    workout: _workout,
-                                    name: widget.name,
-                                    userWorkout: workoutData,
-                                    userWorkoutHistory: workoutHistory,
-                                  )),
-                              ); 
-                            } else {
-                              setState(() {
-                                _current = _current + 1;
-                              });
-                              _pc.close();
-                              myFocusNode.unfocus();
-                              exerciseRest(_current, true);
-                            }
-                          }
-                        },
-                        splashColor: Colors.black12,
-                        borderColor: Colors.black,
-                        borderWidth: 0,
-                        color: Colors.black,
+                        fontSize: 30.0,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF3A5998),
                       ),
                     ),
-                  ),
-                ],
-              )
-            ),
-            body: Container(
-              color: _nightMode ? Colors.black : Colors.white,
-              child: Column(
-                children: <Widget>[
-                  ListTile(
-                    leading: IconButton(
-                      color: _nightMode ? Colors.white : Colors.grey,
-                      icon: Icon(Icons.arrow_back), 
-                      onPressed: (){
-                        displayEndWorkoutDialog();
-                      }),
-                    title: Center(
-                      child: Text(
-                        widget.name.toUpperCase(),
+                    new Container(
+                      width: 200.0,
+                      child: new TextField(
+                        controller: txt,
+                        textAlign: TextAlign.center,
                         style: TextStyle(
-                          color: _nightMode ? Colors.white : Colors.grey,
-                          fontSize: 12,
+                          fontSize: 100,
+                          fontFamily: 'HK Grotesk',
                         ),
-                      )
-                    ),
-                    subtitle: Center(
-                      child: Text(
-                        _exerciseData[_current]['name'],
-                        style: TextStyle(
-                          color: _nightMode ? Colors.white : Colors.grey.shade800,
-                          fontSize: 12,
-                        ),
-                      )
-                    ),
-                    trailing:IconButton(
-                      color: _nightMode ? Colors.white : Colors.black,
-                      icon: Icon(Icons.more_vert), 
-                      onPressed: (){
-                        globals.exerciseScreen = true;
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SettingsScreen(
-                            )),
-                        );
-                        // _timer.cancel();
-                         
-                    }),
-                  ),
-                  // exerciseCarousel,
-                  Expanded(
-                    child: exerciseCarousel
-                  ),
-                  Text(
-                    _exerciseComment,
-                    style: TextStyle(
-                      color: _nightMode ? Colors.white : Colors.grey,
-                      fontSize: 18,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 25,
-                  ),
-                  _carouselIndicator(),
-                  SizedBox(
-                    height: 50,
-                  ),
-                  Text(
-                    '0:' + stringTime,
-                    style: TextStyle(
-                      color: _nightMode ? Colors.white : Colors.grey.shade800,
-                      fontSize: 40,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(60, 0, 60, 15),
-                    child: Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          IconButton(
-                            color: _nightMode ? Colors.white : Colors.black,
-                            icon: Icon(Icons.refresh,size: 30,), onPressed: (){
-                              displayRepeatExerciseDialog();
-                          }),
-                          IconButton(icon: _prevIcon(), onPressed: (){
-                            if (_current != 0){
-                              _timer.cancel();
-                              storeExerciseTimeRep(0, true);
-                              setState(() {
-                                _current = _current - 1;
-                                _playState = true;
-                              });
-                              exerciseRest(_current, false);
-                            }
-                          }),
-                          _playPauseButton(),
-                          IconButton(icon: _nextIcon(), onPressed: (){
-                            if (_current != _exerciseData.length - 1) {
-                              _timer.cancel();
-                              storeExerciseTimeRep(0, true);
-                              setState(() {
-                                _current = _current + 1;
-                                _playState = true;
-                              });
-                              exerciseRest(_current, false);
-                            }
-                          }),
-                          IconButton(
-                            color: _nightMode ? Colors.black : Colors.white,
-                            icon: Icon(Icons.stop,size: 30,), onPressed: (){
-                            // displayEndWorkoutDialog();
-                          }),
-                        ],
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(1000),
-                        // borderRadius: BorderRadius.circular(10),
-                        color: _nightMode ? Colors.black :Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 3,
-                            blurRadius: 5,
-                            offset: Offset(0, 0), // changes position of shadow
-                          ),
-                          // BoxShadow(color: Colors.green, spreadRadius: 3),
-                        ],
+                        focusNode: myFocusNode,
+                        keyboardType: TextInputType.number,
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 100,
-                  ),
-                ],
+                    Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: ButtonTheme(
+                        minWidth: 120.0,
+                        // height: 100.0,
+                        child: CustomFlatButton(
+                          title: "Save",
+                          fontSize: 20,
+                          textColor: Colors.white,
+                          onPressed: () {
+                            if (txt.text != '') {
+                              storeExerciseTimeRep(int.parse(txt.text), false);
+                              if (_current == _exerciseData.length - 1) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => NascarResultsScreen(
+                                      workout: _workout,
+                                      name: widget.name,
+                                      userWorkout: workoutData,
+                                      userWorkoutHistory: workoutHistory,
+                                    )),
+                                ); 
+                              } else {
+                                setState(() {
+                                  _current = _current + 1;
+                                });
+                                _pc.close();
+                                myFocusNode.unfocus();
+                                exerciseRest(_current, true);
+                              }
+                            }
+                          },
+                          splashColor: Colors.black12,
+                          borderColor: Colors.black,
+                          borderWidth: 0,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
               ),
+              body: Container(
+                color: _nightMode ? Colors.black : Colors.white,
+                child: Column(
+                  children: <Widget>[
+                    ListTile(
+                      leading: IconButton(
+                        color: _nightMode ? Colors.white : Colors.grey,
+                        icon: Icon(Icons.arrow_back), 
+                        onPressed: (){
+                          displayEndWorkoutDialog();
+                        }),
+                      title: Center(
+                        child: Text(
+                          widget.name.toUpperCase(),
+                          style: TextStyle(
+                            color: _nightMode ? Colors.white : Colors.grey,
+                            fontSize: 12,
+                          ),
+                        )
+                      ),
+                      subtitle: Center(
+                        child: Text(
+                          _exerciseData[_current]['name'],
+                          style: TextStyle(
+                            color: _nightMode ? Colors.white : Colors.grey.shade800,
+                            fontSize: 12,
+                          ),
+                        )
+                      ),
+                      trailing:IconButton(
+                        color: _nightMode ? Colors.white : Colors.black,
+                        icon: Icon(Icons.more_vert), 
+                        onPressed: (){
+                          globals.exerciseScreen = true;
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SettingsScreen(
+                              )),
+                          );
+                          // _timer.cancel();
+                          
+                      }),
+                    ),
+                    // exerciseCarousel,
+                    Expanded(
+                      child: exerciseCarousel
+                    ),
+                    Text(
+                      _exerciseComment,
+                      style: TextStyle(
+                        color: _nightMode ? Colors.white : Colors.grey,
+                        fontSize: 18,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 25,
+                    ),
+                    _carouselIndicator(),
+                    SizedBox(
+                      height: 50,
+                    ),
+                    Text(
+                      '0:' + stringTime,
+                      style: TextStyle(
+                        color: _nightMode ? Colors.white : Colors.grey.shade800,
+                        fontSize: 40,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(60, 0, 60, 15),
+                      child: Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            IconButton(
+                              color: _nightMode ? Colors.white : Colors.black,
+                              icon: Icon(Icons.refresh,size: 30,), onPressed: (){
+                                displayRepeatExerciseDialog();
+                            }),
+                            IconButton(icon: _prevIcon(), onPressed: (){
+                              if (_current != 0){
+                                _timer.cancel();
+                                storeExerciseTimeRep(0, true);
+                                setState(() {
+                                  _current = _current - 1;
+                                  _playState = true;
+                                });
+                                exerciseRest(_current, false);
+                              }
+                            }),
+                            _playPauseButton(),
+                            IconButton(icon: _nextIcon(), onPressed: (){
+                              if (_current != _exerciseData.length - 1) {
+                                _timer.cancel();
+                                storeExerciseTimeRep(0, true);
+                                setState(() {
+                                  _current = _current + 1;
+                                  _playState = true;
+                                });
+                                exerciseRest(_current, false);
+                              }
+                            }),
+                            IconButton(
+                              color: _nightMode ? Colors.black : Colors.white,
+                              icon: Icon(Icons.stop,size: 30,), onPressed: (){
+                              // displayEndWorkoutDialog();
+                            }),
+                          ],
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(1000),
+                          // borderRadius: BorderRadius.circular(10),
+                          color: _nightMode ? Colors.black :Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 3,
+                              blurRadius: 5,
+                              offset: Offset(0, 0), // changes position of shadow
+                            ),
+                            // BoxShadow(color: Colors.green, spreadRadius: 3),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 100,
+                    ),
+                  ],
+                ),
+              ),
+              
             ),
-            
           ),
+          onWillPop: () async {
+            if (Navigator.of(context).userGestureInProgress)
+              return false;
+            else
+              return true;
+          },
         ),
       ),
     );
