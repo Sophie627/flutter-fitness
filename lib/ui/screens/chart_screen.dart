@@ -103,59 +103,61 @@ class _ChartScreenState extends State<ChartScreen> {
     final toDate = DateTime.now();
     final date1 = DateTime.now().subtract(Duration(days: 2));
     final date2 = DateTime.now().subtract(Duration(days: 3));
-    return Expanded(
-      child: Center(
-        child: Container(
-          color: Colors.red,
-          height: MediaQuery.of(context).size.height / 2,
-          width: MediaQuery.of(context).size.width,
-          child: BezierChart(
-            fromDate: fromDate,
-            bezierChartScale: BezierChartScale.WEEKLY,
-            toDate: toDate,
-            onIndicatorVisible: (val) {
-              print("Indicator Visible :$val");
-            },
-            onDateTimeSelected: (datetime) {
-              print("selected datetime: $datetime");
-            },
-            onScaleChanged: (scale) {
-              print("Scale: $scale");
-            },
-            selectedDate: toDate,
-            //this is optional
-            footerDateTimeBuilder: (DateTime value, BezierChartScale scaleType) {
-              final newFormat = DateFormat('dd/MM');
-              return newFormat.format(value);
-            },
-            series: [
-              BezierLine(
-                label: "Duty",
-                onMissingValue: (dateTime) {
-                  if (dateTime.day.isEven) {
-                    return 10.0;
-                  }
-                  return 5.0;
-                },
-                data: [
-                  DataPoint<DateTime>(value: 10, xAxis: date1),
-                  DataPoint<DateTime>(value: 50, xAxis: date2),
-                ],
-              ),
-            ],
-            config: BezierChartConfig(
-              displayDataPointWhenNoValue: false,
-              verticalIndicatorStrokeWidth: 3.0,
-              pinchZoom: true,
-              physics: ClampingScrollPhysics(),
-              verticalIndicatorColor: Colors.black26,
-              showVerticalIndicator: true,
-              verticalIndicatorFixedPosition: false,
-              backgroundColor: Colors.red,
+    return Center(
+      child: Container(
+        color: Colors.red,
+        height: MediaQuery.of(context).size.height / 2,
+        width: MediaQuery.of(context).size.width,
+        child: BezierChart(
+          fromDate: fromDate,
+          bezierChartScale: BezierChartScale.WEEKLY,
+          toDate: toDate,
+          onIndicatorVisible: (val) {
+            print("Indicator Visible :$val");
+          },
+          onDateTimeSelected: (datetime) {
+            print("selected datetime: $datetime");
+          },
+          onScaleChanged: (scale) {
+            print("Scale: $scale");
+          },
+          selectedDate: toDate,
+          //this is optional
+          footerDateTimeBuilder: (DateTime value, BezierChartScale scaleType) {
+            final newFormat = DateFormat('dd/MM');
+            return newFormat.format(value);
+          },
+          series: [
+            BezierLine(
+              lineColor: Colors.black,
+              label: "Duty",
+              onMissingValue: (dateTime) {
+                if (dateTime.day.isEven) {
+                  return 10.0;
+                }
+                return 5.0;
+              },
+              data: [
+                DataPoint<DateTime>(value: 10, xAxis: date1),
+                DataPoint<DateTime>(value: 50, xAxis: date2),
+              ],
+            ),
+          ],
+          config: BezierChartConfig(
+            displayDataPointWhenNoValue: false,
+            verticalIndicatorStrokeWidth: 3.0,
+            pinchZoom: true,
+            physics: ClampingScrollPhysics(),
+            verticalIndicatorColor: Colors.black,
+            showVerticalIndicator: true,
+            verticalIndicatorFixedPosition: false,
+            backgroundColor: Colors.white,
+            xAxisTextStyle: TextStyle(
+              color: Colors.black
             ),
           ),
         ),
-      )
+      ),
     );
   }
 }
