@@ -96,7 +96,7 @@ class _NascarResultsScreenState extends State<NascarResultsScreen> {
       }
     }
     print('totalTime ${totalTime}');
-    workoutTime = (totalTime ~/ 60).toString() + ':' + (totalTime % 60).toString();
+    workoutTime = (totalTime ~/ 60).toString() + (totalTime % 60 < 10 ? ':0' : ':') + (totalTime % 60).toString();
   }
 
   @override
@@ -139,22 +139,52 @@ class _NascarResultsScreenState extends State<NascarResultsScreen> {
                         ),
                       ),
                       getExerciseListWidgets(widget.workout),
-                      Center(
-                        child: Text(
-                          'Total Reps',
-                          style: TextStyle(
-                            fontSize: 16,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Column(
+                            children: <Widget>[
+                              Center(
+                                child: Text(
+                                  'Total Reps',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                              Center(
+                                child: Text(
+                                  totalSteps.toString(),
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                      ),
-                      Center(
-                        child: Text(
-                          totalSteps.toString(),
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                          Column(
+                            children: <Widget>[
+                              Center(
+                                child: Text(
+                                  'Total Touches',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                              Center(
+                                child: Text(
+                                  totalSteps.toString(),
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
+                        ],
                       ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
