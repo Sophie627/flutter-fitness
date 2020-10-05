@@ -23,43 +23,40 @@ class _TotalWorkoutsState extends State<TotalWorkouts> {
       skillLists.add(
         Column(
           children: <Widget>[
-            ListTile(
-              dense:true, 
-              contentPadding: EdgeInsets.symmetric(horizontal: 16.0,vertical:0,),
-              leading: Column(
-                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment:  CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    DateFormat.yMMMd().format(widget.skillDate[i].toDate()),
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 10,
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChartScreen(
+                    )),
+                );
+              },
+              child: ListTile(
+                dense:true, 
+                contentPadding: EdgeInsets.symmetric(horizontal: 16.0,vertical:0,),
+                leading: Column(
+                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment:  CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      DateFormat.yMMMd().format(widget.skillDate[i].toDate()),
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 10,
+                      ),
+                      ),
+                    Text(
+                      widget.skillName[i]
                     ),
-                    ),
-                  Text(
-                    widget.skillName[i]
+                  ],
+                ),
+                trailing: Text(widget.skillRep[i].toString() + " Reps",
+                  style: TextStyle(
+                    fontSize: 18,
                   ),
-                ],
+                ),
               ),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Text(widget.skillRep[i].toString() + " Reps",
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
-                  ),
-                  IconButton(icon: Icon(Icons.arrow_forward_ios), onPressed: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ChartScreen(
-                        )),
-                    );
-                  }),
-                ],
-              ), 
             ),
             Divider(),
           ],

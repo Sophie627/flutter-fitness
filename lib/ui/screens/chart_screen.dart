@@ -8,7 +8,7 @@ class ChartScreen extends StatefulWidget {
 }
 
 class _ChartScreenState extends State<ChartScreen> {
-  bool isSwitched = false;
+  bool isSwitched = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -80,12 +80,12 @@ class _ChartScreenState extends State<ChartScreen> {
             padding: const EdgeInsets.all(8.0),
             child: MaterialButton(
               onPressed: () {},
-              minWidth: 300.0,
+              minWidth: MediaQuery.of(context).size.width * 0.85,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5.0)),
               color: Colors.blue,
               child: Text(
-                'Live Exercise',
+                'LIVE VIEW',
                 style: TextStyle(
                   color: Colors.white,
                 ),
