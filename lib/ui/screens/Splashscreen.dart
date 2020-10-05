@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:onboarding_flow/ui/screens/main_screen.dart';
@@ -20,6 +21,18 @@ class SplashState extends State<SplashScreen> {
   
   @override
   Widget build(BuildContext context) {
+
+    //preloading images...
+    Firestore.instance.collection('workout').orderBy('workoutID').snapshots().listen((data) => {
+      data.documents.forEach((doc) {
+        precacheImage(NetworkImage(doc['image']), context);
+      }),
+    });
+    Firestore.instance.collection('skill').snapshots().listen((data) => {
+      data.documents.forEach((doc) {
+        precacheImage(NetworkImage(doc['url']), context);
+      }),
+    });
    
     return Scaffold(
       body: initScreen(context),

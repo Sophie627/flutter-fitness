@@ -33,6 +33,29 @@ class Preview extends StatefulWidget {
 class _PreviewState extends State<Preview> {
 
   VoidCallback onBackPress;
+  List exerciseData = [];
+  List skillData = [];
+  bool isLoading = true;
+ 
+  fetchExerciseData() async {
+    Firestore.instance.collection('exercise' + widget.id.toString()).orderBy('no').snapshots().listen((data) {
+      data.documents.forEach((doc) {
+        exerciseData.add(doc);
+        Firestore.instance.collection('skill').document(doc['skillID']).snapshots().listen((data) {
+          skillData.add(data);
+          setState(() {
+            skillData = skillData;
+          });
+        });
+      });
+      setState(() {
+        exerciseData = exerciseData;
+      });
+    });
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   /*
     Future<void> _getReadyDialog() async
@@ -101,6 +124,7 @@ class _PreviewState extends State<Preview> {
   void initState() {
 
     super.initState();
+    fetchExerciseData();
     print(widget.settings);
   }
 
@@ -112,13 +136,13 @@ class _PreviewState extends State<Preview> {
 
   var now = new DateTime.now();
 
-  Widget _buildList(BuildContext context, DocumentSnapshot document) {
+  Widget _buildList(int index) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 20.0),
       child: Row(
         children: <Widget>[
           new Image.network(
-            document['url'],
+            skillData[index]['url'],
             height: 100.0,
           ),
           
@@ -128,7 +152,7 @@ class _PreviewState extends State<Preview> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 new Text(
-                  document['name'],
+                  skillData[index]['name'],
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 new Text("Rest"),
@@ -140,8 +164,8 @@ class _PreviewState extends State<Preview> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                new Text(document['durationTime'] + "s"),
-                new Text(document['restTime'] + "s"),
+                new Text(exerciseData[index]['durationTime'] + "s"),
+                new Text(exerciseData[index]['restTime'] + "s"),
               ],
             ),
           ),
@@ -152,6 +176,7 @@ class _PreviewState extends State<Preview> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -173,7 +198,7 @@ class _PreviewState extends State<Preview> {
               child: StreamBuilder(
                 stream: Firestore.instance.collection('exercise' + widget.id.toString()).orderBy('no').snapshots(),
                 builder: (context, snapshot) {
-                  if (!snapshot.hasData) {
+                  if (!snapshot.hasData || isLoading) {
                     return Text("Loading...");
                   }
                   return new ListView.builder(
@@ -250,7 +275,7 @@ class _PreviewState extends State<Preview> {
                           ),
                         );
                       } else {
-                        if(snapshot.data.documents[index - 1]['url'] != null) return _buildList(context, snapshot.data.documents[index - 1]);
+                        if(snapshot.data.documents[index - 1]['url'] != null) return _buildList(index - 1);
                       }
                     },
                   ); 
