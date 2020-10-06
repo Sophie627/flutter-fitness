@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:bezier_chart/bezier_chart.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class ChartScreen extends StatefulWidget {
 
@@ -162,6 +163,74 @@ class _ChartScreenState extends State<ChartScreen> {
             ),
           ),
           sample3(context),
+          Expanded(
+            child: GridView.count(
+              primary: false,
+              padding: EdgeInsets.all(20),
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+              crossAxisCount: 3,
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: Colors.grey.shade300,
+                    )
+                  ),
+                  child: GridTile(
+                    child: SfRadialGauge(
+                      title: GaugeTitle(
+                        text: 'Workout',
+                        textStyle: const TextStyle(
+                            fontSize: 12.0, fontWeight: FontWeight.bold)),
+                      axes: <RadialAxis>[
+                        RadialAxis(
+                          showLabels: false,
+                          showAxisLine: false,
+                          minimum: 0, 
+                          maximum: 150, 
+                          ranges: <GaugeRange>[
+                            GaugeRange(
+                                startValue: 0,
+                                endValue: 100,
+                                color: Color(0xFF1DCC50),
+                                startWidth: 7,
+                                endWidth: 7),
+                            GaugeRange(
+                                startValue: 100,
+                                endValue: 150,
+                                color: Colors.grey,
+                                startWidth: 7,
+                                endWidth: 7)
+                          ], 
+                          annotations: <GaugeAnnotation>[
+                            GaugeAnnotation(
+                              verticalAlignment: GaugeAlignment.far,
+                              widget: Container(
+                                child: const Text('90.0',
+                                  style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold))),
+                              angle: 90,
+                              positionFactor: 0.4),
+                            GaugeAnnotation(
+                              verticalAlignment: GaugeAlignment.far,
+                              widget: Container(
+                                child: const Text('2020-10-06',
+                                  style: TextStyle(
+                                    fontSize: 12,))),
+                              angle: 90,
+                              positionFactor: 1.3)
+                          ]
+                        )
+                      ]
+                    ),
+                  ),
+                ),
+              ],
+            )
+          ),
         ],
       ),
     );
@@ -180,7 +249,7 @@ class _ChartScreenState extends State<ChartScreen> {
     return Center(
       child: Container(
         color: Colors.red,
-        height: MediaQuery.of(context).size.height / 2,
+        height: MediaQuery.of(context).size.height / 3,
         width: MediaQuery.of(context).size.width,
         child: BezierChart(
           fromDate: fromDate,
@@ -204,7 +273,7 @@ class _ChartScreenState extends State<ChartScreen> {
           series: [
             BezierLine(
               lineColor: Colors.black,
-              label: "Duty",
+              label: "Rep",
               onMissingValue: (dateTime) {
                 return 0;
               },

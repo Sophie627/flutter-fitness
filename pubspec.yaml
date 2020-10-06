@@ -38,6 +38,7 @@ dependencies:
   just_audio: ^0.3.3
   screenshot_share_image: ^0.0.5
   bezier_chart: ^1.0.17+1
+  syncfusion_flutter_gauges: ^18.3.35
   
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
