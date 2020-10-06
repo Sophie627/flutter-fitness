@@ -6,11 +6,12 @@ import 'package:onboarding_flow/ui/screens/chart_screen.dart';
 
 class TotalWorkouts extends StatefulWidget {
   Settings settings;
-  List skillName;
+  List skillID;
   List skillRep;
   List skillDate;
+  List skillName;
 
-  TotalWorkouts({this.settings, this.skillName, this.skillRep, this.skillDate});
+  TotalWorkouts({this.settings, this.skillID, this.skillRep, this.skillDate, this.skillName});
   @override
   _TotalWorkoutsState createState() => _TotalWorkoutsState();
 }
@@ -19,7 +20,7 @@ class _TotalWorkoutsState extends State<TotalWorkouts> {
   @override
   Widget build(BuildContext context) {
     List<Widget> skillLists = [];
-    for(int i = 0; i <widget.skillName.length; i++) {
+    for(int i = 0; i <widget.skillID.length; i++) {
       skillLists.add(
         Column(
           children: <Widget>[
@@ -29,6 +30,7 @@ class _TotalWorkoutsState extends State<TotalWorkouts> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => ChartScreen(
+                      skillID: widget.skillID[i]
                     )),
                 );
               },
@@ -47,7 +49,10 @@ class _TotalWorkoutsState extends State<TotalWorkouts> {
                       ),
                       ),
                     Text(
-                      widget.skillName[i]
+                      widget.skillName[i],
+                      style: TextStyle(
+                        fontSize: 18.0,
+                      ),
                     ),
                   ],
                 ),
@@ -91,7 +96,7 @@ class _TotalWorkoutsState extends State<TotalWorkouts> {
               Padding(
                 padding: const EdgeInsets.only(left:20,top:20,),
                 child: Text(
-                  widget.skillName.length.toString() + ' TOTAL SKILLS COMPLETED',
+                  widget.skillID.length.toString() + ' TOTAL SKILLS COMPLETED',
                   style: TextStyle(
                     color: Theme.of(context).accentColor,
                     fontWeight: FontWeight.bold,

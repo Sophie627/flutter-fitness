@@ -21,6 +21,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
   List workoutHistory = [];
   List workoutName = [];
   Map<DateTime, List<dynamic>> workoutDate = {};
+  List skillID = [];
   List skillName = [];
   List skillRep = [];
   List skillDate = [];
@@ -78,14 +79,19 @@ class _ActivityScreenState extends State<ActivityScreen> {
 
   void handleWorkoutData(List data) {
     data.forEach((element) {
-      if(skillName.indexOf(element['name']) == -1) {
+      if(skillID.indexOf(element['skillID']) == -1) {
+        Firestore.instance.collection('skill').document(element['skillID']).snapshots().listen((data) {
+          setState(() {
+            skillName.add(data['name']);
+          });
+        });
         setState(() {
-          skillName.add(element['name']);
+          skillID.add(element['skillID']);
           skillRep.add(element['rep']);
           skillDate.add(element['date']);
         });
       } else {
-        int index = skillName.indexOf(element['name']);
+        int index = skillID.indexOf(element['skillID']);
         if(skillRep[index] < element['rep']) {
           setState(() {
             skillRep[index] = element['rep'];
@@ -178,9 +184,10 @@ class _ActivityScreenState extends State<ActivityScreen> {
                             MaterialPageRoute(
                               builder: (context) => TotalWorkouts(
                                 settings: widget.settings,
-                                skillName: skillName,
+                                skillID: skillID,
                                 skillRep: skillRep,
                                 skillDate: skillDate,
+                                skillName: skillName,
                               )),
                           );
                         },
@@ -188,7 +195,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
                           cardChild: Column(children: [
                             SizedBox(height: 25),
                             Text(
-                              skillName.length.toString(),
+                              skillID.length.toString(),
                               style: TextStyle(
                                 fontSize: 35,
                                 color: Colors.black,

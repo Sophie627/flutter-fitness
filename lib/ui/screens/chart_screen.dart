@@ -3,6 +3,11 @@ import 'package:intl/intl.dart';
 import 'package:bezier_chart/bezier_chart.dart';
 
 class ChartScreen extends StatefulWidget {
+
+  final String skillID;
+
+  ChartScreen({this.skillID});
+
   @override
   _ChartScreenState createState() => _ChartScreenState();
 }
@@ -11,6 +16,7 @@ class _ChartScreenState extends State<ChartScreen> {
   bool isSwitched = true;
   @override
   Widget build(BuildContext context) {
+    print("skillID ${widget.skillID}");
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
