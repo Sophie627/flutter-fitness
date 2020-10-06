@@ -73,14 +73,16 @@ class _InOutState extends State<InOut> {
     await showGeneralDialog(
       context: context,
       pageBuilder: (BuildContext buildContext,
-          Animation<double> animation,
-          Animation<double> secondaryAnimation) {
-            bool manuallyClosed = false;
-            Future.delayed(Duration(seconds: 2)).then((_) {
-              if (!manuallyClosed) {
-                Navigator.of(context).pop();
-              }
-            });
+        Animation<double> animation,
+        Animation<double> secondaryAnimation) {
+        bool manuallyClosed = false;
+        if (_current != widget.skillData.length - 1) {
+          Future.delayed(Duration(seconds: 2)).then((_) {
+            if (!manuallyClosed) {
+              Navigator.of(context).pop();
+            }
+          });
+        }
         return SafeArea(
           child: Builder(builder: (context) {
             return Material(
