@@ -210,7 +210,7 @@ class _ChartScreenState extends State<ChartScreen> {
               ),
             ),
           ),
-          sample3(context),
+          chart(context),
           Expanded(
             child: GridView.count(
               primary: false,
@@ -288,10 +288,13 @@ class _ChartScreenState extends State<ChartScreen> {
     );
   }
 
-  Widget sample3(BuildContext context) {
-    List<DataPoint<dynamic>> data = [];
+  Widget chart(BuildContext context) {
+    List<DataPoint<dynamic>> repData = [];
+    List<DataPoint<dynamic>> touchData = [];
+    int touch = skillData['touch'] == null ? 1 : skillData['touch'];
     for (var i = 0; i < skillRepHistory.length; i++) {
-      data.add(DataPoint<DateTime>(value: skillRepHistory[i].toDouble(), xAxis: skillDateHistory[i]));
+      repData.add(DataPoint<DateTime>(value: skillRepHistory[i].toDouble(), xAxis: skillDateHistory[i]));
+      touchData.add(DataPoint<DateTime>(value: skillRepHistory[i].toDouble() * touch, xAxis: skillDateHistory[i]));
     }
     final fromDate = DateTime(2019, 05, 22);
     DateTime toDate = DateTime.now();
@@ -329,7 +332,15 @@ class _ChartScreenState extends State<ChartScreen> {
               onMissingValue: (dateTime) {
                 return 0;
               },
-              data: data,
+              data: repData,
+            ),
+            BezierLine(
+              lineColor: Colors.grey,
+              label: "Touch",
+              onMissingValue: (dateTime) {
+                return 0;
+              },
+              data: touchData,
             ),
           ],
           config: BezierChartConfig(
