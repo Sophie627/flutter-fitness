@@ -11,6 +11,7 @@ class Exercise {
   int time;
   String skillID;
   bool isSolo;
+  int touch;
 
   Exercise({
     this.name,
@@ -18,6 +19,7 @@ class Exercise {
     this.time = 0,
     this.skillID,
     this.isSolo,
+    this.touch = 1,
   });
 
   /*

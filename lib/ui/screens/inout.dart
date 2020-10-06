@@ -574,6 +574,8 @@ class _InOutState extends State<InOut> {
                 type(bool) - if rep is 0, true, if not false
   */
   void storeExerciseTimeRep(int rep, bool type) {
+    print('---------touch----------');
+    print(widget.skillData[_current]['touch']);
     int time = type 
       ? int.parse(_exerciseData[_current]['durationTime']) - _time
       : int.parse(_exerciseData[_current]['durationTime']);
@@ -583,6 +585,7 @@ class _InOutState extends State<InOut> {
       rep: rep,
       time: time,
       isSolo: widget.id == -1,
+      touch: widget.skillData[_current]['touch'] == null ? 1 : widget.skillData[_current]['touch'],
     ));
   } 
 
@@ -608,7 +611,7 @@ class _InOutState extends State<InOut> {
 
   @override
   Widget build(BuildContext context) {
-    
+
     exerciseCarousel = CarouselSlider.builder(
       height: 500,
       itemCount: _exerciseData.length,

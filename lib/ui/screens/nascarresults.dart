@@ -30,6 +30,7 @@ class NascarResultsScreen extends StatefulWidget {
 
 class _NascarResultsScreenState extends State<NascarResultsScreen> {
   int totalSteps = 0;
+  int totalTouches = 0;
   int totalTime = 0;
   String workoutTime;
   int skillMaxRep = 0;
@@ -89,6 +90,14 @@ class _NascarResultsScreenState extends State<NascarResultsScreen> {
     }
   }
   
+  void getTotalTouches() {
+    if (widget.workout != null) {
+      for(var i = 0; i < widget.workout.length; i++){
+        totalTouches += widget.workout[i].rep * widget.workout[i].touch;
+      }
+    }
+  }
+  
   /*
     void getTotalTime()
     Author: Sophie(bolesalavb@gmail.com)
@@ -113,6 +122,7 @@ class _NascarResultsScreenState extends State<NascarResultsScreen> {
     super.initState();
 
     getTotalStep();
+    getTotalTouches();
     getTotalTime();
     updateUserWorkout();
   }
@@ -124,7 +134,7 @@ class _NascarResultsScreenState extends State<NascarResultsScreen> {
     //   .updateData({'workout': workoutData});
     // print('uid ${uid}');
     
-    print('workout ${widget.workout[0].name}');
+    print('workout ${totalTouches}');
     return Scaffold(
       body: Builder(
         builder: (context) => 
@@ -184,7 +194,7 @@ class _NascarResultsScreenState extends State<NascarResultsScreen> {
                               ),
                               Center(
                                 child: Text(
-                                  totalSteps.toString(),
+                                  totalTouches.toString(),
                                   style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
