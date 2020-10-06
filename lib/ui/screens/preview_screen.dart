@@ -100,6 +100,7 @@ class _PreviewState extends State<Preview> {
                       id: widget.id,
                       name: widget.name,
                       image: widget.image,
+                      skillData: skillData,
                     )),
                 ); 
               },
@@ -198,7 +199,7 @@ class _PreviewState extends State<Preview> {
               child: StreamBuilder(
                 stream: Firestore.instance.collection('exercise' + widget.id.toString()).orderBy('no').snapshots(),
                 builder: (context, snapshot) {
-                  if (!snapshot.hasData || isLoading) {
+                  if (!snapshot.hasData) {
                     return Text("Loading...");
                   }
                   return new ListView.builder(
@@ -275,7 +276,9 @@ class _PreviewState extends State<Preview> {
                           ),
                         );
                       } else {
-                        if(snapshot.data.documents[index - 1]['url'] != null) return _buildList(index - 1);
+                        if(skillData != []) {
+                          if(skillData[index - 1]['url'] != null) return _buildList(index - 1);
+                        }
                       }
                     },
                   ); 

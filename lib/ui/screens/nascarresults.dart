@@ -40,7 +40,7 @@ class _NascarResultsScreenState extends State<NascarResultsScreen> {
 
     widget.workout.forEach((element) => { 
       workoutData.add({
-        'name': element.name,
+        'skillID' : element.skillID,
         'rep': element.rep,
         'time': element.time,
         "date": DateTime.now(),

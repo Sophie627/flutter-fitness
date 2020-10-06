@@ -8,8 +8,9 @@ class Ready extends StatefulWidget {
   final int id;
   final String name;
   final String image;
+  final List skillData;
 
-  Ready({this.settings, this.id, this.name, this.image});
+  Ready({this.settings, this.id, this.name, this.image, this.skillData});
 
   _ReadyState createState() => _ReadyState();
 }
@@ -45,6 +46,7 @@ class _ReadyState extends State<Ready> {
                   id: widget.id,
                   name: widget.name,
                   image: widget.image,
+                  skillData: widget.skillData,
                 )),
             ); 
           } else {

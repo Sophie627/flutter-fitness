@@ -9,11 +9,13 @@ class Exercise {
   final String name;
   int rep;
   int time;
+  String skillID;
 
   Exercise({
     this.name,
     this.rep = 0,
     this.time = 0,
+    this.skillID,
   });
 
   /*

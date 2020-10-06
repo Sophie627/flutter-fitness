@@ -35,8 +35,9 @@ class InOut extends StatefulWidget {
   final int id;
   final String name;
   final String image;
+  final List skillData;
 
-  InOut({this.id, this.name, this.image});
+  InOut({this.id, this.name, this.image, this.skillData});
 
   @override
   _InOutState createState() => _InOutState();
@@ -377,7 +378,7 @@ class _InOutState extends State<InOut> {
   exerciseTrain(index) {
     setState(() {
       _time = int.parse(_exerciseData[index]['durationTime']);
-      _exerciseComment = _exerciseData[index]['name'];
+      _exerciseComment = widget.skillData[index]['name'];
       _stageState = 'train';
     });
     if (_exerciseData[_current]['voice'] != null && _exerciseData[_current]['voice']['train'] != null && _exerciseData[_current]['voice']['train'][_time.toString()] != null) {
@@ -442,7 +443,7 @@ class _InOutState extends State<InOut> {
         switch (time) {
           case 8:
             setState(() {
-              _exerciseComment = _exerciseData[_current]['name'] + " starts in...";
+              _exerciseComment = widget.skillData[_current]['name'] + " starts in...";
             });
             break;
           case 3:
@@ -567,7 +568,8 @@ class _InOutState extends State<InOut> {
       ? int.parse(_exerciseData[_current]['durationTime']) - _time
       : int.parse(_exerciseData[_current]['durationTime']);
     _workout.add(Exercise(
-      name: _exerciseData[_current]['name'],
+      name: widget.skillData[_current]['name'],
+      skillID: _exerciseData[_current]['skillID'],
       rep: rep,
       time: time,
     ));
@@ -603,7 +605,7 @@ class _InOutState extends State<InOut> {
         Container(
           padding: EdgeInsets.all(50.0),
           child: new Image.network(
-            _exerciseData[itemIndex]['url'],
+            widget.skillData[itemIndex]['url'],
             fit: BoxFit.cover,
           ),
         ),
@@ -741,7 +743,7 @@ class _InOutState extends State<InOut> {
                       ),
                       subtitle: Center(
                         child: Text(
-                          _exerciseData[_current]['name'],
+                          widget.skillData[_current]['name'],
                           style: TextStyle(
                             color: _nightMode ? Colors.white : Colors.grey.shade800,
                             fontSize: 12,
