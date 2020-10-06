@@ -30,7 +30,8 @@ class _TotalWorkoutsState extends State<TotalWorkouts> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => ChartScreen(
-                      skillID: widget.skillID[i]
+                      skillID: widget.skillID[i],
+                      skillMaxRep: widget.skillRep[i].toString(),
                     )),
                 );
               },

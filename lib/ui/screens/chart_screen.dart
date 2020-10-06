@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:bezier_chart/bezier_chart.dart';
@@ -5,8 +7,11 @@ import 'package:bezier_chart/bezier_chart.dart';
 class ChartScreen extends StatefulWidget {
 
   final String skillID;
+  final String skillMaxRep;
 
-  ChartScreen({this.skillID});
+  ChartScreen({this.skillID,
+    this.skillMaxRep,
+  });
 
   @override
   _ChartScreenState createState() => _ChartScreenState();
@@ -14,16 +19,74 @@ class ChartScreen extends StatefulWidget {
 
 class _ChartScreenState extends State<ChartScreen> {
   bool isSwitched = true;
+  DocumentSnapshot skillData;
+  List skillDateHistory =[];
+  List skillRepHistory =[];
+  List workoutData = [];
+  bool isLoading = true;
+
+  void getSkillhisstory() async {
+    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    
+    Firestore.instance.collection('users').document(user.uid).snapshots().listen((data)  { 
+      setState(() {
+        if( data['workout']  == null ) {
+          workoutData = [];
+        } else {
+          workoutData = data['workout'];
+        }
+      });
+      handleSkillHistory(workoutData);
+      setState(() {
+        isLoading = false;
+      });
+    });
+  }
+
+  handleSkillHistory(List data) {
+    data.forEach((element) {
+      if(element['skillID'] == widget.skillID) {
+        DateTime date = DateTime.fromMillisecondsSinceEpoch(element['date'].seconds * 1000);
+        DateTime tmp = DateTime(date.year, date.month, date.day);
+        print("tmp ${tmp}");
+        if(skillDateHistory.indexOf(tmp) == -1 ) {
+          setState(() {
+            skillDateHistory.add(tmp);
+            skillRepHistory.add(element['rep']);
+          });
+        } else {
+          int index = skillDateHistory.indexOf(tmp);
+          if(skillRepHistory[index] < element['rep']) skillRepHistory[index] = element['rep'];
+        }
+      }
+    });
+  }
+
+  fetchSkillData() async {
+    Firestore.instance.collection('skill').document(widget.skillID).snapshots().listen((data) {
+      setState(() {
+        skillData = data;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+
+    super.initState();
+    fetchSkillData();
+    getSkillhisstory();
+  }
+
   @override
   Widget build(BuildContext context) {
-    print("skillID ${widget.skillID}");
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.white,
         title: Text(
-          'Inside Outside',
+          skillData['name'],
           style: TextStyle(
             color: Colors.black,
           ),
@@ -34,8 +97,8 @@ class _ChartScreenState extends State<ChartScreen> {
         children: <Widget>[
           Row(
             children: <Widget>[
-              Image.asset(
-                'assets/images/1.gif',
+              Image.network(
+                skillData['url'],
                 fit: BoxFit.fitWidth,
                 height: 150,
                 width: 150,
@@ -51,7 +114,7 @@ class _ChartScreenState extends State<ChartScreen> {
                       ),
                     ),
                     trailing: Text(
-                      '50',
+                      widget.skillMaxRep,
                       
                       style: TextStyle(
                         color: Colors.blue,
@@ -105,10 +168,15 @@ class _ChartScreenState extends State<ChartScreen> {
   }
 
   Widget sample3(BuildContext context) {
+    List<DataPoint<dynamic>> data = [];
+    for (var i = 0; i < skillRepHistory.length; i++) {
+      data.add(DataPoint<DateTime>(value: skillRepHistory[i].toDouble(), xAxis: skillDateHistory[i]));
+    }
     final fromDate = DateTime(2019, 05, 22);
-    final toDate = DateTime.now();
-    final date1 = DateTime.now().subtract(Duration(days: 2));
-    final date2 = DateTime.now().subtract(Duration(days: 3));
+    DateTime toDate = DateTime.now();
+    toDate = DateTime(toDate.year, toDate.month, toDate.day);
+    // final date1 = DateTime.now().subtract(Duration(days: 2));
+    // final date2 = DateTime.now().subtract(Duration(days: 3));
     return Center(
       child: Container(
         color: Colors.red,
@@ -138,15 +206,9 @@ class _ChartScreenState extends State<ChartScreen> {
               lineColor: Colors.black,
               label: "Duty",
               onMissingValue: (dateTime) {
-                if (dateTime.day.isEven) {
-                  return 10.0;
-                }
-                return 5.0;
+                return 0;
               },
-              data: [
-                DataPoint<DateTime>(value: 10, xAxis: date1),
-                DataPoint<DateTime>(value: 50, xAxis: date2),
-              ],
+              data: data,
             ),
           ],
           config: BezierChartConfig(
