@@ -69,6 +69,60 @@ class _InOutState extends State<InOut> {
   //   nightTheme: globals.nightTheme,
   // );
 
+  reachBestScore() async {
+    await showGeneralDialog(
+      context: context,
+      pageBuilder: (BuildContext buildContext,
+          Animation<double> animation,
+          Animation<double> secondaryAnimation) {
+            bool manuallyClosed = false;
+            Future.delayed(Duration(seconds: 2)).then((_) {
+              if (!manuallyClosed) {
+                Navigator.of(context).pop();
+              }
+            });
+        return SafeArea(
+          child: Builder(builder: (context) {
+            return Material(
+              color: Colors.transparent,
+              child: Align(
+                alignment: Alignment.center,
+                child: Container(
+                  height: 200.0,
+                  width: 250.0,
+                  color: Colors.transparent,
+                  child:
+                    Center(
+                      child: Column(children: <Widget>[
+                        Text("Congratulations!!",
+                          style: TextStyle(
+                            fontSize: 28.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        SizedBox(height: 24.0),
+                        Text("You've get a new Best Score!!",
+                          style: TextStyle(
+                            fontSize: 16.0,
+                          ),
+                        ),
+                      ],) 
+                    )
+                  )
+                )
+              );
+            }
+          ),
+        );
+      },
+      barrierDismissible: true,
+      barrierLabel: MaterialLocalizations.of(context)
+          .modalBarrierDismissLabel,
+      barrierColor: null,
+      transitionDuration: const Duration(milliseconds: 150)
+    );
+  }
+
   List<T> map<T>(List list, Function handler) {
     List<T> result = [];
     for (var i = 0; i < list.length; i++) {
@@ -704,6 +758,7 @@ class _InOutState extends State<InOut> {
                           onPressed: () {
                             if (txt.text != '') {
                               storeExerciseTimeRep(int.parse(txt.text), false);
+                              if (globals.bestAlert) reachBestScore();
                               if (_current == _exerciseData.length - 1) {
                                 Navigator.push(
                                   context,

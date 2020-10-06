@@ -6,6 +6,7 @@ import 'package:bezier_chart/bezier_chart.dart';
 import 'package:onboarding_flow/ui/screens/main_screen.dart';
 import 'package:onboarding_flow/ui/screens/ready_screen.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import '../../globals.dart' as globals;
 
 class ChartScreen extends StatefulWidget {
 
@@ -21,7 +22,7 @@ class ChartScreen extends StatefulWidget {
 }
 
 class _ChartScreenState extends State<ChartScreen> {
-  bool isSwitched = true;
+  bool isSwitched = globals.bestAlert;
   DocumentSnapshot skillData;
   List skillDateHistory = [];
   List skillRepHistory = [];
@@ -172,6 +173,7 @@ class _ChartScreenState extends State<ChartScreen> {
                         setState(() {
                           isSwitched = value;
                         });
+                        globals.bestAlert = value;
                       },
 
                       activeTrackColor: Colors.blue,
