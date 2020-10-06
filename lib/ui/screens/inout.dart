@@ -218,10 +218,8 @@ class _InOutState extends State<InOut> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => MainScreen(
-                      //settings: widget.settings,
                     )),
                 );
-                // Navigator.of(context).popUntil(ModalRoute.withName('/main'));
               },
             ),
             FlatButton(

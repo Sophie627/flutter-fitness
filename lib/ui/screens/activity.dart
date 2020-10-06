@@ -62,7 +62,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
   
   void handleWorkoutHistory(List data) {
     data.forEach((element) {
-      if(workoutName.indexOf(element['name']) == -1) {
+      if(workoutName.indexOf(element['name']) == -1 && element['name'] != 'solo') {
         setState(() {
           workoutName.add(element['name']);
         });
