@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:onboarding_flow/models/settings.dart';
 import 'package:onboarding_flow/models/exercise.dart';
 import 'package:onboarding_flow/models/user.dart';
+import 'package:onboarding_flow/ui/screens/chart_screen.dart';
 import 'package:onboarding_flow/ui/screens/main_screen.dart';
 import 'package:screenshot_share_image/screenshot_share_image.dart';
 // import 'package:share/share.dart';
@@ -20,8 +21,9 @@ class NascarResultsScreen extends StatefulWidget {
   List userWorkout;
   List userWorkoutHistory;
   String name;
+  String skillID;
   
-  NascarResultsScreen({this.settings, this.workout, this.name, this.userWorkout, this.userWorkoutHistory});
+  NascarResultsScreen({this.settings, this.workout, this.name, this.userWorkout, this.userWorkoutHistory, this.skillID});
   @override
   _NascarResultsScreenState createState() => _NascarResultsScreenState();
 }
@@ -30,6 +32,7 @@ class _NascarResultsScreenState extends State<NascarResultsScreen> {
   int totalSteps = 0;
   int totalTime = 0;
   String workoutTime;
+  int skillMaxRep = 0;
   // String uid = '';
 
   // List workoutData = [];
@@ -43,6 +46,7 @@ class _NascarResultsScreenState extends State<NascarResultsScreen> {
         'skillID' : element.skillID,
         'rep': element.rep,
         'time': element.time,
+        'solo': element.isSolo,
         "date": DateTime.now(),
       }),
     });
@@ -57,6 +61,11 @@ class _NascarResultsScreenState extends State<NascarResultsScreen> {
       Firestore.instance
       .document("users/${user.uid}")
       .updateData({'workout': workoutData});
+      workoutData.forEach((element) {
+        if (element['skillID'] == widget.skillID && element['rep'] > skillMaxRep) setState(() {
+          skillMaxRep = element['rep'];
+        });
+      });
       Firestore.instance
       .document("users/${user.uid}")
       .updateData({'workoutHistory': workoutHistory});
@@ -219,14 +228,23 @@ class _NascarResultsScreenState extends State<NascarResultsScreen> {
                     Expanded(
                       child: RaisedButton(
                         onPressed: (){
-                          // Navigator.of(context).popUntil(ModalRoute.withName('/main'));
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => MainScreen(
-                                //settings: widget.settings,
-                              )),
-                          );
+                          if(widget.name == 'solo') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ChartScreen(
+                                  skillID: widget.skillID,
+                                  skillMaxRep: skillMaxRep.toString(),
+                                )),
+                            );
+                          } else {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MainScreen(
+                                )),
+                            );
+                          }
                         },
                         child: Text(
                           'FINISH',

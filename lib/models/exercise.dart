@@ -10,12 +10,14 @@ class Exercise {
   int rep;
   int time;
   String skillID;
+  bool isSolo;
 
   Exercise({
     this.name,
     this.rep = 0,
     this.time = 0,
     this.skillID,
+    this.isSolo,
   });
 
   /*

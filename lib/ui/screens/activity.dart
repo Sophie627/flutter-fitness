@@ -79,24 +79,26 @@ class _ActivityScreenState extends State<ActivityScreen> {
 
   void handleWorkoutData(List data) {
     data.forEach((element) {
-      if(skillID.indexOf(element['skillID']) == -1) {
-        Firestore.instance.collection('skill').document(element['skillID']).snapshots().listen((data) {
-          setState(() {
-            skillName.add(data['name']);
+      if(element['rep'] > 0) {
+        if(skillID.indexOf(element['skillID']) == -1) {
+          Firestore.instance.collection('skill').document(element['skillID']).snapshots().listen((data) {
+            setState(() {
+              skillName.add(data['name']);
+            });
           });
-        });
-        setState(() {
-          skillID.add(element['skillID']);
-          skillRep.add(element['rep']);
-          skillDate.add(element['date']);
-        });
-      } else {
-        int index = skillID.indexOf(element['skillID']);
-        if(skillRep[index] < element['rep']) {
           setState(() {
-            skillRep[index] = element['rep'];
-            skillDate[index] = element['date'];
+            skillID.add(element['skillID']);
+            skillRep.add(element['rep']);
+            skillDate.add(element['date']);
           });
+        } else {
+          int index = skillID.indexOf(element['skillID']);
+          if(skillRep[index] < element['rep']) {
+            setState(() {
+              skillRep[index] = element['rep'];
+              skillDate[index] = element['date'];
+            });
+          }
         }
       }
     });

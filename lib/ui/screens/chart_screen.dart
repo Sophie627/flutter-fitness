@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:bezier_chart/bezier_chart.dart';
+import 'package:onboarding_flow/ui/screens/ready_screen.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class ChartScreen extends StatefulWidget {
@@ -21,8 +22,9 @@ class ChartScreen extends StatefulWidget {
 class _ChartScreenState extends State<ChartScreen> {
   bool isSwitched = true;
   DocumentSnapshot skillData;
-  List skillDateHistory =[];
-  List skillRepHistory =[];
+  List skillDateHistory = [];
+  List skillRepHistory = [];
+  List skillTypeHistory = [];
   List workoutData = [];
   bool isLoading = true;
 
@@ -54,10 +56,22 @@ class _ChartScreenState extends State<ChartScreen> {
           setState(() {
             skillDateHistory.add(tmp);
             skillRepHistory.add(element['rep']);
+            if (element['solo'] == null || !element['solo']) {
+              skillTypeHistory.add('Workout');
+            } else {
+              skillTypeHistory.add('Solo');
+            }
           });
         } else {
           int index = skillDateHistory.indexOf(tmp);
-          if(skillRepHistory[index] < element['rep']) skillRepHistory[index] = element['rep'];
+          if(skillRepHistory[index] < element['rep']) {
+            skillRepHistory[index] = element['rep'];
+            if (element['solo'] == null || !element['solo']) {
+              skillTypeHistory[index] = 'Workout';
+            } else {
+              skillTypeHistory[index] = 'Solo';
+            }
+          }
         }
       }
     });
@@ -81,6 +95,12 @@ class _ChartScreenState extends State<ChartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> gaugeList = [];
+    for (var i = 0; i < skillRepHistory.length; i++) {
+      gaugeList.add(customGauge(skillRepHistory[i], skillDateHistory[i], int.parse(widget.skillMaxRep), skillTypeHistory[i]));
+    }
+    print(skillTypeHistory);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -149,7 +169,19 @@ class _ChartScreenState extends State<ChartScreen> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: MaterialButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Ready(
+                      // settings: widget.settings,
+                      id: -1,
+                      name: "solo",
+                      image: widget.skillID,
+                      skillData: [skillData],
+                    )),
+                ); 
+              },
               minWidth: MediaQuery.of(context).size.width * 0.85,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5.0)),
@@ -170,68 +202,72 @@ class _ChartScreenState extends State<ChartScreen> {
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
               crossAxisCount: 3,
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: Colors.grey.shade300,
-                    )
-                  ),
-                  child: GridTile(
-                    child: SfRadialGauge(
-                      title: GaugeTitle(
-                        text: 'Workout',
-                        textStyle: const TextStyle(
-                            fontSize: 12.0, fontWeight: FontWeight.bold)),
-                      axes: <RadialAxis>[
-                        RadialAxis(
-                          showLabels: false,
-                          showAxisLine: false,
-                          minimum: 0, 
-                          maximum: 150, 
-                          ranges: <GaugeRange>[
-                            GaugeRange(
-                                startValue: 0,
-                                endValue: 100,
-                                color: Color(0xFF1DCC50),
-                                startWidth: 7,
-                                endWidth: 7),
-                            GaugeRange(
-                                startValue: 100,
-                                endValue: 150,
-                                color: Colors.grey,
-                                startWidth: 7,
-                                endWidth: 7)
-                          ], 
-                          annotations: <GaugeAnnotation>[
-                            GaugeAnnotation(
-                              verticalAlignment: GaugeAlignment.far,
-                              widget: Container(
-                                child: const Text('90.0',
-                                  style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold))),
-                              angle: 90,
-                              positionFactor: 0.4),
-                            GaugeAnnotation(
-                              verticalAlignment: GaugeAlignment.far,
-                              widget: Container(
-                                child: const Text('2020-10-06',
-                                  style: TextStyle(
-                                    fontSize: 12,))),
-                              angle: 90,
-                              positionFactor: 1.3)
-                          ]
-                        )
-                      ]
-                    ),
-                  ),
-                ),
-              ],
+              children: gaugeList,
             )
           ),
         ],
+      ),
+    );
+  }
+
+  Widget customGauge(int rep, DateTime date, int maxRep, String type) {
+    int max = (maxRep / 10).ceil() * 10;
+
+    return Container(
+      padding: EdgeInsets.all(8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          color: Colors.grey.shade300,
+        )
+      ),
+      child: GridTile(
+        child: SfRadialGauge(
+          title: GaugeTitle(
+            text: type,
+            textStyle: const TextStyle(
+                fontSize: 12.0, fontWeight: FontWeight.bold)),
+          axes: <RadialAxis>[
+            RadialAxis(
+              showLabels: false,
+              showAxisLine: false,
+              minimum: 0, 
+              maximum: max.toDouble(), 
+              ranges: <GaugeRange>[
+                GaugeRange(
+                    startValue: 0,
+                    endValue: rep.toDouble(),
+                    color: Color(0xFF1DCC50),
+                    startWidth: 7,
+                    endWidth: 7),
+                GaugeRange(
+                    startValue: rep.toDouble(),
+                    endValue: max.toDouble(),
+                    color: Colors.grey,
+                    startWidth: 7,
+                    endWidth: 7)
+              ], 
+              annotations: <GaugeAnnotation>[
+                GaugeAnnotation(
+                  verticalAlignment: GaugeAlignment.far,
+                  widget: Container(
+                    child: Text(rep.toString(),
+                      style: TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold))),
+                  angle: 90,
+                  positionFactor: 0.4),
+                GaugeAnnotation(
+                  verticalAlignment: GaugeAlignment.far,
+                  widget: Container(
+                    child: Text(DateFormat('yyyy-MM-dd').format(date),
+                      style: TextStyle(
+                        fontSize: 12,))),
+                  angle: 90,
+                  positionFactor: 1.3)
+              ]
+            )
+          ]
+        ),
       ),
     );
   }

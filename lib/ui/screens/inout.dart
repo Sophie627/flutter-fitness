@@ -304,14 +304,26 @@ class _InOutState extends State<InOut> {
     Description:  Using this function, Data related to 'Exercise 1' can be gotten from firebase. 
   */
   fetchData() async {
-    Firestore.instance.collection('exercise' + widget.id.toString()).orderBy('no').snapshots().listen((data) {
-      data.documents.forEach((doc) => _exerciseData.add(doc));
-      setState(() {
-        _exerciseData = _exerciseData;
-        // _workout = new List(_exerciseData.length);
+    if(widget.id != -1) {
+      Firestore.instance.collection('exercise' + widget.id.toString()).orderBy('no').snapshots().listen((data) {
+        data.documents.forEach((doc) => _exerciseData.add(doc));
+        setState(() {
+          _exerciseData = _exerciseData;
+          // _workout = new List(_exerciseData.length);
+        });
+        print("-----------");
       });
-      print("-----------");
-    });
+    } else {
+      setState(() {
+        _exerciseData = [
+          {
+            'skillID' : widget.image,
+            'durationTime' : '30',
+            'restTime' : '10',
+          }
+        ];
+      });
+    }
   }
 
   /*
@@ -572,6 +584,7 @@ class _InOutState extends State<InOut> {
       skillID: _exerciseData[_current]['skillID'],
       rep: rep,
       time: time,
+      isSolo: widget.id == -1,
     ));
   } 
 
@@ -699,6 +712,7 @@ class _InOutState extends State<InOut> {
                                       name: widget.name,
                                       userWorkout: workoutData,
                                       userWorkoutHistory: workoutHistory,
+                                      skillID: widget.image, 
                                     )),
                                 ); 
                               } else {
