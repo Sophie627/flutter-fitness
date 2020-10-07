@@ -35,7 +35,44 @@ class _PreviewState extends State<Preview> {
   VoidCallback onBackPress;
   List exerciseData = [];
   List skillData = [];
+  List skillMaxRep = [];
+  List workoutData = [];
   bool isLoading = true;
+
+  void fetchCurrentUserWorkoutData() async {
+    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    if (user == null) {
+      setState(() {
+        isLoading = false;
+      });
+    } else {
+      Firestore.instance.collection('users').document(user.uid).snapshots().listen((data)  { 
+        setState(() {
+          if( data['workout']  == null ) {
+            workoutData = [];
+          } else {
+            workoutData = data['workout'];
+          }
+        });
+        getSkillMaxRep(workoutData);
+        setState(() {
+          isLoading = false;
+        });
+      });
+    }
+  }
+
+  getSkillMaxRep(List data) {
+    exerciseData.forEach((element) { 
+      int tmp = 0;
+      workoutData.forEach((skill) {
+        if (skill['skillID'] == element['skillID']) {
+          if (tmp < skill['rep']) tmp = skill['rep'];
+        }
+      });
+      skillMaxRep.add(tmp);
+    });
+  }
  
   fetchExerciseData() async {
     Firestore.instance.collection('exercise' + widget.id.toString()).orderBy('no').snapshots().listen((data) {
@@ -101,6 +138,7 @@ class _PreviewState extends State<Preview> {
                       name: widget.name,
                       image: widget.image,
                       skillData: skillData,
+                      skillMaxRep: skillMaxRep,
                     )),
                 ); 
               },
@@ -126,6 +164,7 @@ class _PreviewState extends State<Preview> {
 
     super.initState();
     fetchExerciseData();
+    fetchCurrentUserWorkoutData();
     print(widget.settings);
   }
 
@@ -177,6 +216,8 @@ class _PreviewState extends State<Preview> {
 
   @override
   Widget build(BuildContext context) {
+
+    getSkillMaxRep(skillData);
     
     return Scaffold(
       appBar: AppBar(

@@ -197,6 +197,7 @@ class _ChartScreenState extends State<ChartScreen> {
                       name: "solo",
                       image: widget.skillID,
                       skillData: [skillData],
+                      skillMaxRep: [int.parse(widget.skillMaxRep)],
                     )),
                 ); 
               },

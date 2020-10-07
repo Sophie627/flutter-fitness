@@ -9,8 +9,9 @@ class Ready extends StatefulWidget {
   final String name;
   final String image;
   final List skillData;
+  final List skillMaxRep;
 
-  Ready({this.settings, this.id, this.name, this.image, this.skillData});
+  Ready({this.settings, this.id, this.name, this.image, this.skillData, this.skillMaxRep});
 
   _ReadyState createState() => _ReadyState();
 }
@@ -47,6 +48,7 @@ class _ReadyState extends State<Ready> {
                   name: widget.name,
                   image: widget.image,
                   skillData: widget.skillData,
+                  skillMaxRep: widget.skillMaxRep,
                 )),
             ); 
           } else {

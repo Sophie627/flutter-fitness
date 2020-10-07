@@ -36,8 +36,9 @@ class InOut extends StatefulWidget {
   final String name;
   final String image;
   final List skillData;
+  final List skillMaxRep;
 
-  InOut({this.id, this.name, this.image, this.skillData});
+  InOut({this.id, this.name, this.image, this.skillData, this.skillMaxRep});
 
   @override
   _InOutState createState() => _InOutState();
@@ -68,6 +69,10 @@ class _InOutState extends State<InOut> {
   //   voice: globals.voice,
   //   nightTheme: globals.nightTheme,
   // );
+
+  bool isBestScore(int score) {
+    return score > widget.skillMaxRep[_current];
+  }
 
   reachBestScore() async {
     await showGeneralDialog(
@@ -760,7 +765,9 @@ class _InOutState extends State<InOut> {
                           onPressed: () {
                             if (txt.text != '') {
                               storeExerciseTimeRep(int.parse(txt.text), false);
-                              if (globals.bestAlert) reachBestScore();
+                              if (globals.bestAlert) {
+                                if (isBestScore(int.parse(txt.text))) reachBestScore();
+                              }
                               if (_current == _exerciseData.length - 1) {
                                 Navigator.push(
                                   context,
