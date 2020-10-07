@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:custom_radio_grouped_button/custom_radio_grouped_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -29,6 +30,7 @@ class _ChartScreenState extends State<ChartScreen> {
   List skillTypeHistory = [];
   List workoutData = [];
   bool isLoading = true;
+  String radioValue = 'W';
 
   void getSkillhisstory() async {
     final FirebaseUser user = await FirebaseAuth.instance.currentUser();
@@ -109,6 +111,7 @@ class _ChartScreenState extends State<ChartScreen> {
         automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: () {
+            // Navigator.of(context).popUntil(ModalRoute.withName('/totalworkouts'));
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -213,6 +216,36 @@ class _ChartScreenState extends State<ChartScreen> {
               ),
             ),
           ),
+          Center(
+            child: CustomRadioButton(
+              enableButtonWrap: true,
+              elevation: 0,
+              defaultSelected: 'W',
+              enableShape: true,
+              unSelectedColor: Colors.white,
+              unSelectedBorderColor: Colors.blue,
+              buttonLables: [
+                "Weekly",
+                "Monthly",
+                "Yearly",
+              ],
+              buttonValues: [
+                "W",
+                "M",
+                "Y",
+              ],
+              buttonTextStyle: ButtonTextStyle(
+                  selectedColor: Colors.white,
+                  unSelectedColor: Colors.black,
+                  textStyle: TextStyle(fontSize: 16)),
+              radioButtonValue: (value) {
+                setState(() {
+                  radioValue = value;
+                });
+              },
+              selectedColor: Colors.blue,
+            ),
+          ),
           chart(context),
           Expanded(
             child: GridView.count(
@@ -294,12 +327,25 @@ class _ChartScreenState extends State<ChartScreen> {
   Widget chart(BuildContext context) {
     List<DataPoint<dynamic>> repData = [];
     List<DataPoint<dynamic>> touchData = [];
+    BezierChartScale bezierChartScale;
+    switch (radioValue) {
+      case 'W':
+        bezierChartScale = BezierChartScale.WEEKLY;
+        break;
+      case 'M':
+        bezierChartScale = BezierChartScale.MONTHLY;
+        break;
+      case 'Y':
+        bezierChartScale = BezierChartScale.YEARLY;
+        break;
+      default:
+    }
     int touch = skillData['touch'] == null ? 1 : skillData['touch'];
     for (var i = 0; i < skillRepHistory.length; i++) {
       repData.add(DataPoint<DateTime>(value: skillRepHistory[i].toDouble(), xAxis: skillDateHistory[i]));
       touchData.add(DataPoint<DateTime>(value: skillRepHistory[i].toDouble() * touch, xAxis: skillDateHistory[i]));
     }
-    final fromDate = DateTime(2019, 05, 22);
+    final fromDate = DateTime(2019, 12, 31);
     DateTime toDate = DateTime.now();
     toDate = DateTime(toDate.year, toDate.month, toDate.day);
     // final date1 = DateTime.now().subtract(Duration(days: 2));
@@ -311,7 +357,7 @@ class _ChartScreenState extends State<ChartScreen> {
         width: MediaQuery.of(context).size.width,
         child: BezierChart(
           fromDate: fromDate,
-          bezierChartScale: BezierChartScale.WEEKLY,
+          bezierChartScale: bezierChartScale,
           toDate: toDate,
           onIndicatorVisible: (val) {
             print("Indicator Visible :$val");
@@ -324,10 +370,10 @@ class _ChartScreenState extends State<ChartScreen> {
           },
           selectedDate: toDate,
           //this is optional
-          footerDateTimeBuilder: (DateTime value, BezierChartScale scaleType) {
-            final newFormat = DateFormat('dd/MM');
-            return newFormat.format(value);
-          },
+          // footerDateTimeBuilder: (DateTime value, BezierChartScale scaleType) {
+          //   final newFormat = DateFormat('yy/MM');
+          //   return newFormat.format(value);
+          // },
           series: [
             BezierLine(
               lineColor: Colors.black,
@@ -347,6 +393,7 @@ class _ChartScreenState extends State<ChartScreen> {
             ),
           ],
           config: BezierChartConfig(
+            updatePositionOnTap: true,
             displayDataPointWhenNoValue: false,
             verticalIndicatorStrokeWidth: 3.0,
             pinchZoom: true,
@@ -358,6 +405,7 @@ class _ChartScreenState extends State<ChartScreen> {
             xAxisTextStyle: TextStyle(
               color: Colors.black
             ),
+            footerHeight: 50.0
           ),
         ),
       ),
