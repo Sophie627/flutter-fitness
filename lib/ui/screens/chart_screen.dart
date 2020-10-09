@@ -209,7 +209,7 @@ class _ChartScreenState extends State<ChartScreen> {
                   borderRadius: BorderRadius.circular(5.0)),
               color: Colors.blue,
               child: Text(
-                'LIVE VIEW',
+                'GO LIVE NOW',
                 style: TextStyle(
                   color: Colors.white,
                 ),
