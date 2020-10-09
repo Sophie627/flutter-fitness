@@ -377,7 +377,7 @@ class _ChartScreenState extends State<ChartScreen> {
           series: [
             BezierLine(
               lineColor: Colors.blue,
-              label: "Rep",
+              label: "Total Reps",
               onMissingValue: (dateTime) {
                 return 0;
               },
@@ -385,7 +385,7 @@ class _ChartScreenState extends State<ChartScreen> {
             ),
             BezierLine(
               lineColor: Colors.grey,
-              label: "Touch",
+              label: "Total Touches",
               onMissingValue: (dateTime) {
                 return 0;
               },
