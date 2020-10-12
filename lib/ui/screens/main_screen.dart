@@ -27,6 +27,8 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   List _workoutData = [];
+  List workoutHistory = [];
+  int workoutHistoryCount = 0;
   bool _isLogin = true;  //All exercise data
 
   /* 
@@ -49,10 +51,40 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
-  void isLogin() async {
-    if (await FirebaseAuth.instance.currentUser() == null) {
+  void getWorkoutHistoryCount(List data) {
+    List tmp = [];
+    setState(() {
+      workoutHistoryCount = 0;
+    });
+    data.forEach((element) { 
+      if(tmp.indexOf(element['name']) == -1) {
+        tmp.add(element['name']);
+        setState(() {
+          workoutHistoryCount ++;
+        });
+      }
+    });
+  }
+
+  void isLoginAndGetWorkoutHistory() async {
+    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    if (user == null) {
       setState(() {
         _isLogin = false;
+      });
+    } else {
+      Firestore.instance.collection('users').document(user.uid).snapshots().listen((data)  { 
+        setState(() {
+          if( data['workoutHistory']  == null ) {
+            workoutHistory = [];
+          } else {
+            workoutHistory = data['workoutHistory'];
+          }
+        });
+        getWorkoutHistoryCount(workoutHistory);
+        // setState(() {
+        //   isLoading = false;
+        // });
       });
     }
   }
@@ -61,7 +93,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     super.initState();
     fetchWorkoutData();
-    isLogin(); // For login function1
+    isLoginAndGetWorkoutHistory(); // For login function1
     print(widget.firebaseUser);
   }
 
@@ -352,7 +384,8 @@ class _MainScreenState extends State<MainScreen> {
           InkWell(
             child: Stack(
               children: <Widget> [
-                Padding(
+                Container(
+                  height: i == 0 ? 175 : 190,
                   padding: i == 0 
                     ? EdgeInsets.fromLTRB(15.0, 0, 15.0, 0)
                     : EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0),
@@ -360,10 +393,24 @@ class _MainScreenState extends State<MainScreen> {
                     borderRadius: BorderRadius.circular(15.0),
                     child: Container(
                       width: MediaQuery.of(context).size.width - 30.0,
-                      child: new Image.network(workout[i]['image'],
-                        fit: BoxFit.fitWidth,
-                      ),
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          fit: BoxFit.fill,
+                          colorFilter: ColorFilter.mode(Colors.black.withOpacity(i < (workoutHistoryCount + 1) * 3 ?1 : 0.6), BlendMode.dstATop),
+                          image: NetworkImage(workout[i]['image']),
+                        ),
+                      )
                     ),
+                  ),
+                ),
+                i < (workoutHistoryCount + 1) * 3 
+                ? Container(color: Colors.white,)
+                : Positioned(
+                  left: (MediaQuery.of(context).size.width - 42.0) * 0.5,
+                  bottom: i == 0 ? (190.0 - 42.0 + 15.0) * 0.5 : (190.0 - 42.0) * 0.5,
+                  child: Icon(Icons.lock,
+                    color: Colors.grey,
+                    size: 42.0,
                   ),
                 ),
                 Positioned(
@@ -390,7 +437,9 @@ class _MainScreenState extends State<MainScreen> {
                 ),
               ]
             ),
-            onTap: () {
+            onTap: 
+            i < (workoutHistoryCount + 1) * 3
+            ? () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -402,7 +451,8 @@ class _MainScreenState extends State<MainScreen> {
                     description: workout[i]['description'],
                   )),
               ); 
-            },
+            }
+            : () {},
           ),
         );
       }
