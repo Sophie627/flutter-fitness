@@ -391,6 +391,23 @@ class _InOutState extends State<InOut> {
             'skillID' : widget.image,
             'durationTime' : '30',
             'restTime' : '10',
+            'voice': {
+              'rest': {
+                '10': 'getready',
+                '3': '3',
+                '2': '2',
+                '1': '1',
+                '0': 'go',
+              },
+              'train': {
+                '10': 'nextup',
+                '8': 'Rest',
+                '3': '3',
+                '2': '2',
+                '1': '1',
+                '0': 'great_job',
+              }
+            },
           }
         ];
       });
