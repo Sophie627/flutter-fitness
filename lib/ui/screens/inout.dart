@@ -6,12 +6,14 @@
 */
 
 import 'dart:async';
+import 'dart:io';
 
 import 'package:audioplayers/audio_cache.dart';
 // import 'package:audioplayers/audioplayers.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 // import 'package:stereo/stereo.dart';
 // import 'package:assets_audio_player/assets_audio_player.dart';
@@ -47,6 +49,7 @@ class InOut extends StatefulWidget {
 
 class _InOutState extends State<InOut> {
   Timer _timer;
+  Timer _bestTimer;
   PanelController _pc = new PanelController();
   var txt = TextEditingController();
   FocusNode myFocusNode;
@@ -64,6 +67,7 @@ class _InOutState extends State<InOut> {
   String _stageState = "rest"; //state related to stage
   bool _nightMode = false;//day mode or night mode
   List _workout = []; // exercise List(name, rep, time)
+  Color bestColor = !globals.nightTheme ? Colors.white : Colors.black;
 
   // final settings = Settings(
   //   sound: globals.sound,
@@ -75,60 +79,20 @@ class _InOutState extends State<InOut> {
     return score > widget.skillMaxRep[_current];
   }
 
-  reachBestScore() async {
-    await showGeneralDialog(
-      context: context,
-      pageBuilder: (BuildContext buildContext,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation) {
-        bool manuallyClosed = false;
-        if (_current != widget.skillData.length - 1) {
-          Future.delayed(Duration(seconds: 2)).then((_) {
-            if (!manuallyClosed) {
-              Navigator.of(context).pop();
-            }
-          });
-        }
-        return SafeArea(
-          child: Builder(builder: (context) {
-            return Material(
-              color: Colors.transparent,
-              child: Align(
-                alignment: Alignment.center,
-                child: Container(
-                  height: 200.0,
-                  width: 250.0,
-                  color: Colors.transparent,
-                  child:
-                    Center(
-                      child: Column(children: <Widget>[
-                        Text("Congratulations!!",
-                          style: TextStyle(
-                            fontSize: 28.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 24.0),
-                        Text("You've get a new Best Score!!",
-                          style: TextStyle(
-                            fontSize: 16.0,
-                          ),
-                        ),
-                      ],) 
-                    )
-                  )
-                )
-              );
-            }
-          ),
-        );
-      },
-      barrierDismissible: true,
-      barrierLabel: MaterialLocalizations.of(context)
-          .modalBarrierDismissLabel,
-      barrierColor: null,
-      transitionDuration: const Duration(milliseconds: 150)
-    );
+  reachBestScore() {
+    setState(() {
+      bestColor = globals.nightTheme ? Colors.white : Colors.black;
+    });
+    _bestTimer = new Timer(const Duration(seconds: 2), () {
+      setState(() {
+        bestColor = !globals.nightTheme ? Colors.white : Colors.black;
+      });
+    });
+    // sleep(const Duration(seconds: 2));
+    // setState(() {
+    //   bestColor = !globals.nightTheme ? Colors.white : Colors.black;
+    // });
+    
   }
 
   List<T> map<T>(List list, Function handler) {
@@ -884,6 +848,20 @@ class _InOutState extends State<InOut> {
                       }),
                     ),
                     // exerciseCarousel,
+                    Text("CONGRATULATIONS!!",
+                      style: TextStyle(
+                        color: bestColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 24.0,
+                      ),
+                    ),
+                    Text('New High Score',
+                      style: TextStyle(
+                        color: bestColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0,
+                      ),
+                    ),
                     Expanded(
                       child: exerciseCarousel
                     ),
