@@ -85,9 +85,6 @@ class _ActivityScreenState extends State<ActivityScreen> {
           Firestore.instance.collection('skill').document(element['skillID']).snapshots().listen((data) {
             setState(() {
               skillName.add(data['name']);
-              skillList.add({
-                'name': data['name'],
-              });
             });
           });
           setState(() {

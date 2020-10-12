@@ -52,13 +52,13 @@ class _ChartScreenState extends State<ChartScreen> {
 
   handleSkillHistory(List data) {
     data.forEach((element) {
-      if(element['skillID'] == widget.skillID) {
+      // if(element['skillID'] == widget.skillID) {
         DateTime date = DateTime.fromMillisecondsSinceEpoch(element['date'].seconds * 1000);
-        DateTime tmp = DateTime(date.year, date.month, date.day);
-        print("tmp ${tmp}");
-        if(skillDateHistory.indexOf(tmp) == -1 ) {
+        // DateTime tmp = DateTime(date.year, date.month, date.day);
+        // print("tmp ${tmp}");
+        // if(skillDateHistory.indexOf(tmp) == -1 ) {
           setState(() {
-            skillDateHistory.add(tmp);
+            skillDateHistory.add(date);
             skillRepHistory.add(element['rep']);
             if (element['solo'] == null || !element['solo']) {
               skillTypeHistory.add('Workout');
@@ -66,18 +66,18 @@ class _ChartScreenState extends State<ChartScreen> {
               skillTypeHistory.add('Solo');
             }
           });
-        } else {
-          int index = skillDateHistory.indexOf(tmp);
-          if(skillRepHistory[index] < element['rep']) {
-            skillRepHistory[index] = element['rep'];
-            if (element['solo'] == null || !element['solo']) {
-              skillTypeHistory[index] = 'Workout';
-            } else {
-              skillTypeHistory[index] = 'Solo';
-            }
-          }
-        }
-      }
+        // } else {
+        //   int index = skillDateHistory.indexOf(tmp);
+        //   if(skillRepHistory[index] < element['rep']) {
+        //     skillRepHistory[index] = element['rep'];
+        //     if (element['solo'] == null || !element['solo']) {
+        //       skillTypeHistory[index] = 'Workout';
+        //     } else {
+        //       skillTypeHistory[index] = 'Solo';
+        //     }
+        //   }
+        // }
+      // }
     });
   }
 
@@ -237,7 +237,7 @@ class _ChartScreenState extends State<ChartScreen> {
               buttonTextStyle: ButtonTextStyle(
                   selectedColor: Colors.white,
                   unSelectedColor: Colors.black,
-                  textStyle: TextStyle(fontSize: 16)),
+                  textStyle: TextStyle(fontSize: 14)),
               radioButtonValue: (value) {
                 setState(() {
                   radioValue = value;
@@ -345,7 +345,7 @@ class _ChartScreenState extends State<ChartScreen> {
       repData.add(DataPoint<DateTime>(value: skillRepHistory[i].toDouble(), xAxis: skillDateHistory[i]));
       touchData.add(DataPoint<DateTime>(value: skillRepHistory[i].toDouble() * touch, xAxis: skillDateHistory[i]));
     }
-    final fromDate = DateTime(2019, 12, 31);
+    final fromDate = skillDateHistory[0];
     DateTime toDate = DateTime.now();
     toDate = DateTime(toDate.year, toDate.month, toDate.day);
     // final date1 = DateTime.now().subtract(Duration(days: 2));
