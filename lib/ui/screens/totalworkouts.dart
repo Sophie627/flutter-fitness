@@ -20,6 +20,16 @@ class _TotalWorkoutsState extends State<TotalWorkouts> {
   @override
   Widget build(BuildContext context) {
     List<Widget> skillLists = [];
+    List skills = [];
+    for(int i = 0; i <widget.skillID.length; i++) {
+      skills.add({
+        'id': widget.skillID[i],
+        'rep': widget.skillRep[i],
+        'date': widget.skillDate[i],
+        'name': widget.skillName[i],
+      });
+    }
+    skills.sort((a, b) => a['name'].toLowerCase().compareTo(b['name'].toLowerCase()));
     for(int i = 0; i <widget.skillID.length; i++) {
       skillLists.add(
         Column(
@@ -30,8 +40,8 @@ class _TotalWorkoutsState extends State<TotalWorkouts> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => ChartScreen(
-                      skillID: widget.skillID[i],
-                      skillMaxRep: widget.skillRep[i].toString(),
+                      skillID: skills[i]['id'],
+                      skillMaxRep: skills[i]['rep'].toString(),
                     )),
                 );
               },
@@ -43,21 +53,21 @@ class _TotalWorkoutsState extends State<TotalWorkouts> {
                   crossAxisAlignment:  CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      DateFormat.yMMMd().format(widget.skillDate[i].toDate()),
+                      DateFormat.yMMMd().format(skills[i]['date'].toDate()),
                       style: TextStyle(
                         color: Colors.grey,
                         fontSize: 10,
                       ),
                       ),
                     Text(
-                      widget.skillName[i],
+                      skills[i]['name'],
                       style: TextStyle(
                         fontSize: 18.0,
                       ),
                     ),
                   ],
                 ),
-                trailing: Text(widget.skillRep[i].toString() + " Reps",
+                trailing: Text(skills[i]['rep'].toString() + " Reps",
                   style: TextStyle(
                     fontSize: 18,
                   ),

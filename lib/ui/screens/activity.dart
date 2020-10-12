@@ -25,6 +25,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
   List skillName = [];
   List skillRep = [];
   List skillDate = [];
+  List skillList = [];
   bool isLoading = true;
   bool isLogin = true;
 
@@ -84,6 +85,9 @@ class _ActivityScreenState extends State<ActivityScreen> {
           Firestore.instance.collection('skill').document(element['skillID']).snapshots().listen((data) {
             setState(() {
               skillName.add(data['name']);
+              skillList.add({
+                'name': data['name'],
+              });
             });
           });
           setState(() {
@@ -97,6 +101,8 @@ class _ActivityScreenState extends State<ActivityScreen> {
             setState(() {
               skillRep[index] = element['rep'];
               skillDate[index] = element['date'];
+              print(skillList);
+              // skillList[index]['data'] = element;
             });
           }
         }
@@ -121,7 +127,8 @@ class _ActivityScreenState extends State<ActivityScreen> {
   Widget build(BuildContext context) {
     print(workoutDate);
     return isLoading
-    ? Container(
+    ? Material(
+      child: Container(
         color: Colors.white,
         child: Center(
           child: Column(
@@ -130,10 +137,10 @@ class _ActivityScreenState extends State<ActivityScreen> {
               Padding(padding: EdgeInsets.only(top: 20.0)),
               Text(
                 "Loading...",
-                // style: TextStyle(
-                //   fontSize: 20.0,
-                //   color: Colors.black
-                // ),
+                style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.black
+                ),
               ),
               Padding(padding: EdgeInsets.only(top: 20.0)),
               CircularProgressIndicator(
@@ -143,7 +150,9 @@ class _ActivityScreenState extends State<ActivityScreen> {
           ],
         ),
       ),
+    ),
     )
+    
     : Container(
       color: Colors.grey.shade400,
       child: SafeArea(
