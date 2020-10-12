@@ -311,7 +311,7 @@ class _ChartScreenState extends State<ChartScreen> {
                 GaugeAnnotation(
                   verticalAlignment: GaugeAlignment.far,
                   widget: Container(
-                    child: Text(DateFormat('yyyy-MM-dd').format(date),
+                    child: Text(DateFormat('MM-dd-yyyy').format(date),
                       style: TextStyle(
                         fontSize: 12,))),
                   angle: 90,

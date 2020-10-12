@@ -20,6 +20,7 @@ import 'package:just_audio/just_audio.dart';
 import 'package:onboarding_flow/models/settings.dart';
 import 'package:onboarding_flow/models/exercise.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:onboarding_flow/ui/screens/chart_screen.dart';
 import 'package:onboarding_flow/ui/screens/main_screen.dart';
 import 'package:onboarding_flow/ui/screens/nascarresults.dart';
 import 'package:onboarding_flow/ui/screens/settings_screen.dart';
@@ -275,12 +276,23 @@ class _InOutState extends State<InOut> {
             FlatButton(
               child: Text('Yes'),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MainScreen(
-                    )),
-                );
+                if(widget.name == 'solo') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ChartScreen(
+                        skillMaxRep: widget.skillMaxRep[0].toString(),
+                        skillID: widget.image,
+                      )),
+                  );
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MainScreen(
+                      )),
+                  );
+                }
               },
             ),
             FlatButton(
