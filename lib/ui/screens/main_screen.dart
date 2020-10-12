@@ -57,7 +57,7 @@ class _MainScreenState extends State<MainScreen> {
       workoutHistoryCount = 0;
     });
     data.forEach((element) { 
-      if(tmp.indexOf(element['name']) == -1) {
+      if(tmp.indexOf(element['name']) == -1 && element['name'] != 'solo') {
         tmp.add(element['name']);
         setState(() {
           workoutHistoryCount ++;
@@ -94,11 +94,13 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
     fetchWorkoutData();
     isLoginAndGetWorkoutHistory(); // For login function1
-    print(widget.firebaseUser);
+    // print(widget.firebaseUser);
   }
 
   @override
   Widget build(BuildContext context) {
+
+    print(workoutHistoryCount);
 
     return DefaultTabController(
       length: 2, 
@@ -330,7 +332,7 @@ class _MainScreenState extends State<MainScreen> {
             launch(url);
           }  
           catch(e) { 
-            print(e); 
+            // print(e); 
           } 
         },
       )
@@ -396,14 +398,14 @@ class _MainScreenState extends State<MainScreen> {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           fit: BoxFit.fill,
-                          colorFilter: ColorFilter.mode(Colors.black.withOpacity(i < (workoutHistoryCount + 1) * 3 ?1 : 0.6), BlendMode.dstATop),
+                          colorFilter: ColorFilter.mode(Colors.black.withOpacity(i < (workoutHistoryCount ~/ 3 + 1) * 3 ? 1 : 0.6), BlendMode.dstATop),
                           image: NetworkImage(workout[i]['image']),
                         ),
                       )
                     ),
                   ),
                 ),
-                i < (workoutHistoryCount + 1) * 3 
+                i < (workoutHistoryCount ~/ 3 + 1) * 3 
                 ? Container(color: Colors.white,)
                 : Positioned(
                   left: (MediaQuery.of(context).size.width - 42.0) * 0.5,
@@ -438,7 +440,7 @@ class _MainScreenState extends State<MainScreen> {
               ]
             ),
             onTap: 
-            i < (workoutHistoryCount + 1) * 3
+            i < (workoutHistoryCount ~/ 3 + 1) * 3
             ? () {
               Navigator.push(
                 context,
