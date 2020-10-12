@@ -411,6 +411,16 @@ class _InOutState extends State<InOut> {
           }
         ];
       });
+      Firestore.instance.collection('skill').document(widget.image).snapshots().listen((data) {
+      setState(() {
+        data['rest'].forEach((k, v) {
+          _exerciseData[0]['voice']['rest'][k] = v;
+        });
+        data['train'].forEach((k, v) {
+          _exerciseData[0]['voice']['train'][k] = v;
+        });
+      });
+    });
     }
   }
 
