@@ -254,7 +254,7 @@ class _ChartScreenState extends State<ChartScreen> {
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
               crossAxisCount: 3,
-              children: gaugeList,
+              children: gaugeList.reversed.toList(),
             )
           ),
         ],
