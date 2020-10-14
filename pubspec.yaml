@@ -65,19 +65,7 @@ flutter:
   assets:
     - assets/
     - assets/music/
-    - assets/images/default.png
-    - assets/images/preview.jpg
-    - assets/images/logo.png
-    - assets/images/splash.png
-    - assets/images/getlimber.png
-    - assets/images/soccerbasics.png
-    - assets/images/thecore.png
-    - assets/images/narscar.png
-    - assets/images/ball.png
-    - assets/images/facebook.png
-    - assets/images/instagram.png
-    - assets/images/youtube.png
-    - assets/images/1.gif
+    - assets/images/
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -72,7 +72,7 @@ class SplashState extends State<SplashScreen> {
                   "Loading...",
                   style: TextStyle(
                     fontSize: 20.0,
-                    color: Colors.black
+                    color: Colors.white,
                   ),
                 ),
                 Padding(padding: EdgeInsets.only(top: 20.0)),
