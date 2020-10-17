@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:onboarding_flow/business/auth.dart';
 import 'package:onboarding_flow/models/settings.dart';
+import 'package:onboarding_flow/ui/screens/dashboard.dart';
 import 'package:onboarding_flow/ui/screens/root_screen.dart';
 import 'package:onboarding_flow/ui/screens/settings_screen.dart';
 import 'package:onboarding_flow/ui/screens/activity.dart';
@@ -30,6 +31,7 @@ class _MainScreenState extends State<MainScreen> {
   List workoutHistory = [];
   int workoutHistoryCount = 0;
   bool _isLogin = true;  //All exercise data
+  bool isAdmin = false;
 
   /* 
     fetchWorkoutData() async
@@ -75,6 +77,9 @@ class _MainScreenState extends State<MainScreen> {
     } else {
       Firestore.instance.collection('users').document(user.uid).snapshots().listen((data)  { 
         setState(() {
+          if(data['role'] == 'admin') setState(() {
+            isAdmin = true;
+          });
           if( data['workoutHistory']  == null ) {
             workoutHistory = [];
           } else {
@@ -156,6 +161,21 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                 ),
                 _signList(),
+                isAdmin
+                ? ListTile(
+                  leading: Icon(Icons.dashboard),
+                  title: _menuText('Dashboard'),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DashboardScreen(
+                        )),
+                    ); 
+                    _scaffoldKey.currentState.openEndDrawer();
+                  },
+                )
+                : null,
                 ListTile(
                   leading: Icon(Icons.contacts),
                   title: _menuText('Profile'),
@@ -411,7 +431,7 @@ class _MainScreenState extends State<MainScreen> {
                   left: (MediaQuery.of(context).size.width - 42.0) * 0.5,
                   bottom: i == 0 ? (190.0 - 42.0 + 15.0) * 0.5 : (190.0 - 42.0) * 0.5,
                   child: Icon(Icons.lock,
-                    color: Colors.grey,
+                    color: Colors.white,
                     size: 42.0,
                   ),
                 ),
