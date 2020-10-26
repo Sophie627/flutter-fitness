@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:onboarding_flow/business/auth.dart';
 import 'package:onboarding_flow/models/settings.dart';
-import 'package:onboarding_flow/ui/screens/dashboard.dart';
+import 'package:onboarding_flow/ui/screens/dashboard/dashboard.dart';
 import 'package:onboarding_flow/ui/screens/root_screen.dart';
 import 'package:onboarding_flow/ui/screens/settings_screen.dart';
 import 'package:onboarding_flow/ui/screens/activity.dart';
