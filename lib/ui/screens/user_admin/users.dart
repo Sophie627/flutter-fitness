@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:sweetalert/sweetalert.dart';
 
 class UsersScreen extends StatefulWidget {
   @override
@@ -101,18 +100,7 @@ class _UsersScreenState extends State<UsersScreen>
                   color: Colors.red,
                 ), 
                 onPressed: () {
-                  SweetAlert.show(context,
-                    title: "Are you sure?",
-                    subtitle: "Do you want to delete this user?",
-                    style: SweetAlertStyle.confirm,
-                    showCancelButton: true, 
-                    onPress: (bool isConfirm) {
-                    if (isConfirm) {
-                      SweetAlert.show(context,style: SweetAlertStyle.success,title: "Success");
-                      deleteUser(element['userID']);
-                      return false;
-                    }
-                  });
+                  deleteUser(element['userID']);
                 },
               ),
             ],

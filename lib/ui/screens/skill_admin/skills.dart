@@ -119,6 +119,14 @@ class _SkillsScreenState extends State<SkillsScreen>
                   ),
                 ), 
               ),
+              IconButton(
+                icon: Icon(Icons.delete,
+                  color: Colors.red,
+                ), 
+                onPressed: () {
+                  deleteSkill(skillID[key]);
+                },
+              ),
             ],
           )
         ),
@@ -127,5 +135,11 @@ class _SkillsScreenState extends State<SkillsScreen>
     return ListView(
       children: skillList,
     );
+  }
+
+  void deleteSkill(String skillID) {
+    Firestore.instance.collection('skill').document(skillID).delete()
+    .then((value) => print("Skill Deleted"))
+    .catchError((onError) => print("Failed to delete skill: $onError"));
   }
 }
