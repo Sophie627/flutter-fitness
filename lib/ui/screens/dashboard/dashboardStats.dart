@@ -53,7 +53,11 @@ class _DashboardStatsState extends State<DashboardStats> {
             style: stats,
           ),
           const SizedBox(height: 5.0),
-          Text(txt.toUpperCase())
+          Text(txt.toUpperCase(),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          )
         ],
       ),
     );

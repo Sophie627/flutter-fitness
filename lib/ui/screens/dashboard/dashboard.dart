@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:onboarding_flow/ui/screens/dashboard/dashboardStats.dart';
+import 'package:onboarding_flow/ui/screens/user_admin/users.dart';
 
 class DashboardScreen extends StatefulWidget {
   @override
@@ -78,6 +79,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             ),
             trailing: Icon(Icons.arrow_forward_ios),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => UsersScreen()),
+              );
+            },
           ),
           ListTile(
             subtitle: Text('Workout Management',
