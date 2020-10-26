@@ -76,7 +76,6 @@ class _UsersScreenState extends State<UsersScreen>
   }
 
   Widget userList(BuildContext context){
-    print(userData);
     List<Widget> userList = [];
     userData.asMap().forEach((index, element) {
       userList.add(
