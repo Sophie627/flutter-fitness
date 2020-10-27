@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:onboarding_flow/business/validator.dart';
+import 'package:onboarding_flow/ui/screens/workout_admin/workout_skill_form.dart';
 import 'package:onboarding_flow/ui/widgets/custom_alert_dialog.dart';
 import 'package:onboarding_flow/ui/widgets/custom_text_field.dart';
 
@@ -290,6 +291,16 @@ class _WorkoutFormScreenState extends State<WorkoutFormScreen> {
             deleteSkill(workoutSkillID[key]);
           }
         ),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => WorkoutSkillFromScreen(
+                workoutSkillID: workoutSkillID[key],
+                workoutID: workoutID,
+              )),
+          );
+        },
       ));
     });
     return Container(
@@ -297,54 +308,6 @@ class _WorkoutFormScreenState extends State<WorkoutFormScreen> {
       child: Column(
         children: skillList,
       ),
-    );
-  }
-
-  Widget voiceList(Map map, String field) {
-    List<Widget> voiceList = [];
-    map.forEach((key, value) {
-      voiceList.add(
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text('${key}s: ${value}.mp3',
-              style: TextStyle(
-                fontSize: 22.0
-              ),
-            ),
-            IconButton(
-              icon: Icon(Icons.delete,
-                color: Colors.red,
-                size: 32.0,
-              ), 
-              onPressed: () {
-                // if (field == 'rest') removeRestVoice(key);
-                // else removeTrainVoice(key); 
-              },
-            ),
-          ],
-        )
-      );
-    });
-    return Container(
-      padding: EdgeInsets.only(top: 10.0, left: 50.0, right: 20.0),
-      child: Column(
-        children: voiceList,
-      ),
-    );
-  }
-
-  void _showErrorAlert({String title, String content, VoidCallback onPressed}) {
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) {
-        return CustomAlertDialog(
-          content: content,
-          title: title,
-          onPressed: onPressed,
-        );
-      },
     );
   }
 
@@ -366,12 +329,6 @@ class _WorkoutFormScreenState extends State<WorkoutFormScreen> {
     Firestore.instance.collection('exercise' + workoutID.toString()).add({'skillID': skillsID[selectedSkill], 'no': maxSkillNo + 1})
       .then((value) {
          print("Workout Added");
-         setState(() {
-          //  workoutSkillID.add(value.documentID);
-          //  workoutSkillName.add(skillsName[selectedSkill]);
-          //  workoutSkillSkillID.add(skillsID[selectedSkill]);
-          //  maxSkillNo ++;
-         });
       })
       .catchError((error) => print("Failed to add workout: $error"));
   }
