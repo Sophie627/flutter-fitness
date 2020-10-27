@@ -47,6 +47,7 @@ class _SkillsScreenState extends State<SkillsScreen>
 
   @override
   Widget build(BuildContext context) {
+    print('skillData: $skillData');
     return Scaffold(
       appBar: AppBar(
         titleSpacing: 0.0,
@@ -75,7 +76,7 @@ class _SkillsScreenState extends State<SkillsScreen>
                       builder: (context) => SkillFormScreen(
                         skillID: 'createskill!!!',
                       )),
-                  );
+                  ).then((value) => setState((){}));
                 },
                 child: Text('+ Add New Skill',
                   style: TextStyle(

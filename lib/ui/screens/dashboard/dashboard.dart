@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:onboarding_flow/ui/screens/dashboard/dashboardStats.dart';
 import 'package:onboarding_flow/ui/screens/skill_admin/skills.dart';
 import 'package:onboarding_flow/ui/screens/user_admin/users.dart';
+import 'package:onboarding_flow/ui/screens/workout_admin/workouts.dart';
 
 class DashboardScreen extends StatefulWidget {
   @override
@@ -97,6 +98,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
             ),
             trailing: Icon(Icons.arrow_forward_ios),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => WorkoutsScreen()),
+              );
+            },
           ),
           ListTile(
             subtitle: Text('Skill Management',

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_material_pickers/flutter_material_pickers.dart';
 import 'package:onboarding_flow/business/validator.dart';
 import 'package:onboarding_flow/ui/widgets/custom_alert_dialog.dart';
-import 'package:onboarding_flow/ui/widgets/custom_flat_button.dart';
 import 'package:onboarding_flow/ui/widgets/custom_text_field.dart';
 
 class SkillFormScreen extends StatefulWidget {
@@ -23,7 +22,6 @@ class _SkillFormScreenState extends State<SkillFormScreen> {
   final TextEditingController restMusicName = new TextEditingController();
   final TextEditingController trainTime = new TextEditingController();
   final TextEditingController trainMusicName = new TextEditingController();
-  bool _blackVisible = false;
   VoidCallback onBackPress;
   dynamic skillData;
   bool isLoading = true;
@@ -72,10 +70,6 @@ class _SkillFormScreenState extends State<SkillFormScreen> {
   @override
   void initState() {
     super.initState();
-
-    onBackPress = () {
-      Navigator.of(context).pop();
-    };
 
     fetchSkillDate();
   }
@@ -179,7 +173,9 @@ class _SkillFormScreenState extends State<SkillFormScreen> {
               thickness: 2.0,
             ),
           ),
-          Padding(
+          widget.skillID == 'createskill!!!'
+          ? SizedBox(height: 0)
+          : Padding(
             padding: EdgeInsets.only(top: 20.0, left: 30.0, right: 30.0),
             child: Text('Voice',
               style: TextStyle(
@@ -190,7 +186,9 @@ class _SkillFormScreenState extends State<SkillFormScreen> {
             ),
           ),
           Expanded(
-            child: ListView(
+            child: widget.skillID == 'createskill!!!' 
+            ? SizedBox(height: 0)
+            : ListView(
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(top: 20.0, left: 50.0, right: 50.0),
@@ -286,23 +284,24 @@ class _SkillFormScreenState extends State<SkillFormScreen> {
               thickness: 2.0,
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-                vertical: 25.0, horizontal: 40.0),
-            child: CustomFlatButton(
-              title: "Save Skill",
-              fontSize: 22,
-              fontWeight: FontWeight.w700,
-              textColor: Colors.white,
-              onPressed: () {
-                _signUp(
-                    fullname: skillName.text,
-                    password: imageUrl.text);
-              },
-              splashColor: Colors.black12,
-              borderColor: Color.fromRGBO(59, 89, 152, 1.0),
-              borderWidth: 0,
-              color: Color.fromRGBO(59, 89, 152, 1.0),
+          Center(
+            child: Container(
+              margin: EdgeInsets.symmetric(vertical: 20.0),
+              height: 50.0,
+              width: MediaQuery.of(context).size.width * 0.8,
+              child: RaisedButton(
+                color: Colors.blue,
+                onPressed: () {
+                  actionSaveSkill();
+                },
+                child: Text('Save Skill',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18.0,
+                  ),
+                ),
+              ),
             ),
           ),
         ],
@@ -342,34 +341,6 @@ class _SkillFormScreenState extends State<SkillFormScreen> {
         children: voiceList,
       ),
     );
-  }
-
-  void _changeBlackVisible() {
-    setState(() {
-      _blackVisible = !_blackVisible;
-    });
-  }
-
-  void _signUp(
-      {String fullname,
-      String number,
-      String email,
-      String password,
-      BuildContext context}) async {
-    if (Validator.validateName(fullname) &&
-        Validator.validateEmail(email) &&
-        Validator.validateNumber(number) &&
-        Validator.validatePassword(password)) {
-      try {
-      } catch (e) {
-        print("Error in sign up: $e");
-        // _showErrorAlert(
-        //   title: "Signup failed",
-        //   content: e,
-        //   onPressed: _changeBlackVisible,
-        // );
-      }
-    }
   }
 
   void _showErrorAlert({String title, String content, VoidCallback onPressed}) {
@@ -438,5 +409,19 @@ class _SkillFormScreenState extends State<SkillFormScreen> {
     });
     trainTime.text = '';
     trainMusicName.text = '';
+  }
+
+  void actionSaveSkill() {
+    if (widget.skillID == 'createskill!!!') {
+      Firestore.instance.collection('skill').add({'name': skillName.text, 'url': imageUrl.text, 'touch': touch})
+      .then((value) => print("Skill Added"))
+      .catchError((error) => print("Failed to add skill: $error"));
+    } else {
+      Firestore.instance.collection('skill').document(widget.skillID)
+        .updateData({'name': skillName.text, 'url': imageUrl.text, 'touch': touch})
+        .then((value) => print("Skill Updated"))
+        .catchError((error) => print("Failed to update skill: $error"));
+    }
+    Navigator.of(context).pop();
   }
 }
