@@ -28,8 +28,15 @@ class _WorkoutFormScreenState extends State<WorkoutFormScreen> {
   List workoutSkillID = [];
   List workoutSkillSkillID = [];
   bool isLoading = true;
+  bool isLoadingSkill = true;
+  int maxSkillNo = 0;
+  List<String> skillsID = [];
+  List<String> skillsName = [];
+  int _selectedSkill;
+  List<DropdownMenuItem<int>> _dropDownMenuItems;
+  int workoutID;
 
-  fetchWorkoutDate() {
+  fetchWorkoutData() {
     if (widget.workoutID == 'createworkout!!!') {
       setState(() {
         isLoading = false;
@@ -38,6 +45,9 @@ class _WorkoutFormScreenState extends State<WorkoutFormScreen> {
       Firestore.instance.collection('workout').document(widget.workoutID).get()
       .then((DocumentSnapshot documentSnapshot) {
         if (documentSnapshot.exists) {
+          setState(() {
+            workoutID = documentSnapshot.data['workoutID'];
+          });
           Firestore.instance.collection('exercise' + documentSnapshot.data['workoutID'].toString()).orderBy('no').snapshots().listen((data) {
             setState(() {
               workoutSkillID = [];
@@ -47,11 +57,13 @@ class _WorkoutFormScreenState extends State<WorkoutFormScreen> {
             data.documents.forEach((doc) {
               workoutSkillSkillID.add(doc['skillID']);
               workoutSkillID.add(doc.documentID);
+              maxSkillNo = doc['no'];
             });
             setState(() {
               workoutData = workoutData;
               workoutSkillID = workoutSkillID;
               workoutSkillSkillID = workoutSkillSkillID;
+              maxSkillNo = maxSkillNo;
             });
             workoutSkillSkillID.asMap().forEach((key, element) {
               Firestore.instance.collection('skill').document(element).get()
@@ -83,17 +95,54 @@ class _WorkoutFormScreenState extends State<WorkoutFormScreen> {
     }
   }
 
+  fetchSkillData() {
+    Firestore.instance.collection('skill').snapshots().listen((data) {
+      setState(() {
+        skillsID = [];
+        skillsName = [];
+      });
+      data.documents.forEach((doc) {
+        skillsName.add(doc['name']);
+        skillsID.add(doc.documentID);
+      });
+      setState(() {
+        skillsName = skillsName;
+        skillsID = skillsID;
+        isLoadingSkill = false;
+      });
+      _dropDownMenuItems = buildAndGetDropDownMenuItems(skillsName);
+      _selectedSkill = _dropDownMenuItems[0].value;
+    });
+  }
+
+  List<DropdownMenuItem<int>> buildAndGetDropDownMenuItems(List skills) {
+    List<DropdownMenuItem<int>> items = new List();
+    skills.asMap().forEach((key, value) { 
+      items.add(new DropdownMenuItem(value: key, child: new Text(value)));
+    });
+    return items;
+  }
+
+  void changedDropDownItem(int selectedSkill) {
+    setState(() {
+      _selectedSkill = selectedSkill;
+      addSkill(selectedSkill);
+    });
+  }
+
   @override
   void initState() {
     super.initState();
 
-    fetchWorkoutDate();
+    fetchWorkoutData();
+    fetchSkillData();
+    
   }
 
   @override
   Widget build(BuildContext context) {
 
-    return isLoading 
+    return isLoading || isLoadingSkill
     ? Material(
       child: Center(
         child: CircularProgressIndicator(
@@ -178,6 +227,21 @@ class _WorkoutFormScreenState extends State<WorkoutFormScreen> {
             : ListView(
               children: <Widget>[
                 skillList(),
+                Container(
+                  child: new Center(
+                      child: new Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      new Text("Please choose a skill: "),
+                      new DropdownButton(
+                        value: _selectedSkill,
+                        items: _dropDownMenuItems,
+                        onChanged: changedDropDownItem,
+                      )
+                    ],
+                  )),
+                ),
               ],
             ),
           ),
@@ -222,7 +286,9 @@ class _WorkoutFormScreenState extends State<WorkoutFormScreen> {
           icon: Icon(Icons.delete,
             color: Colors.red,
           ), 
-          onPressed: null
+          onPressed: () {
+            deleteSkill(workoutSkillID[key]);
+          }
         ),
       ));
     });
@@ -294,5 +360,25 @@ class _WorkoutFormScreenState extends State<WorkoutFormScreen> {
         .catchError((error) => print("Failed to update skill: $error"));
     }
     Navigator.of(context).pop();
+  }
+
+  void addSkill(int selectedSkill) {
+    Firestore.instance.collection('exercise' + workoutID.toString()).add({'skillID': skillsID[selectedSkill], 'no': maxSkillNo + 1})
+      .then((value) {
+         print("Workout Added");
+         setState(() {
+          //  workoutSkillID.add(value.documentID);
+          //  workoutSkillName.add(skillsName[selectedSkill]);
+          //  workoutSkillSkillID.add(skillsID[selectedSkill]);
+          //  maxSkillNo ++;
+         });
+      })
+      .catchError((error) => print("Failed to add workout: $error"));
+  }
+
+  void deleteSkill(skillID) {
+    Firestore.instance.collection('exercise' + workoutID.toString()).document(skillID).delete()
+    .then((value) => print("Skill Deleted"))
+    .catchError((onError) => print("Failed to delete skill: $onError"));
   }
 }
