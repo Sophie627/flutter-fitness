@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:onboarding_flow/ui/screens/skill_admin/skill_form.dart';
 
 class SkillsScreen extends StatefulWidget {
   @override
@@ -68,7 +69,13 @@ class _SkillsScreenState extends State<SkillsScreen>
               child: RaisedButton(
                 color: Colors.blue,
                 onPressed: () {
-                  print('press button');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SkillFormScreen(
+                        skillID: 'createskill!!!',
+                      )),
+                  );
                 },
                 child: Text('+ Add New Skill',
                   style: TextStyle(
@@ -103,21 +110,38 @@ class _SkillsScreenState extends State<SkillsScreen>
         Container(
           padding: EdgeInsets.all(10.0),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              new Image.network(
-                value['url'],
-                height: 90.0,
-              ),
-              Expanded(
-                child: Center(
-                  child: Text(value['name'],
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18.0
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SkillFormScreen(
+                        skillID: skillID[key],
+                      )),
+                  );
+                },
+                child: Row(
+                  children: <Widget>[
+                    new Image.network(
+                      value['url'],
+                      height: 90.0,
                     ),
-                  ),
-                ), 
+                    SizedBox(width: 20.0),
+                    Container(
+                      child: Center(
+                        child: Text(value['name'],
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18.0
+                          ),
+                        ),
+                      ), 
+                    ),
+                  ],
+                ),
               ),
               IconButton(
                 icon: Icon(Icons.delete,
