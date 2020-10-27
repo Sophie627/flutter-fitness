@@ -19,9 +19,11 @@ public final class GeneratedPluginRegistrant {
     flutterEngine.getPlugins().add(new com.github.florent37.assets_audio_player_web.AssetsAudioPlayerWebPlugin());
     flutterEngine.getPlugins().add(new xyz.luan.audioplayers.AudioplayersPlugin());
     flutterEngine.getPlugins().add(new io.flutter.plugins.firebase.cloudfirestore.CloudFirestorePlugin());
+    flutterEngine.getPlugins().add(new com.mr.flutter.plugin.filepicker.FilePickerPlugin());
     flutterEngine.getPlugins().add(new io.flutter.plugins.firebaseauth.FirebaseAuthPlugin());
     flutterEngine.getPlugins().add(new io.flutter.plugins.firebase.core.FirebaseCorePlugin());
     flutterEngine.getPlugins().add(new io.flutter.plugins.firebase.database.FirebaseDatabasePlugin());
+    flutterEngine.getPlugins().add(new io.flutter.plugins.flutter_plugin_android_lifecycle.FlutterAndroidLifecyclePlugin());
     flutterEngine.getPlugins().add(new com.ryanheise.just_audio.JustAudioPlugin());
     flutterEngine.getPlugins().add(new io.flutter.plugins.pathprovider.PathProviderPlugin());
       mt.innovation.screenshotshareimage.ScreenshotShareImagePlugin.registerWith(shimPluginRegistry.registrarFor("mt.innovation.screenshotshareimage.ScreenshotShareImagePlugin"));

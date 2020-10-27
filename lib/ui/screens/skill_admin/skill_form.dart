@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_material_pickers/flutter_material_pickers.dart';
 import 'package:onboarding_flow/business/validator.dart';
 import 'package:onboarding_flow/ui/widgets/custom_alert_dialog.dart';
 import 'package:onboarding_flow/ui/widgets/custom_flat_button.dart';
@@ -24,6 +25,7 @@ class _SkillFormScreenState extends State<SkillFormScreen> {
   VoidCallback onBackPress;
   dynamic skillData;
   bool isLoading = true;
+  int touch = 1;
 
   fetchSkillDate() {
     if (widget.skillID == 'createskill!!!') {
@@ -37,6 +39,11 @@ class _SkillFormScreenState extends State<SkillFormScreen> {
           print('Document data: ${documentSnapshot.data}');
           skillName.text = documentSnapshot.data['name'];
           imageUrl.text = documentSnapshot.data['url'];
+          if (documentSnapshot.data['touch'] != null) {
+            setState(() {
+              touch = documentSnapshot.data['touch'];
+            });
+          }
           setState(() {
             skillData = documentSnapshot.data;
             isLoading = false;
@@ -116,6 +123,47 @@ class _SkillFormScreenState extends State<SkillFormScreen> {
                         controller: imageUrl,
                         hint: "Image URL",
                         validator: Validator.validateName,
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 10.0, left: 40.0, right: 40.0),
+                      child:  Row(
+                        children: <Widget>[
+                          Container(
+                            width: 150.0,
+                            child: RaisedButton(
+                              color: Colors.blue,
+                              child: Text("Touch Picker",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              onPressed: () => showMaterialNumberPicker(
+                                context: context,
+                                title: "Pick Skill Touch",
+                                maxNumber: 10,
+                                minNumber: 1,
+                                confirmText: "OK",
+                                cancelText: "Cancel",
+                                selectedNumber: touch,
+                                onChanged: (value) => setState(() => touch = value),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Center(
+                              child: Text(
+                                touch.toString(),
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 24.0,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ), 
+                          ),
+                        ],
                       ),
                     ),
                     Padding(
