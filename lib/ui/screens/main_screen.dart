@@ -175,7 +175,7 @@ class _MainScreenState extends State<MainScreen> {
                     _scaffoldKey.currentState.openEndDrawer();
                   },
                 )
-                : null,
+                : SizedBox(height: 0.0),
                 ListTile(
                   leading: Icon(Icons.contacts),
                   title: _menuText('Profile'),
