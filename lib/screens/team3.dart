@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:onboarding_flow/custom/customButton.dart';
 import 'package:onboarding_flow/custom/customRegularText.dart';
 import 'package:onboarding_flow/res/colors.dart';
+import 'package:onboarding_flow/screens/signUp.dart';
 
 class Team3 extends StatefulWidget {
   @override
@@ -76,7 +77,7 @@ class _Team3State extends State<Team3> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (ctx) => Team3(),
+                      builder: (ctx) => SignUp(),
                     ),
                   );
                 },

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:onboarding_flow/custom/customButton.dart';
 import 'package:onboarding_flow/custom/customRegularText.dart';
 import 'package:onboarding_flow/res/colors.dart';
+import 'package:onboarding_flow/screens/signUp.dart';
 import 'package:onboarding_flow/screens/team2.dart';
 
 class Team1 extends StatelessWidget {
@@ -49,12 +50,22 @@ class Team1 extends StatelessWidget {
               SizedBox(
                 height: height * 0.043,
               ),
-              Text(
-                "I Do Not Play for a Team",
-                style: TextStyle(
-                  fontFamily: "Roboto",
-                  fontSize: 18,
-                  color: Color(0xffffffff),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (ctx) => SignUp(),
+                    ),
+                  );
+                },
+                child: Text(
+                  "I Do Not Play for a Team",
+                  style: TextStyle(
+                    fontFamily: "Roboto",
+                    fontSize: 18,
+                    color: Color(0xffffffff),
+                  ),
                 ),
               ),
               SizedBox(height: height * 0.073),

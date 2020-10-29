@@ -2,8 +2,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:onboarding_flow/custom/customButton.dart';
 import 'package:onboarding_flow/res/colors.dart';
+import 'package:onboarding_flow/screens/nickname.dart';
 import 'package:onboarding_flow/screens/signIn.dart';
-import 'package:onboarding_flow/screens/signUp.dart';
 
 class Intro extends StatelessWidget {
   @override
@@ -49,7 +49,7 @@ class Intro extends StatelessWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (ctx) => SignUp(),
+                      builder: (ctx) => Nickname(),
                     ),
                   );
                 },

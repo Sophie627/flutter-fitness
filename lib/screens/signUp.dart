@@ -3,7 +3,7 @@ import 'package:onboarding_flow/custom/customButton.dart';
 import 'package:onboarding_flow/custom/customRegularText.dart';
 import 'package:onboarding_flow/custom/customTextField.dart';
 import 'package:onboarding_flow/res/colors.dart';
-import 'package:onboarding_flow/screens/nickname.dart';
+import 'package:onboarding_flow/screens/notifications.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -62,7 +62,7 @@ class _SignUpState extends State<SignUp> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (ctx) => Nickname(),
+                      builder: (ctx) => Notificationss(),
                     ),
                   );
                 },

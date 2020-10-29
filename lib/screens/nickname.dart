@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:onboarding_flow/custom/customButton.dart';
 import 'package:onboarding_flow/custom/customRegularText.dart';
 import 'package:onboarding_flow/res/colors.dart';
-
-import 'notifications.dart';
+import 'package:onboarding_flow/screens/team1.dart';
 
 class Nickname extends StatefulWidget {
   @override
@@ -64,18 +63,18 @@ class _NicknameState extends State<Nickname> {
                   ),
                 ),
               ),
-              SizedBox(height: height * 0.219),
+              SizedBox(height: 100.0),
               InkWell(
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (ctx) => Notificationss(),
+                      builder: (ctx) => Team1(),
                     ),
                   );
                 },
                 child: CustomButton(
-                  text: 'SUBMIT',
+                  text: 'CONTINUE',
                 ),
               ),
               SizedBox(height: height * 0.073),
