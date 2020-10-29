@@ -14,6 +14,7 @@ import 'package:onboarding_flow/ui/screens/activity.dart';
 import 'package:onboarding_flow/ui/screens/profile.dart';
 import 'package:onboarding_flow/ui/screens/preview_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MainScreen extends StatefulWidget {
@@ -178,13 +179,14 @@ class _MainScreenState extends State<MainScreen> {
                   leading: Icon(Icons.contacts),
                   title: _menuText('Profile'),
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ProfileScreen(
+                    Navigator.push(context, 
+                      PageTransition(
+                        child: ProfileScreen(
                           settings: widget.settings,
-                        )),
-                    ); 
+                        ), 
+                        type: PageTransitionType.leftToRight,
+                      ),
+                    );
                     _scaffoldKey.currentState.openEndDrawer();
                   },
                 ),
@@ -192,13 +194,14 @@ class _MainScreenState extends State<MainScreen> {
                   leading: Icon(Icons.brush),
                   title: _menuText('Activity'),
                   onTap: () {
-                     Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ActivityScreen(
+                    Navigator.push(context, 
+                      PageTransition(
+                        child: ActivityScreen(
                           settings: widget.settings,
-                        )),
-                    ); 
+                        ), 
+                        type: PageTransitionType.leftToRight,
+                      ),
+                    );
                     _scaffoldKey.currentState.openEndDrawer();
                   },
                 ),
