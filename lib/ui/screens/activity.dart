@@ -83,6 +83,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
       if(element['rep'] > 0) {
         if(skillID.indexOf(element['skillID']) == -1) {
           Firestore.instance.collection('skill').document(element['skillID']).snapshots().listen((data) {
+            print('skillname ${data}');
             setState(() {
               skillName.add(data['name']);
             });
@@ -98,7 +99,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
             setState(() {
               skillRep[index] = element['rep'];
               skillDate[index] = element['date'];
-              print(skillList);
+              // print(skillList);
               // skillList[index]['data'] = element;
             });
           }
@@ -122,7 +123,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(workoutDate);
+    // print(workoutDate);
     return isLoading
     ? Material(
       child: Container(

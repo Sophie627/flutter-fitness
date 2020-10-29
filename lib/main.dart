@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: Colors.white,
         primarySwatch: Colors.green,
-        accentColor: Colors.blue,
+        accentColor: Colors.white,
       ),
       home: _handleCurrentScreen(),
     );

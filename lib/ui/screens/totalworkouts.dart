@@ -17,6 +17,7 @@ class TotalWorkouts extends StatefulWidget {
 }
 
 class _TotalWorkoutsState extends State<TotalWorkouts> {
+  
   @override
   Widget build(BuildContext context) {
     List<Widget> skillLists = [];

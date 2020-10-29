@@ -76,6 +76,7 @@ class _InOutState extends State<InOut> {
   // );
 
   bool isBestScore(int score) {
+    if (widget.skillMaxRep[_current] == 0) return false;
     return score > widget.skillMaxRep[_current];
   }
 

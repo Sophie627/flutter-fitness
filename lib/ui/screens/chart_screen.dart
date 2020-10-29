@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:bezier_chart/bezier_chart.dart';
 import 'package:onboarding_flow/ui/screens/main_screen.dart';
 import 'package:onboarding_flow/ui/screens/ready_screen.dart';
+import 'package:onboarding_flow/ui/screens/totalworkouts.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import '../../globals.dart' as globals;
 
@@ -29,8 +30,97 @@ class _ChartScreenState extends State<ChartScreen> {
   List skillRepHistory = [];
   List skillTypeHistory = [];
   List workoutData = [];
+  List skillID = [];
+  List skillName = [];
+  List skillRep = [];
+  List skillDate = [];
   bool isLoading = true;
   String radioValue = 'W';
+  DateTime fromDate;
+  BezierChartScale bezierChartScale = BezierChartScale.WEEKLY;
+  bool isLogin = true;
+  List workoutHistory = [];
+  List workoutName = [];
+  Map<DateTime, List<dynamic>> workoutDate = {};
+
+  void fetchCurrentUserWorkoutData() async {
+    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    if (user == null) {
+      setState(() {
+        isLogin = false;
+        isLoading = false;
+      });
+    } else {
+      Firestore.instance.collection('users').document(user.uid).snapshots().listen((data)  { 
+        setState(() {
+          if( data['workout']  == null ) {
+            workoutData = [];
+          } else {
+            workoutData = data['workout'];
+          }
+        });
+        setState(() {
+          if( data['workoutHistory']  == null ) {
+            workoutHistory = [];
+          } else {
+            workoutHistory = data['workoutHistory'];
+          }
+        });
+        handleWorkoutData(workoutData);
+        handleWorkoutHistory(workoutHistory);
+        // setState(() {
+        //   isLoading = false;
+        // });
+      });
+    }
+  }
+  
+  void handleWorkoutHistory(List data) {
+    data.forEach((element) {
+      if(workoutName.indexOf(element['name']) == -1 && element['name'] != 'solo') {
+        setState(() {
+          workoutName.add(element['name']);
+        });
+      }
+      DateTime date = DateTime.fromMillisecondsSinceEpoch(element['date'].seconds * 1000);
+      DateTime tmp = DateTime(date.year, date.month, date.day);
+      if(workoutDate.keys.toList().indexOf(tmp) == -1 ) {
+        setState(() {
+          workoutDate.addAll({tmp : ['']});
+        });
+      }
+    });
+  }
+
+  void handleWorkoutData(List data) {
+    data.forEach((element) {
+      if(element['rep'] > 0) {
+        if(skillID.indexOf(element['skillID']) == -1) {
+          Firestore.instance.collection('skill').document(element['skillID']).snapshots().listen((data) {
+            print('skillname ${data}');
+            setState(() {
+              skillName.add(data['name']);
+            });
+          });
+          setState(() {
+            skillID.add(element['skillID']);
+            skillRep.add(element['rep']);
+            skillDate.add(element['date']);
+          });
+        } else {
+          int index = skillID.indexOf(element['skillID']);
+          if(skillRep[index] < element['rep']) {
+            setState(() {
+              skillRep[index] = element['rep'];
+              skillDate[index] = element['date'];
+              // print(skillList);
+              // skillList[index]['data'] = element;
+            });
+          }
+        }
+      }
+    });
+  }
 
   void getSkillhisstory() async {
     final FirebaseUser user = await FirebaseAuth.instance.currentUser();
@@ -95,6 +185,7 @@ class _ChartScreenState extends State<ChartScreen> {
     super.initState();
     fetchSkillData();
     getSkillhisstory();
+    fetchCurrentUserWorkoutData();
   }
 
   @override
@@ -115,7 +206,12 @@ class _ChartScreenState extends State<ChartScreen> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => MainScreen(
+                builder: (context) => TotalWorkouts(
+                  // settings: widget.settings,
+                  skillID: skillID,
+                  skillRep: skillRep,
+                  skillDate: skillDate,
+                  skillName: skillName,
                 )),
             );
           },
@@ -237,7 +333,7 @@ class _ChartScreenState extends State<ChartScreen> {
               buttonTextStyle: ButtonTextStyle(
                   selectedColor: Colors.white,
                   unSelectedColor: Colors.black,
-                  textStyle: TextStyle(fontSize: 14)),
+                  textStyle: TextStyle(fontSize: 12)),
               radioButtonValue: (value) {
                 setState(() {
                   radioValue = value;
@@ -328,15 +424,26 @@ class _ChartScreenState extends State<ChartScreen> {
     List<DataPoint<dynamic>> repData = [];
     List<DataPoint<dynamic>> touchData = [];
     BezierChartScale bezierChartScale;
+    
+    DateTime toDate = DateTime.now();
     switch (radioValue) {
       case 'W':
-        bezierChartScale = BezierChartScale.WEEKLY;
+        setState(() {
+          bezierChartScale = BezierChartScale.WEEKLY;
+          fromDate = toDate.subtract(Duration(days: 7));
+        });
         break;
       case 'M':
-        bezierChartScale = BezierChartScale.MONTHLY;
+        setState(() {
+          bezierChartScale = BezierChartScale.MONTHLY;
+          fromDate = toDate.subtract(Duration(days: 365));
+        });
         break;
       case 'Y':
-        bezierChartScale = BezierChartScale.YEARLY;
+        setState(() {
+          bezierChartScale = BezierChartScale.YEARLY;
+          fromDate = toDate.subtract(Duration(days: 3650));
+        });
         break;
       default:
     }
@@ -345,9 +452,9 @@ class _ChartScreenState extends State<ChartScreen> {
       repData.add(DataPoint<DateTime>(value: skillRepHistory[i].toDouble(), xAxis: skillDateHistory[i]));
       touchData.add(DataPoint<DateTime>(value: skillRepHistory[i].toDouble() * touch, xAxis: skillDateHistory[i]));
     }
-    final fromDate = skillDateHistory[0];
-    DateTime toDate = DateTime.now();
-    toDate = DateTime(toDate.year, toDate.month, toDate.day);
+    // final fromDate = skillDateHistory[0];
+    
+    // toDate = DateTime(toDate.year, toDate.month, toDate.day);
     // final date1 = DateTime.now().subtract(Duration(days: 2));
     // final date2 = DateTime.now().subtract(Duration(days: 3));
     return Center(
@@ -376,6 +483,7 @@ class _ChartScreenState extends State<ChartScreen> {
           // },
           series: [
             BezierLine(
+              lineStrokeWidth: 8.0,
               lineColor: Colors.blue,
               label: "Total Reps",
               onMissingValue: (dateTime) {
@@ -384,6 +492,7 @@ class _ChartScreenState extends State<ChartScreen> {
               data: repData,
             ),
             BezierLine(
+              lineStrokeWidth: 8.0,
               lineColor: Colors.grey,
               label: "Total Touches",
               onMissingValue: (dateTime) {
@@ -393,13 +502,14 @@ class _ChartScreenState extends State<ChartScreen> {
             ),
           ],
           config: BezierChartConfig(
+            showDataPoints: false,
             updatePositionOnTap: true,
             displayDataPointWhenNoValue: false,
-            verticalIndicatorStrokeWidth: 3.0,
+            verticalIndicatorStrokeWidth: 0.0,
             pinchZoom: true,
             physics: ClampingScrollPhysics(),
             verticalIndicatorColor: Colors.black,
-            showVerticalIndicator: true,
+            showVerticalIndicator: false,
             verticalIndicatorFixedPosition: false,
             backgroundColor: Colors.white,
             xAxisTextStyle: TextStyle(

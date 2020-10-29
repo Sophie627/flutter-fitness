@@ -85,7 +85,7 @@ class _UsersScreenState extends State<UsersScreen>
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Checkbox(
-                checkColor: Colors.white,
+                checkColor: Colors.black,
                 value: userAdminData[index], 
                 onChanged: (value) {
                   setState(() {
