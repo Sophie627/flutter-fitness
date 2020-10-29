@@ -62,8 +62,9 @@ class MyApp extends StatelessWidget {
       },
       theme: ThemeData(
         primaryColor: Colors.white,
-        primarySwatch: Colors.green,
+        primarySwatch: Colors.blue,
         accentColor: Colors.white,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: _handleCurrentScreen(),
     );
