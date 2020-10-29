@@ -2,8 +2,22 @@ import 'package:flutter/material.dart';
 
 class CustomTextField extends StatefulWidget {
   final String hintText;
+  final TextEditingController controller;
+  final Color errorColor;
+  final TextInputType inputType;
+  final Function validator;
+  final Function onChanged;
+  final bool obscureText;
 
-  CustomTextField({this.hintText});
+  CustomTextField({
+    this.hintText,
+    this.controller,
+    this.errorColor,
+    this.inputType,
+    this.onChanged,
+    this.validator,
+    this.obscureText = false,
+  });
   @override
   _CustomTextFieldState createState() => _CustomTextFieldState();
 }
@@ -20,6 +34,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
         borderRadius: BorderRadius.circular(10.00),
       ),
       child: TextFormField(
+        obscureText: widget.obscureText,
+        controller: widget.controller,
         style: TextStyle(
           fontFamily: "Roboto",
           fontSize: 20,
