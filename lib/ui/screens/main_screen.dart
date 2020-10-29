@@ -145,19 +145,17 @@ class _MainScreenState extends State<MainScreen> {
               padding: EdgeInsets.zero,
               children: <Widget>[
                 Container(
+                  color: Color(0xFF024AAD),
+                  alignment: Alignment.centerRight,
                   height: 130.0,
                   child: DrawerHeader(
                     decoration: BoxDecoration(
-                      color: Color(0xFF85C1E9),
+                      color: Color(0xFF024AAD),
                     ),
-                    child: Text(
-                        'Brave Fit',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,  
-                          fontFamily: 'Xbka',
-                        ),
-                      ),
+                    child: Image.asset('assets/images/footylab.png',
+                      width: 110.0,
+                      fit: BoxFit.fitWidth,
+                    ),
                   ),
                 ),
                 _signList(),
