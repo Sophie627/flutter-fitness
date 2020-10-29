@@ -5,8 +5,34 @@ import 'package:onboarding_flow/res/colors.dart';
 import 'package:onboarding_flow/screens/signUp.dart';
 import 'package:onboarding_flow/screens/team2.dart';
 
-class Team1 extends StatelessWidget {
+class Team1 extends StatefulWidget {
+
+  final String nickname;
+  Team1({
+    this.nickname,
+  });
+
   @override
+  _Team1State createState() => _Team1State();
+}
+
+class _Team1State extends State<Team1>
+    with SingleTickerProviderStateMixin {
+  AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(vsync: this);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
+ @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
@@ -31,7 +57,7 @@ class Team1 extends StatelessWidget {
                 height: height * 0.029,
               ),
               CustomRegularText(
-                text: 'Ivan - I like it! Do you play for\na soccer team?',
+                text: widget.nickname + ' - I like it! Do you play for\na soccer team?',
               ),
               SizedBox(
                 height: height * 0.2194,

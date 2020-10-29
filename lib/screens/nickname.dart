@@ -10,6 +10,8 @@ class Nickname extends StatefulWidget {
 }
 
 class _NicknameState extends State<Nickname> {
+  final TextEditingController _nickName = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
@@ -45,6 +47,7 @@ class _NicknameState extends State<Nickname> {
                   borderRadius: BorderRadius.circular(10.00),
                 ),
                 child: TextFormField(
+                  controller: _nickName,
                   style: TextStyle(
                     fontFamily: "Roboto",
                     fontSize: 20,
@@ -69,7 +72,9 @@ class _NicknameState extends State<Nickname> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (ctx) => Team1(),
+                      builder: (ctx) => Team1(
+                        nickname: _nickName.text,
+                      ),
                     ),
                   );
                 },
