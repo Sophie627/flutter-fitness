@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:onboarding_flow/custom/customButton.dart';
 import 'package:onboarding_flow/custom/customRegularText.dart';
@@ -21,7 +22,31 @@ class _Team3State extends State<Team3> {
   // bool check3 = false;
   // bool check4 = false;
 
-  List<bool> checks = [false, false, false, false];
+  List<bool> checks = [];
+  List<String> terms = [];
+  bool isLoading = true;
+
+  fetchTermData() {
+    Firestore.instance.collection('scoutTerms').snapshots().listen((value) {
+      value.documents.forEach((element) { 
+        checks.add(false);
+        terms.add(element['term']);
+      });
+      setState(() {
+        checks = checks;
+        terms = terms;
+        isLoading = false;
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    fetchTermData();
+  }
+
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
@@ -53,29 +78,18 @@ class _Team3State extends State<Team3> {
               SizedBox(
                 height: height * 0.043,
               ),
-              checkBox(
-                  height: height,
-                  label: 'Strong with the ball in\nthe feet',
-                  check: 0,
-                  checkedValue: checks[0]),
-              SizedBox(height: height * 0.014),
-              checkBox(
-                  height: height,
-                  label: 'Shows great pace and\nreading of the game',
-                  check: 1,
-                  checkedValue: checks[1]),
-              SizedBox(height: height * 0.014),
-              checkBox(
-                  height: height,
-                  label: 'Can simple do it all',
-                  check: 2,
-                  checkedValue: checks[2]),
-              SizedBox(height: height * 0.014),
-              checkBox(
-                  height: height,
-                  label: 'High success rate in\npenalty kicks',
-                  check: 3,
-                  checkedValue: checks[3]),
+              Container(
+                child: Column(
+                  children: isLoading
+                  ? [Center(
+                    child: CircularProgressIndicator(
+                      backgroundColor: Colors.black,
+                      strokeWidth: 1,
+                    ),
+                  )]
+                  : checkBoxList(height),
+                ),
+              ),
               SizedBox(height: height * 0.073),
               InkWell(
                 onTap: () {
@@ -96,6 +110,23 @@ class _Team3State extends State<Team3> {
         ),
       ),
     );
+  }
+
+  List<Widget> checkBoxList(double height) {
+    List<Widget> list = [];
+
+    terms.asMap().forEach((key, value) { 
+      list.add(
+        checkBox(
+          height: height,
+          label: value,
+          check: key,
+          checkedValue: checks[key]),
+      );
+      list.add(SizedBox(height: height * 0.014),);
+    });
+
+    return list;
   }
 
   Container checkBox({
@@ -126,27 +157,11 @@ class _Team3State extends State<Team3> {
                 color: Color(0xfffffefd).withOpacity(0.60),
               ),
             ),
-            value: check == 0
-                ? checks[0]
-                : check == 1
-                    ? checks[1]
-                    : check == 2
-                        ? checks[2]
-                        : check == 3
-                            ? checks[3]
-                            : false,
+            value: checks[check],
 
             onChanged: (newValue) {
               setState(() {
-                if (check == 0) {
-                  checks[0] = newValue;
-                } else if (check == 1) {
-                  checks[1] = newValue;
-                } else if (check == 2) {
-                  checks[2] = newValue;
-                } else if (check == 3) {
-                  checks[3] = newValue;
-                }
+                checks[check] = newValue;
               });
             },
             controlAffinity:
