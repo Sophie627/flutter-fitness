@@ -29,7 +29,7 @@ class Auth {
     FirebaseUser user = (await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: password)).user;
     String username = "bolesalavb@gmail.com";
-    String emailPass = "freelancer2.0";
+    String emailPass = "freelancer4.0";
 
     final smtpServer = gmail(username, emailPass); 
     // Creating the Gmail server

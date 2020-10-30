@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_material_pickers/flutter_material_pickers.dart';
 import 'package:intl/intl.dart';
+import 'package:onboarding_flow/business/auth.dart';
+import 'package:onboarding_flow/business/validator.dart';
 import 'package:onboarding_flow/custom/customButton.dart';
 import 'package:onboarding_flow/custom/customRegularText.dart';
 import 'package:onboarding_flow/custom/customTextField.dart';
+import 'package:onboarding_flow/models/user.dart';
 import 'package:onboarding_flow/res/colors.dart';
 import 'package:onboarding_flow/screens/notifications.dart';
+import 'package:onboarding_flow/ui/widgets/custom_alert_dialog.dart';
 
 class SignUp extends StatefulWidget {
 
@@ -22,6 +27,10 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   DateTime date = DateTime.now();
+  final TextEditingController _email = new TextEditingController();
+  final TextEditingController _password = new TextEditingController();
+  final TextEditingController _confirmPassword = new TextEditingController();
+  bool _blackVisible = false;
 
   @override
   void initState() {
@@ -64,14 +73,19 @@ class _SignUpState extends State<SignUp> {
               ),
               CustomTextField(
                 hintText: 'YOUR EMAIL',
+                controller: _email,
               ),
               SizedBox(height: height * 0.014),
               CustomTextField(
                 hintText: 'ACCOUNT PASSWORD',
+                controller: _password,
+                obscureText: true,
               ),
               SizedBox(height: height * 0.014),
               CustomTextField(
                 hintText: 'CONFIRMED PASSWORD',
+                controller: _confirmPassword,
+                obscureText: true,
               ),
               SizedBox(height: height * 0.04),
               Row(
@@ -103,12 +117,10 @@ class _SignUpState extends State<SignUp> {
               SizedBox(height: height * 0.073),
               InkWell(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (ctx) => Notificationss(),
-                    ),
-                  );
+                  _signUp(
+                    fullname: widget.userInfo['nickName'],
+                    email: _email.text,
+                    password: _password.text);
                 },
                 child: CustomButton(
                   text: 'SUBMIT',
@@ -119,6 +131,96 @@ class _SignUpState extends State<SignUp> {
           ),
         ),
       ),
+    );
+  }
+
+  void _changeBlackVisible() {
+    setState(() {
+      _blackVisible = !_blackVisible;
+    });
+  }
+
+  void _signUp(
+      {String fullname,
+      String email,
+      String password,
+      BuildContext context}) async {
+    if (_email.text == '') {
+      _showErrorAlert(
+        title: "Email Error",
+        content: "Please enter email address",
+        onPressed: _changeBlackVisible,
+      );
+      return;
+    }
+    if (_confirmPassword.text != _password.text) {
+      _showErrorAlert(
+        title: "Password Error",
+        content: "Password not match",
+        onPressed: _changeBlackVisible,
+      );
+      return;
+    }
+    if (Validator.validateEmail(email) &&
+        Validator.validatePassword(password)) {
+      try {
+        SystemChannels.textInput.invokeMethod('TextInput.hide');
+        _changeBlackVisible();
+        await Auth.signUp(email, password).then((uID) {
+          if (widget.isTeam) {
+            Auth.addUser(new User(
+              userID: uID,
+              email: email,
+              firstName: fullname,
+              profilePictureURL: '',
+              birthday: date,
+              state: widget.userInfo['state'],
+              club: widget.userInfo['club'],
+              position: widget.userInfo['position'],
+              jersey: widget.userInfo['jersey'],
+              term: widget.userInfo['term'],
+              ));
+          } else {
+            Auth.addUser(new User(
+              userID: uID,
+              email: email,
+              firstName: fullname,
+              profilePictureURL: '',
+              birthday: date,
+              ));
+          }
+          // onBackPress();
+          // Navigator.pushNamed(context, "/main");
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (ctx) => Notificationss(),
+            ),
+          );
+        });
+      } catch (e) {
+        print("Error in sign up: $e");
+        String exception = Auth.getExceptionText(e);
+        _showErrorAlert(
+          title: "Signup failed",
+          content: exception,
+          onPressed: _changeBlackVisible,
+        );
+      }
+    }
+  }
+
+  void _showErrorAlert({String title, String content, VoidCallback onPressed}) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return CustomAlertDialog(
+          content: content,
+          title: title,
+          onPressed: onPressed,
+        );
+      },
     );
   }
 }

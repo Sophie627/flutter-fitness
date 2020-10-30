@@ -3,6 +3,7 @@ import 'package:onboarding_flow/custom/customButton.dart';
 import 'package:onboarding_flow/custom/customRegularText.dart';
 import 'package:onboarding_flow/res/colors.dart';
 import 'package:onboarding_flow/screens/team1.dart';
+import 'package:onboarding_flow/ui/screens/main_screen.dart';
 
 class Notificationss extends StatelessWidget {
   @override
@@ -41,7 +42,7 @@ class Notificationss extends StatelessWidget {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (ctx) => Team1()),
+                    MaterialPageRoute(builder: (ctx) => MainScreen()),
                   );
                 },
                 child: CustomButton(
@@ -51,12 +52,20 @@ class Notificationss extends StatelessWidget {
               SizedBox(
                 height: height * 0.043,
               ),
-              Text(
-                "NO THANKS",
-                style: TextStyle(
-                  fontFamily: "Roboto",
-                  fontSize: 18,
-                  color: Color(0xffffffff),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (ctx) => MainScreen()),
+                  );
+                },
+                child: Text(
+                  "NO THANKS",
+                  style: TextStyle(
+                    fontFamily: "Roboto",
+                    fontSize: 18,
+                    color: Color(0xffffffff),
+                  ),
                 ),
               ),
               SizedBox(height: height * 0.073),
