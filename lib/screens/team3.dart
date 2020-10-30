@@ -96,7 +96,18 @@ class _Team3State extends State<Team3> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (ctx) => SignUp(),
+                      builder: (ctx) => SignUp(
+                        userInfo: {
+                          'nickName': widget.userInfo['nickName'],
+                          'state': widget.userInfo['state'],
+                          'club': widget.userInfo['club'],
+                          'position': widget.userInfo['position'],
+                          'jersey': widget.userInfo['jersey'],
+                          'birthday': widget.userInfo['birthday'],
+                          'term': checks,
+                        },
+                        isTeam: true,
+                      ),
                     ),
                   );
                 },
@@ -160,9 +171,11 @@ class _Team3State extends State<Team3> {
             value: checks[check],
 
             onChanged: (newValue) {
-              setState(() {
-                checks[check] = newValue;
-              });
+              if (checks.where((element) => element == true).length < 3 || (checks.where((element) => element == true).length == 3 && checks[check] == true)) {
+                setState(() {
+                  checks[check] = newValue;
+                });
+              }
             },
             controlAffinity:
                 ListTileControlAffinity.trailing, //  <-- leading Checkbox

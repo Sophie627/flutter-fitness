@@ -83,7 +83,11 @@ class _Team1State extends State<Team1>
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (ctx) => SignUp(),
+                      builder: (ctx) => SignUp(
+                        userInfo: {
+                          'nickName': widget.nickname
+                        },
+                      ),
                     ),
                   );
                 },
