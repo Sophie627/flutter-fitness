@@ -195,7 +195,16 @@ class _Team2State extends State<Team2> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (ctx) => Team3(),
+                      builder: (ctx) => Team3(
+                        userInfo: {
+                          'nickName': widget.nickName,
+                          'state': selectedState,
+                          'club': selectedClub,
+                          'position': selectedPosition,
+                          'jersey': _jersey.text,
+                          'birthday': date,
+                        },
+                      ),
                     ),
                   );
                 },

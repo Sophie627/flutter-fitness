@@ -6,6 +6,11 @@ import 'package:onboarding_flow/res/colors.dart';
 import 'package:onboarding_flow/screens/signUp.dart';
 
 class Team3 extends StatefulWidget {
+
+  final Map userInfo;
+
+  Team3({this.userInfo});
+
   @override
   _Team3State createState() => _Team3State();
 }
@@ -43,7 +48,7 @@ class _Team3State extends State<Team3> {
               ),
               CustomRegularText(
                 text:
-                    'Hey Ivan - If a player scout\nwas analyzing your game,\nwhat would you want them\nto say about the way you\nplay? Pick 3!',
+                    'Hey ${widget.userInfo['nickName']} - If a player scout\nwas analyzing your game,\nwhat would you want them\nto say about the way you\nplay? Pick 3!',
               ),
               SizedBox(
                 height: height * 0.043,
