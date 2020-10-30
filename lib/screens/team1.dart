@@ -66,7 +66,9 @@ class _Team1State extends State<Team1>
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (ctx) => Team2()),
+                    MaterialPageRoute(builder: (ctx) => Team2(
+                      nickName: widget.nickname,
+                    )),
                   );
                 },
                 child: CustomButton(
