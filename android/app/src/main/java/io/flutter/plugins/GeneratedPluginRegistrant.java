@@ -27,6 +27,7 @@ public final class GeneratedPluginRegistrant {
     flutterEngine.getPlugins().add(new com.ryanheise.just_audio.JustAudioPlugin());
     flutterEngine.getPlugins().add(new io.flutter.plugins.pathprovider.PathProviderPlugin());
       mt.innovation.screenshotshareimage.ScreenshotShareImagePlugin.registerWith(shimPluginRegistry.registrarFor("mt.innovation.screenshotshareimage.ScreenshotShareImagePlugin"));
+    flutterEngine.getPlugins().add(new bsi.iceman.searchable_dropdown.SearchableDropdownPlugin());
     flutterEngine.getPlugins().add(new io.flutter.plugins.sharedpreferences.SharedPreferencesPlugin());
     flutterEngine.getPlugins().add(new com.tekartik.sqflite.SqflitePlugin());
     flutterEngine.getPlugins().add(new io.flutter.plugins.urllauncher.UrlLauncherPlugin());

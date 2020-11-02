@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:onboarding_flow/screens/intro.dart';
 import 'package:onboarding_flow/ui/screens/main_screen.dart';
 import 'package:onboarding_flow/ui/screens/root_screen.dart';
 import 'package:onboarding_flow/ui/screens/welcome_screen.dart';
@@ -46,7 +47,12 @@ class SplashState extends State<SplashScreen> {
 
   route() async {
     if (await FirebaseAuth.instance.currentUser() == null) {
-      Navigator.pushNamed(context, "/welcome");
+      // Navigator.pushNamed(context, "/welcome");
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => Intro()),
+      );
     } else {
       Navigator.pushNamed(context, "/main");
     }
