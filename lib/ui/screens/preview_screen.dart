@@ -334,7 +334,9 @@ class _PreviewState extends State<Preview> {
       ),
       floatingActionButton: Padding(
         padding: EdgeInsets.only(bottom: 30.0),
-        child: FloatingActionButton.extended(
+        child: exerciseData.length == 0 
+        ? null
+        : FloatingActionButton.extended(
           onPressed: () {
             _getReadyDialog();
           },

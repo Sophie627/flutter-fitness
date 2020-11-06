@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:onboarding_flow/business/validator.dart';
 import 'package:onboarding_flow/ui/screens/workout_admin/workout_skill_form.dart';
 import 'package:onboarding_flow/ui/widgets/custom_alert_dialog.dart';
@@ -281,27 +282,61 @@ class _WorkoutFormScreenState extends State<WorkoutFormScreen> {
   Widget skillList() {
     List<Widget> skillList = [];
     workoutSkillName.asMap().forEach((key, value) {
-      skillList.add(ListTile(
-        title: Text(value),
-        trailing: IconButton(
-          icon: Icon(Icons.delete,
-            color: Colors.red,
+      skillList.add(
+        Slidable(
+          child: ListTile(
+            title: Text(value,
+              style: TextStyle(
+                fontSize: 20.0,
+              ),
+            )
           ), 
-          onPressed: () {
-            deleteSkill(workoutSkillID[key]);
-          }
+          actionPane: SlidableDrawerActionPane(),
+          actions: <Widget>[
+            IconSlideAction(
+              caption: 'Edit',
+              color: Colors.grey.shade200,
+              icon: Icons.more_horiz,
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => WorkoutSkillFromScreen(
+                    workoutSkillID: workoutSkillID[key],
+                    workoutID: workoutID,
+                  )),
+              ),
+              closeOnTap: false,
+            ),
+            IconSlideAction(
+              caption: 'Delete',
+              color: Colors.red,
+              icon: Icons.delete,
+              onTap: () => deleteSkill(workoutSkillID[key]),
+            ),
+          ],
         ),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => WorkoutSkillFromScreen(
-                workoutSkillID: workoutSkillID[key],
-                workoutID: workoutID,
-              )),
-          );
-        },
-      ));
+      );
+      // skillList.add(ListTile(
+      //   title: Text(value),
+      //   trailing: IconButton(
+      //     icon: Icon(Icons.delete,
+      //       color: Colors.red,
+      //     ), 
+      //     onPressed: () {
+      //       deleteSkill(workoutSkillID[key]);
+      //     }
+      //   ),
+      //   onTap: () {
+      //     Navigator.push(
+      //       context,
+      //       MaterialPageRoute(
+      //         builder: (context) => WorkoutSkillFromScreen(
+      //           workoutSkillID: workoutSkillID[key],
+      //           workoutID: workoutID,
+      //         )),
+      //     );
+      //   },
+      // ));
     });
     return Container(
       padding: EdgeInsets.only(top: 10.0, left: 50.0, right: 20.0),

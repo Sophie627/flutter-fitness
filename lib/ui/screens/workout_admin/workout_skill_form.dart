@@ -23,8 +23,8 @@ class _WorkoutSkillFromScreenState extends State<WorkoutSkillFromScreen>
   final TextEditingController restMusicName = new TextEditingController();
   final TextEditingController trainMusicTime = new TextEditingController();
   final TextEditingController trainMusicName = new TextEditingController();
-  String durationTime = "1";
-  String restTime = "1";
+  String durationTime = "10";
+  String restTime = "10";
   Map restMap = {};
   Map trainMap = {};
   bool isLoading = true;
