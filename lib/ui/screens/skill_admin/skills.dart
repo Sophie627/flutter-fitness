@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:onboarding_flow/ui/screens/skill_admin/skill_form.dart';
 
 class SkillsScreen extends StatefulWidget {
@@ -108,52 +109,53 @@ class _SkillsScreenState extends State<SkillsScreen>
     List<Widget> skillList = [];
     skillData.asMap().forEach((key, value) {
       skillList.add(
-        Container(
-          padding: EdgeInsets.all(10.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SkillFormScreen(
-                        skillID: skillID[key],
-                      )),
-                  );
-                },
-                child: Row(
-                  children: <Widget>[
-                    new Image.network(
-                      value['url'],
-                      height: 90.0,
-                    ),
-                    SizedBox(width: 20.0),
-                    Container(
-                      child: Center(
-                        child: Text(value['name'],
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18.0
-                          ),
-                        ),
-                      ), 
-                    ),
-                  ],
+        Slidable(
+          child: Container(
+            padding: EdgeInsets.all(10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                new Image.network(
+                  value['url'],
+                  height: 90.0,
                 ),
+                SizedBox(width: 20.0),
+                Container(
+                  child: Center(
+                    child: Text(value['name'],
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.0
+                      ),
+                    ),
+                  ), 
+                ),
+              ],
+            )
+          ),
+          actionPane: SlidableDrawerActionPane(),
+          actions: <Widget>[
+            IconSlideAction(
+              caption: 'More',
+              color: Colors.grey.shade200,
+              icon: Icons.more_horiz,
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SkillFormScreen(
+                    skillID: skillID[key],
+                  )),
               ),
-              IconButton(
-                icon: Icon(Icons.delete,
-                  color: Colors.red,
-                ), 
-                onPressed: () {
-                  deleteSkill(skillID[key]);
-                },
-              ),
-            ],
-          )
+              closeOnTap: false,
+            ),
+            IconSlideAction(
+              caption: 'Delete',
+              color: Colors.red,
+              icon: Icons.delete,
+              onTap: () => deleteSkill(skillID[key]),
+            ),
+          ],
         ),
       );
     });

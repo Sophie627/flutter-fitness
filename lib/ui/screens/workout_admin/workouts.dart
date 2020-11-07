@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:onboarding_flow/ui/screens/workout_admin/workout_form.dart';
 
 class WorkoutsScreen extends StatefulWidget {
@@ -110,26 +111,33 @@ class _WorkoutsScreenState extends State<WorkoutsScreen>
     List<Widget> workoutList = [];
     workoutData.asMap().forEach((key, value) {
       workoutList.add(
-        ListTile(
-          title: Text(value['name']),
-          subtitle: Text(value['description']),
-          trailing: IconButton(
-            icon: Icon(Icons.delete,
+        Slidable(
+          child: ListTile(
+            title: Text(value['name']),
+            subtitle: Text(value['description']),
+          ), 
+          actionPane: SlidableDrawerActionPane(),
+          actions: <Widget>[
+            IconSlideAction(
+              caption: 'More',
+              color: Colors.grey.shade200,
+              icon: Icons.more_horiz,
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => WorkoutFormScreen(
+                    workoutID: workoutID[key],
+                  )),
+              ),
+              closeOnTap: false,
+            ),
+            IconSlideAction(
+              caption: 'Delete',
               color: Colors.red,
-            ), 
-            onPressed: () {
-              deleteWorkout(workoutID[key]);
-            }
-          ),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => WorkoutFormScreen(
-                  workoutID: workoutID[key],
-                )),
-            );
-          },
+              icon: Icons.delete,
+              onTap: () => deleteWorkout(workoutID[key]),
+            ),
+          ],
         ),
       );
     });

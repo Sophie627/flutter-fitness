@@ -204,8 +204,12 @@ class _PreviewState extends State<Preview> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                new Text(exerciseData[index]['durationTime'] + "s"),
-                new Text(exerciseData[index]['restTime'] + "s"),
+                exerciseData[index]['durationTime'] == null 
+                ? new Text("10s") 
+                : new Text(exerciseData[index]['durationTime'] + "s"),
+                exerciseData[index]['restTime'] == null 
+                ? new Text("10s") 
+                : new Text(exerciseData[index]['restTime'] + "s"),
               ],
             ),
           ),
@@ -330,7 +334,9 @@ class _PreviewState extends State<Preview> {
       ),
       floatingActionButton: Padding(
         padding: EdgeInsets.only(bottom: 30.0),
-        child: FloatingActionButton.extended(
+        child: exerciseData.length == 0 
+        ? null
+        : FloatingActionButton.extended(
           onPressed: () {
             _getReadyDialog();
           },
