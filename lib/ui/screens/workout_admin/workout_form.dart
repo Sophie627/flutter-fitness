@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:onboarding_flow/business/validator.dart';
 import 'package:onboarding_flow/ui/screens/workout_admin/workout_skill_form.dart';
-import 'package:onboarding_flow/ui/widgets/custom_alert_dialog.dart';
 import 'package:onboarding_flow/ui/widgets/custom_text_field.dart';
 
 class WorkoutFormScreen extends StatefulWidget {
@@ -229,6 +228,7 @@ class _WorkoutFormScreenState extends State<WorkoutFormScreen> {
             : ListView(
               children: <Widget>[
                 skillList(),
+                SizedBox(height: 30.0,),
                 Container(
                   child: new Center(
                       child: new Column(
@@ -294,7 +294,7 @@ class _WorkoutFormScreenState extends State<WorkoutFormScreen> {
           actionPane: SlidableDrawerActionPane(),
           actions: <Widget>[
             IconSlideAction(
-              caption: 'Edit',
+              caption: 'More',
               color: Colors.grey.shade200,
               icon: Icons.more_horiz,
               onTap: () => Navigator.push(
@@ -316,27 +316,6 @@ class _WorkoutFormScreenState extends State<WorkoutFormScreen> {
           ],
         ),
       );
-      // skillList.add(ListTile(
-      //   title: Text(value),
-      //   trailing: IconButton(
-      //     icon: Icon(Icons.delete,
-      //       color: Colors.red,
-      //     ), 
-      //     onPressed: () {
-      //       deleteSkill(workoutSkillID[key]);
-      //     }
-      //   ),
-      //   onTap: () {
-      //     Navigator.push(
-      //       context,
-      //       MaterialPageRoute(
-      //         builder: (context) => WorkoutSkillFromScreen(
-      //           workoutSkillID: workoutSkillID[key],
-      //           workoutID: workoutID,
-      //         )),
-      //     );
-      //   },
-      // ));
     });
     return Container(
       padding: EdgeInsets.only(top: 10.0, left: 50.0, right: 20.0),
