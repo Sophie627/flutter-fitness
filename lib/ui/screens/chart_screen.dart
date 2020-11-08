@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:bezier_chart/bezier_chart.dart';
-import 'package:onboarding_flow/ui/screens/main_screen.dart';
 import 'package:onboarding_flow/ui/screens/ready_screen.dart';
 import 'package:onboarding_flow/ui/screens/totalworkouts.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
@@ -113,8 +112,6 @@ class _ChartScreenState extends State<ChartScreen> {
             setState(() {
               skillRep[index] = element['rep'];
               skillDate[index] = element['date'];
-              // print(skillList);
-              // skillList[index]['data'] = element;
             });
           }
         }
@@ -142,7 +139,7 @@ class _ChartScreenState extends State<ChartScreen> {
 
   handleSkillHistory(List data) {
     data.forEach((element) {
-      // if(element['skillID'] == widget.skillID) {
+      if(element['skillID'] == widget.skillID) {
         DateTime date = DateTime.fromMillisecondsSinceEpoch(element['date'].seconds * 1000);
         // DateTime tmp = DateTime(date.year, date.month, date.day);
         // print("tmp ${tmp}");
@@ -167,7 +164,7 @@ class _ChartScreenState extends State<ChartScreen> {
         //     }
         //   }
         // }
-      // }
+      }
     });
   }
 
@@ -252,7 +249,6 @@ class _ChartScreenState extends State<ChartScreen> {
                     ),
                     trailing: Text(
                       widget.skillMaxRep,
-                      
                       style: TextStyle(
                         color: Colors.blue,
                         fontSize: 25,
