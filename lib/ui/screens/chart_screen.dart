@@ -40,6 +40,7 @@ class _ChartScreenState extends State<ChartScreen> {
   bool isLogin = true;
   List workoutHistory = [];
   List workoutName = [];
+  int totalRep = 0;
   Map<DateTime, List<dynamic>> workoutDate = {};
 
   void fetchCurrentUserWorkoutData() async {
@@ -147,6 +148,7 @@ class _ChartScreenState extends State<ChartScreen> {
           setState(() {
             skillDateHistory.add(date);
             skillRepHistory.add(element['rep']);
+            totalRep += element['rep'];
             if (element['solo'] == null || !element['solo']) {
               skillTypeHistory.add('Workout');
             } else {
@@ -187,6 +189,7 @@ class _ChartScreenState extends State<ChartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    int touch = skillData['touch'] == null ? 1 : skillData['touch'];
     List<Widget> gaugeList = [];
     for (var i = 0; i < skillRepHistory.length; i++) {
       gaugeList.add(customGauge(skillRepHistory[i], skillDateHistory[i], int.parse(widget.skillMaxRep), skillTypeHistory[i]));
@@ -249,6 +252,21 @@ class _ChartScreenState extends State<ChartScreen> {
                     ),
                     trailing: Text(
                       widget.skillMaxRep,
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: 25,
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    title: Text(
+                      'TOTAL TOUCHES',
+                      style: TextStyle(
+                        color: Colors.grey,
+                      ),
+                    ),
+                    trailing: Text(
+                      (touch * totalRep).toString(),
                       style: TextStyle(
                         color: Colors.blue,
                         fontSize: 25,
