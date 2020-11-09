@@ -176,7 +176,8 @@ class _MainScreenState extends State<MainScreen> {
                   },
                 )
                 : SizedBox(height: 0.0),
-                ListTile(
+                _isLogin
+                ? ListTile(
                   leading: Icon(Icons.contacts),
                   title: _menuText('Profile'),
                   onTap: () {
@@ -190,7 +191,8 @@ class _MainScreenState extends State<MainScreen> {
                     );
                     _scaffoldKey.currentState.openEndDrawer();
                   },
-                ),
+                )
+                : SizedBox(height: 0.0),
                 ListTile(
                   leading: Icon(Icons.brush),
                   title: _menuText('Activity'),
