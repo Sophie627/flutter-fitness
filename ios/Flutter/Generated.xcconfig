@@ -1,7 +1,7 @@
 // This is a generated file; do not edit or check into version control.
 FLUTTER_ROOT=/Users/sophie/Development/flutter
-FLUTTER_APPLICATION_PATH=/Users/sophie/Desktop/flutter-fitness
-FLUTTER_TARGET=/Users/sophie/Desktop/flutter-fitness/lib/main.dart
+FLUTTER_APPLICATION_PATH=/Users/sophie/Desktop/flutter-fitness-master
+FLUTTER_TARGET=/Users/sophie/Desktop/flutter-fitness-master/lib/main.dart
 FLUTTER_BUILD_DIR=build
 SYMROOT=${SOURCE_ROOT}/../build/ios
 OTHER_LDFLAGS=$(inherited) -framework Flutter
