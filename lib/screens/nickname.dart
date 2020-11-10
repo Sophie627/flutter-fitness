@@ -17,15 +17,25 @@ class _NicknameState extends State<Nickname> {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0.0,
+        backgroundColor: Color(blueColor),
+        leading: new IconButton(
+            icon: new Icon(Icons.arrow_back_ios,
+              color: Colors.white,
+            ),
+            onPressed: () => Navigator.pop(context),
+        )
+      ),
       backgroundColor: Color(blueColor),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
           child: Column(
             children: [
-              SizedBox(
-                height: height * 0.043,
-              ),
+              // SizedBox(
+              //   height: height * 0.01,
+              // ),
               Center(
                 child: Image.asset(
                   'assets/images/BlinkingLion.gif',

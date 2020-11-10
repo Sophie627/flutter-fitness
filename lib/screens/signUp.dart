@@ -9,7 +9,8 @@ import 'package:onboarding_flow/custom/customRegularText.dart';
 import 'package:onboarding_flow/custom/customTextField.dart';
 import 'package:onboarding_flow/models/user.dart';
 import 'package:onboarding_flow/res/colors.dart';
-import 'package:onboarding_flow/screens/notifications.dart';
+// import 'package:onboarding_flow/screens/notifications.dart';
+import 'package:onboarding_flow/ui/screens/main_screen.dart';
 import 'package:onboarding_flow/ui/widgets/custom_alert_dialog.dart';
 
 class SignUp extends StatefulWidget {
@@ -46,15 +47,25 @@ class _SignUpState extends State<SignUp> {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0.0,
+        backgroundColor: Color(blueColor),
+        leading: new IconButton(
+            icon: new Icon(Icons.arrow_back_ios,
+              color: Colors.white,
+            ),
+            onPressed: () => Navigator.pop(context),
+        )
+      ),
       backgroundColor: Color(blueColor),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
           child: Column(
             children: [
-              SizedBox(
-                height: height * 0.043,
-              ),
+              // SizedBox(
+              //   height: height * 0.043,
+              // ),
               Center(
                 child: Image.asset(
                   'assets/images/BlinkingLion.gif',
@@ -88,7 +99,8 @@ class _SignUpState extends State<SignUp> {
                 obscureText: true,
               ),
               SizedBox(height: height * 0.04),
-              Row(
+              !widget.isTeam
+              ? Row(
                 children: <Widget>[
                   Container(
                     width: 150.0,
@@ -113,7 +125,8 @@ class _SignUpState extends State<SignUp> {
                     ),
                   ),
                 ],
-              ),
+              )
+              : SizedBox(height: 0),
               SizedBox(height: height * 0.073),
               InkWell(
                 onTap: () {
@@ -173,7 +186,7 @@ class _SignUpState extends State<SignUp> {
               email: email,
               firstName: fullname,
               profilePictureURL: '',
-              birthday: date,
+              birthday: widget.userInfo['birthday'],
               state: widget.userInfo['state'],
               club: widget.userInfo['club'],
               position: widget.userInfo['position'],
@@ -194,7 +207,7 @@ class _SignUpState extends State<SignUp> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (ctx) => Notificationss(),
+              builder: (ctx) => MainScreen(),
             ),
           );
         });

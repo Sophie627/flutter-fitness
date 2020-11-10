@@ -181,14 +181,20 @@ class _MainScreenState extends State<MainScreen> {
                   leading: Icon(Icons.contacts),
                   title: _menuText('Profile'),
                   onTap: () {
-                    Navigator.push(context, 
-                      PageTransition(
-                        child: ProfileScreen(
-                          settings: widget.settings,
-                        ), 
-                        type: PageTransitionType.leftToRight,
-                      ),
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ProfileScreen(
+                        )),
                     );
+                    // Navigator.push(context, 
+                    //   PageTransition(
+                    //     child: ProfileScreen(
+                    //       settings: widget.settings,
+                    //     ), 
+                    //     type: PageTransitionType.leftToRight,
+                    //   ),
+                    // );
                     _scaffoldKey.currentState.openEndDrawer();
                   },
                 )
@@ -197,14 +203,20 @@ class _MainScreenState extends State<MainScreen> {
                   leading: Icon(Icons.brush),
                   title: _menuText('Activity'),
                   onTap: () {
-                    Navigator.push(context, 
-                      PageTransition(
-                        child: ActivityScreen(
-                          settings: widget.settings,
-                        ), 
-                        type: PageTransitionType.leftToRight,
-                      ),
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ActivityScreen(
+                        )),
                     );
+                    // Navigator.push(context, 
+                    //   PageTransition(
+                    //     child: ActivityScreen(
+                    //       settings: widget.settings,
+                    //     ), 
+                    //     type: PageTransitionType.leftToRight,
+                    //   ),
+                    // );
                     _scaffoldKey.currentState.openEndDrawer();
                   },
                 ),

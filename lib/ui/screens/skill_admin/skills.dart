@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:onboarding_flow/ui/screens/skill_admin/skill_form.dart';
@@ -14,6 +15,52 @@ class _SkillsScreenState extends State<SkillsScreen>
   List skillData = [];
   List skillID = [];
   bool isLoading = true;
+
+  Future<void> deleteSkillDialog(String id) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return CupertinoAlertDialog(
+          title: Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+            child: Text('Are you sure?'),
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  child: Text('Will you really this skill?',
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('OK'),
+              onPressed: () {
+                deleteSkill(id); 
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: Text('Cancel',
+                style: TextStyle(
+                  fontSize: 13.0
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   fetchSkillData() {
     Firestore.instance.collection('skill').snapshots().listen((data) {
@@ -153,7 +200,7 @@ class _SkillsScreenState extends State<SkillsScreen>
               caption: 'Delete',
               color: Colors.red,
               icon: Icons.delete,
-              onTap: () => deleteSkill(skillID[key]),
+              onTap: () => deleteSkillDialog(skillID[key]),
             ),
           ],
         ),

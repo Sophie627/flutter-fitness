@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class UsersScreen extends StatefulWidget {
@@ -12,6 +13,52 @@ class _UsersScreenState extends State<UsersScreen>
   List userData = [];
   List userAdminData = [];
   bool isLoading = true;
+
+  Future<void> deleteUserDialog(String id) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return CupertinoAlertDialog(
+          title: Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+            child: Text('Are you sure?'),
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  child: Text('Will you really this user?',
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('OK'),
+              onPressed: () {
+                deleteUser(id); 
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: Text('Cancel',
+                style: TextStyle(
+                  fontSize: 13.0
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   fetchUserData() {
     Firestore.instance.collection('users').snapshots().listen((data) {
@@ -100,7 +147,7 @@ class _UsersScreenState extends State<UsersScreen>
                   color: Colors.red,
                 ), 
                 onPressed: () {
-                  deleteUser(element['userID']);
+                  deleteUserDialog(element['userID']);
                 },
               ),
             ],

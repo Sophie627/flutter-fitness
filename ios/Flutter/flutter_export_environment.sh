@@ -1,8 +1,8 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
 export "FLUTTER_ROOT=/Users/sophie/Development/flutter"
-export "FLUTTER_APPLICATION_PATH=/Users/sophie/Desktop/flutter-fitness-master"
-export "FLUTTER_TARGET=/Users/sophie/Desktop/flutter-fitness-master/lib/main.dart"
+export "FLUTTER_APPLICATION_PATH=/Users/sophie/Desktop/flutter-fitness"
+export "FLUTTER_TARGET=/Users/sophie/Desktop/flutter-fitness/lib/main.dart"
 export "FLUTTER_BUILD_DIR=build"
 export "SYMROOT=${SOURCE_ROOT}/../build/ios"
 export "OTHER_LDFLAGS=$(inherited) -framework Flutter"

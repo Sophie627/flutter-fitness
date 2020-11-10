@@ -161,7 +161,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
             backgroundColor: Colors.grey.shade400,
             centerTitle: true,
             leading: new IconButton(
-              icon: new Icon(Icons.arrow_back),
+              icon: new Icon(Icons.arrow_back_ios),
               onPressed: () => Navigator.push(
                 context,
                 MaterialPageRoute(
