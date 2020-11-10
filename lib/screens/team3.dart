@@ -52,15 +52,25 @@ class _Team3State extends State<Team3> {
     final double height = MediaQuery.of(context).size.height;
     final double width = MediaQuery.of(context).size.width;
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0.0,
+        backgroundColor: Color(blueColor),
+        leading: new IconButton(
+            icon: new Icon(Icons.arrow_back_ios,
+              color: Colors.white,
+            ),
+            onPressed: () => Navigator.pop(context),
+        )
+      ),
       backgroundColor: Color(blueColor),
-      body: SingleChildScrollView(
+      body: Center(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
           child: Column(
             children: [
-              SizedBox(
-                height: height * 0.043,
-              ),
+              // SizedBox(
+              //   height: height * 0.043,
+              // ),
               Center(
                 child: Image.asset(
                   'assets/images/BlinkingLion.gif',
@@ -68,18 +78,18 @@ class _Team3State extends State<Team3> {
                   width: width * 0.3475,
                 ),
               ),
-              SizedBox(
-                height: height * 0.029,
-              ),
+              // SizedBox(
+              //   height: height * 0.029,
+              // ),
               CustomRegularText(
                 text:
                     'Hey ${widget.userInfo['nickName']} - If a player scout\nwas analyzing your game,\nwhat would you want them\nto say about the way you\nplay? Pick 3!',
               ),
               SizedBox(
-                height: height * 0.043,
+                height: height * 0.01,
               ),
-              Container(
-                child: Column(
+              Expanded(
+                child: ListView(
                   children: isLoading
                   ? [Center(
                     child: CircularProgressIndicator(
@@ -90,7 +100,7 @@ class _Team3State extends State<Team3> {
                   : checkBoxList(height),
                 ),
               ),
-              SizedBox(height: height * 0.073),
+              SizedBox(height: height * 0.01),
               InkWell(
                 onTap: () {
                   Navigator.push(
@@ -115,7 +125,7 @@ class _Team3State extends State<Team3> {
                   text: 'YES!',
                 ),
               ),
-              SizedBox(height: height * 0.102),
+              SizedBox(height: height * 0.03),
             ],
           ),
         ),

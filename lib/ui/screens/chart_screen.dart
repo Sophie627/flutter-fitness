@@ -245,7 +245,7 @@ class _ChartScreenState extends State<ChartScreen> {
                 children: <Widget>[
                   ListTile(
                     title: Text(
-                      'BEST SCORE REPS',
+                      'BEST REP SCORE',
                       style: TextStyle(
                         color: Colors.grey,
                       ),
@@ -273,26 +273,26 @@ class _ChartScreenState extends State<ChartScreen> {
                       ),
                     ),
                   ),
-                  ListTile(
-                    title: Text(
-                      'BEST SCORE ALERTS',
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    ),
-                    trailing: Switch(
-                      value: isSwitched,
-                      onChanged: (value) {
-                        setState(() {
-                          isSwitched = value;
-                        });
-                        globals.bestAlert = value;
-                      },
+                  // ListTile(
+                  //   title: Text(
+                  //     'BEST SCORE ALERTS',
+                  //     style: TextStyle(
+                  //       color: Colors.grey,
+                  //     ),
+                  //   ),
+                  //   trailing: Switch(
+                  //     value: isSwitched,
+                  //     onChanged: (value) {
+                  //       setState(() {
+                  //         isSwitched = value;
+                  //       });
+                  //       globals.bestAlert = value;
+                  //     },
 
-                      activeTrackColor: Colors.blue,
-                      activeColor: Colors.white,
-                    ),
-                  ),
+                  //     activeTrackColor: Colors.blue,
+                  //     activeColor: Colors.white,
+                  //   ),
+                  // ),
                 ],
               )),
             ],

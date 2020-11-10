@@ -101,7 +101,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         backgroundColor: Colors.white,
         centerTitle: true,
         leading: new IconButton(
-            icon: new Icon(Icons.arrow_back),
+            icon: new Icon(Icons.arrow_back_ios),
             onPressed: () => Navigator.push(
               context,
               MaterialPageRoute(
