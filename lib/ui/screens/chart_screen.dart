@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:bezier_chart/bezier_chart.dart';
-import 'package:onboarding_flow/ui/screens/main_screen.dart';
 import 'package:onboarding_flow/ui/screens/ready_screen.dart';
 import 'package:onboarding_flow/ui/screens/totalworkouts.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
@@ -41,6 +40,7 @@ class _ChartScreenState extends State<ChartScreen> {
   bool isLogin = true;
   List workoutHistory = [];
   List workoutName = [];
+  int totalRep = 0;
   Map<DateTime, List<dynamic>> workoutDate = {};
 
   void fetchCurrentUserWorkoutData() async {
@@ -113,8 +113,6 @@ class _ChartScreenState extends State<ChartScreen> {
             setState(() {
               skillRep[index] = element['rep'];
               skillDate[index] = element['date'];
-              // print(skillList);
-              // skillList[index]['data'] = element;
             });
           }
         }
@@ -142,7 +140,7 @@ class _ChartScreenState extends State<ChartScreen> {
 
   handleSkillHistory(List data) {
     data.forEach((element) {
-      // if(element['skillID'] == widget.skillID) {
+      if(element['skillID'] == widget.skillID) {
         DateTime date = DateTime.fromMillisecondsSinceEpoch(element['date'].seconds * 1000);
         // DateTime tmp = DateTime(date.year, date.month, date.day);
         // print("tmp ${tmp}");
@@ -150,6 +148,7 @@ class _ChartScreenState extends State<ChartScreen> {
           setState(() {
             skillDateHistory.add(date);
             skillRepHistory.add(element['rep']);
+            totalRep += element['rep'];
             if (element['solo'] == null || !element['solo']) {
               skillTypeHistory.add('Workout');
             } else {
@@ -167,7 +166,7 @@ class _ChartScreenState extends State<ChartScreen> {
         //     }
         //   }
         // }
-      // }
+      }
     });
   }
 
@@ -190,6 +189,7 @@ class _ChartScreenState extends State<ChartScreen> {
 
   @override
   Widget build(BuildContext context) {
+    int touch = skillData['touch'] == null ? 1 : skillData['touch'];
     List<Widget> gaugeList = [];
     for (var i = 0; i < skillRepHistory.length; i++) {
       gaugeList.add(customGauge(skillRepHistory[i], skillDateHistory[i], int.parse(widget.skillMaxRep), skillTypeHistory[i]));
@@ -245,14 +245,13 @@ class _ChartScreenState extends State<ChartScreen> {
                 children: <Widget>[
                   ListTile(
                     title: Text(
-                      'BEST SCORE REPS',
+                      'BEST REP SCORE',
                       style: TextStyle(
                         color: Colors.grey,
                       ),
                     ),
                     trailing: Text(
                       widget.skillMaxRep,
-                      
                       style: TextStyle(
                         color: Colors.blue,
                         fontSize: 25,
@@ -261,24 +260,39 @@ class _ChartScreenState extends State<ChartScreen> {
                   ),
                   ListTile(
                     title: Text(
-                      'BEST SCORE ALERTS',
+                      'TOTAL TOUCHES',
                       style: TextStyle(
                         color: Colors.grey,
                       ),
                     ),
-                    trailing: Switch(
-                      value: isSwitched,
-                      onChanged: (value) {
-                        setState(() {
-                          isSwitched = value;
-                        });
-                        globals.bestAlert = value;
-                      },
-
-                      activeTrackColor: Colors.blue,
-                      activeColor: Colors.white,
+                    trailing: Text(
+                      (touch * totalRep).toString(),
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: 25,
+                      ),
                     ),
                   ),
+                  // ListTile(
+                  //   title: Text(
+                  //     'BEST SCORE ALERTS',
+                  //     style: TextStyle(
+                  //       color: Colors.grey,
+                  //     ),
+                  //   ),
+                  //   trailing: Switch(
+                  //     value: isSwitched,
+                  //     onChanged: (value) {
+                  //       setState(() {
+                  //         isSwitched = value;
+                  //       });
+                  //       globals.bestAlert = value;
+                  //     },
+
+                  //     activeTrackColor: Colors.blue,
+                  //     activeColor: Colors.white,
+                  //   ),
+                  // ),
                 ],
               )),
             ],

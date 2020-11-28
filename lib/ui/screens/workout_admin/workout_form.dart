@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:onboarding_flow/business/validator.dart';
 import 'package:onboarding_flow/ui/screens/workout_admin/workout_skill_form.dart';
-import 'package:onboarding_flow/ui/widgets/custom_alert_dialog.dart';
 import 'package:onboarding_flow/ui/widgets/custom_text_field.dart';
 
 class WorkoutFormScreen extends StatefulWidget {
@@ -36,6 +37,52 @@ class _WorkoutFormScreenState extends State<WorkoutFormScreen> {
   int _selectedSkill;
   List<DropdownMenuItem<int>> _dropDownMenuItems;
   int workoutID;
+
+  Future<void> deleteSkillDialog(String id) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return CupertinoAlertDialog(
+          title: Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+            child: Text('Are you sure?'),
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  child: Text('Will you really this skill?',
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('OK'),
+              onPressed: () {
+                deleteSkill(id); 
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: Text('Cancel',
+                style: TextStyle(
+                  fontSize: 13.0
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   fetchWorkoutData() {
     if (widget.workoutID == 'createworkout!!!') {
@@ -228,6 +275,7 @@ class _WorkoutFormScreenState extends State<WorkoutFormScreen> {
             : ListView(
               children: <Widget>[
                 skillList(),
+                SizedBox(height: 30.0,),
                 Container(
                   child: new Center(
                       child: new Column(
@@ -281,27 +329,40 @@ class _WorkoutFormScreenState extends State<WorkoutFormScreen> {
   Widget skillList() {
     List<Widget> skillList = [];
     workoutSkillName.asMap().forEach((key, value) {
-      skillList.add(ListTile(
-        title: Text(value),
-        trailing: IconButton(
-          icon: Icon(Icons.delete,
-            color: Colors.red,
+      skillList.add(
+        Slidable(
+          child: ListTile(
+            title: Text(value,
+              style: TextStyle(
+                fontSize: 20.0,
+              ),
+            )
           ), 
-          onPressed: () {
-            deleteSkill(workoutSkillID[key]);
-          }
+          actionPane: SlidableDrawerActionPane(),
+          actions: <Widget>[
+            IconSlideAction(
+              caption: 'More',
+              color: Colors.grey.shade200,
+              icon: Icons.more_horiz,
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => WorkoutSkillFromScreen(
+                    workoutSkillID: workoutSkillID[key],
+                    workoutID: workoutID,
+                  )),
+              ),
+              closeOnTap: false,
+            ),
+            IconSlideAction(
+              caption: 'Delete',
+              color: Colors.red,
+              icon: Icons.delete,
+              onTap: () => deleteSkillDialog(workoutSkillID[key]),
+            ),
+          ],
         ),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => WorkoutSkillFromScreen(
-                workoutSkillID: workoutSkillID[key],
-                workoutID: workoutID,
-              )),
-          );
-        },
-      ));
+      );
     });
     return Container(
       padding: EdgeInsets.only(top: 10.0, left: 50.0, right: 20.0),

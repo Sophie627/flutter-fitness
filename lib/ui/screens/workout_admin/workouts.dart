@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:onboarding_flow/ui/screens/workout_admin/workout_form.dart';
 
 class WorkoutsScreen extends StatefulWidget {
@@ -14,6 +16,53 @@ class _WorkoutsScreenState extends State<WorkoutsScreen>
   List workoutID = [];
   int maxWorkoutID = 0;
   bool isLoading = true;
+
+  Future<void> deleteWorkoutDialog(String id) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return CupertinoAlertDialog(
+          title: Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+            child: Text('Are you sure?'),
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                  child: Text('Will you really this workout?',
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('OK'),
+              onPressed: () {
+                deleteWorkout(id); 
+                Navigator.of(context).pop();
+              },
+            ),
+            FlatButton(
+              child: Text('Cancel',
+                style: TextStyle(
+                  fontSize: 13.0
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 
   fetchWorkoutData() {
     Firestore.instance.collection('workout').orderBy('workoutID').snapshots().listen((data) {
@@ -110,26 +159,33 @@ class _WorkoutsScreenState extends State<WorkoutsScreen>
     List<Widget> workoutList = [];
     workoutData.asMap().forEach((key, value) {
       workoutList.add(
-        ListTile(
-          title: Text(value['name']),
-          subtitle: Text(value['description']),
-          trailing: IconButton(
-            icon: Icon(Icons.delete,
+        Slidable(
+          child: ListTile(
+            title: Text(value['name']),
+            subtitle: Text(value['description']),
+          ), 
+          actionPane: SlidableDrawerActionPane(),
+          actions: <Widget>[
+            IconSlideAction(
+              caption: 'More',
+              color: Colors.grey.shade200,
+              icon: Icons.more_horiz,
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => WorkoutFormScreen(
+                    workoutID: workoutID[key],
+                  )),
+              ),
+              closeOnTap: false,
+            ),
+            IconSlideAction(
+              caption: 'Delete',
               color: Colors.red,
-            ), 
-            onPressed: () {
-              deleteWorkout(workoutID[key]);
-            }
-          ),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => WorkoutFormScreen(
-                  workoutID: workoutID[key],
-                )),
-            );
-          },
+              icon: Icons.delete,
+              onTap: () => deleteWorkoutDialog(workoutID[key]),
+            ),
+          ],
         ),
       );
     });

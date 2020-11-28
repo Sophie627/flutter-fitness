@@ -6,27 +6,17 @@
 */
 
 import 'dart:async';
-import 'dart:io';
-
-import 'package:audioplayers/audio_cache.dart';
-// import 'package:audioplayers/audioplayers.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-// import 'package:stereo/stereo.dart';
-// import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:just_audio/just_audio.dart';
-// import 'package:audio_session/audio_session.dart';
-import 'package:onboarding_flow/models/settings.dart';
 import 'package:onboarding_flow/models/exercise.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:onboarding_flow/ui/screens/chart_screen.dart';
 import 'package:onboarding_flow/ui/screens/main_screen.dart';
 import 'package:onboarding_flow/ui/screens/nascarresults.dart';
 import 'package:onboarding_flow/ui/screens/settings_screen.dart';
-import 'package:onboarding_flow/ui/screens/preview_screen.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:onboarding_flow/ui/widgets/custom_flat_button.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -109,10 +99,8 @@ class _InOutState extends State<InOut> {
 
   void fetchCurrentUserWorkoutData() async {
     final FirebaseUser user = await FirebaseAuth.instance.currentUser();
-    //Firestore.instance.document("users/${uid}").updateData({'workout': "ok"});
     if (user != null) {
       Firestore.instance.collection('users').document(user.uid).snapshots().listen((data) => { 
-        print("--------------"),
         print(data['workoutHistory']),
         setState(() {
           if( data['workout']  == null ) {
@@ -410,20 +398,13 @@ class _InOutState extends State<InOut> {
       });
       
     } else {
-      // if (normal) {
-        setState(() {
-          _time = int.parse(_exerciseData[index - 1]['restTime']);
-          _exerciseComment = "Rest";
-          _stageState = 'rest';
-        });
-      // } else {
-      //   setState(() {
-      //     _time = int.parse(_exerciseData[index - 1]['restTime']);
-      //     // _time = 10;
-      //     _exerciseComment = "Rest";
-      //     _stageState = 'rest';
-      //   });
-      // }
+      setState(() {
+        _time = _exerciseData[index - 1]['restTime'] == null
+        ? 10
+        : int.parse(_exerciseData[index - 1]['restTime']);
+        _exerciseComment = "Rest";
+        _stageState = 'rest';
+      });
     }
     if (_exerciseData[_current]['voice'] != null && _exerciseData[_current]['voice']['rest'] != null && _exerciseData[_current]['voice']['rest'][_time.toString()] != null) {
       playMusic(_exerciseData[_current]['voice']['rest'][_time.toString()], 'voice');
@@ -452,7 +433,11 @@ class _InOutState extends State<InOut> {
   */
   exerciseTrain(index) {
     setState(() {
-      _time = int.parse(_exerciseData[index]['durationTime']);
+      if (_exerciseData[index]['durationTime'] == null) {
+        _time = 10;
+      } else {
+        _time = int.parse(_exerciseData[index]['durationTime']);
+      }
       _exerciseComment = widget.skillData[index]['name'];
       _stageState = 'train';
     });
@@ -499,7 +484,10 @@ class _InOutState extends State<InOut> {
     print("_time ${_time}");
     switch (type) {
       case "train":
-        if (time == (int.parse(_exerciseData[_current]['durationTime']) / 2).round()) {
+        int durationTime = _exerciseData[_current]['durationTime'] == null
+        ? 10
+        : int.parse(_exerciseData[_current]['durationTime']);
+        if (time == (durationTime / 2).round()) {
           playListVoice(_exerciseData[_current]['half']);
         }
         switch (time) {
@@ -641,9 +629,12 @@ class _InOutState extends State<InOut> {
   void storeExerciseTimeRep(int rep, bool type) {
     print('---------touch----------');
     print(widget.skillData[_current]['touch']);
+    int durationTime = _exerciseData[_current]['durationTime'] == null
+        ? 10
+        : int.parse(_exerciseData[_current]['durationTime']);
     int time = type 
-      ? int.parse(_exerciseData[_current]['durationTime']) - _time
-      : int.parse(_exerciseData[_current]['durationTime']);
+      ? durationTime - _time
+      : durationTime;
     _workout.add(Exercise(
       name: widget.skillData[_current]['name'],
       skillID: _exerciseData[_current]['skillID'],

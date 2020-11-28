@@ -1,4 +1,4 @@
-# Flutter Login Screen with Firebase Auth and Facebook Login
+# Brave Fit App
 
 Jumpstart your Flutter app development with this pre-built Flutter starter kit. Don't reinvent the wheel by writing the boring boilerplate starter code. Jump straight into the action and focus strictly on your core app features.
 

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:onboarding_flow/business/auth.dart';
 import 'package:onboarding_flow/models/settings.dart';
+import 'package:onboarding_flow/screens/intro.dart';
 import 'package:onboarding_flow/ui/screens/dashboard/dashboard.dart';
 import 'package:onboarding_flow/ui/screens/root_screen.dart';
 import 'package:onboarding_flow/ui/screens/settings_screen.dart';
@@ -175,33 +176,47 @@ class _MainScreenState extends State<MainScreen> {
                   },
                 )
                 : SizedBox(height: 0.0),
-                ListTile(
+                _isLogin
+                ? ListTile(
                   leading: Icon(Icons.contacts),
                   title: _menuText('Profile'),
                   onTap: () {
-                    Navigator.push(context, 
-                      PageTransition(
-                        child: ProfileScreen(
-                          settings: widget.settings,
-                        ), 
-                        type: PageTransitionType.leftToRight,
-                      ),
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ProfileScreen(
+                        )),
                     );
+                    // Navigator.push(context, 
+                    //   PageTransition(
+                    //     child: ProfileScreen(
+                    //       settings: widget.settings,
+                    //     ), 
+                    //     type: PageTransitionType.leftToRight,
+                    //   ),
+                    // );
                     _scaffoldKey.currentState.openEndDrawer();
                   },
-                ),
+                )
+                : SizedBox(height: 0.0),
                 ListTile(
                   leading: Icon(Icons.brush),
                   title: _menuText('Activity'),
                   onTap: () {
-                    Navigator.push(context, 
-                      PageTransition(
-                        child: ActivityScreen(
-                          settings: widget.settings,
-                        ), 
-                        type: PageTransitionType.leftToRight,
-                      ),
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ActivityScreen(
+                        )),
                     );
+                    // Navigator.push(context, 
+                    //   PageTransition(
+                    //     child: ActivityScreen(
+                    //       settings: widget.settings,
+                    //     ), 
+                    //     type: PageTransitionType.leftToRight,
+                    //   ),
+                    // );
                     _scaffoldKey.currentState.openEndDrawer();
                   },
                 ),
@@ -362,7 +377,12 @@ class _MainScreenState extends State<MainScreen> {
 
   void _logOut() async {
     Auth.signOut();
-    Navigator.pushNamed(context, "/welcome");
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Intro()),
+    );
+    // Navigator.pushNamed(context, "/welcome");
   }
 
   /*
