@@ -23,16 +23,16 @@ class SplashState extends State<SplashScreen> {
   Widget build(BuildContext context) {
 
     //preloading images...
-    Firestore.instance.collection('workout').orderBy('workoutID').snapshots().listen((data) => {
-      data.documents.forEach((doc) {
-        precacheImage(NetworkImage(doc['image']), context);
-      }),
-    });
-    Firestore.instance.collection('skill').snapshots().listen((data) => {
-      data.documents.forEach((doc) {
-        precacheImage(NetworkImage(doc['url']), context);
-      }),
-    });
+    // Firestore.instance.collection('workout').orderBy('workoutID').snapshots().listen((data) => {
+    //   data.documents.forEach((doc) {
+    //     precacheImage(NetworkImage(doc['image']), context);
+    //   }),
+    // });
+    // Firestore.instance.collection('skill').snapshots().listen((data) => {
+    //   data.documents.forEach((doc) {
+    //     precacheImage(NetworkImage(doc['url']), context);
+    //   }),
+    // });
    
     return Scaffold(
       body: initScreen(context),
