@@ -27,6 +27,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   List<DropdownMenuItem> positionList = [];
   List<DropdownMenuItem> stateList = [];
   List<DropdownMenuItem> clubList = [];
+  List scoutTermList = [];
+  List userScoutTermList = [];
   final TextEditingController name = new TextEditingController();
   final TextEditingController email = new TextEditingController();
   final TextEditingController jersey = new TextEditingController();
@@ -43,12 +45,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
         selectedPosition = value['position'];
         selectedState = value['state'];
         selectedClub = value['club'];
+        userScoutTermList = value['term'];
         date = DateTime.fromMillisecondsSinceEpoch(value['birthday'].seconds * 1000);
       });
     }
   }
 
   fetchData() {
+    Firestore.instance.collection('scoutTerms').snapshots().listen((value) {
+      value.documents.forEach((element) { 
+        scoutTermList.add(element['term']);
+      });
+      setState(() {
+        positionList = positionList;
+        isLoading = false;
+      });
+    });
     Firestore.instance.collection('positions').snapshots().listen((value) {
       value.documents.forEach((element) { 
         positionList.add(DropdownMenuItem(
@@ -297,6 +309,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
+            child: Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Scout Terms",
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.all(10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: scoutWidget(),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
             child: Row(
               children: <Widget>[
                 Container(
@@ -351,6 +385,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ],
       ),
     );
+  }
+
+  List<Widget> scoutWidget() {
+    List<Widget> list = [];
+
+    userScoutTermList.asMap().forEach((key, value) { 
+      if (value) list.add(
+        Text(scoutTermList[key],
+          style: TextStyle(
+            fontSize: 18.0,
+          ),
+        )
+      );
+    });
+    
+    return list;
   }
 
   updateProfile() async {
