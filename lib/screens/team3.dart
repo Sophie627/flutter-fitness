@@ -74,7 +74,7 @@ class _Team3State extends State<Team3> {
               Center(
                 child: Image.asset(
                   'assets/images/BlinkingLion.gif',
-                  height: height * 0.2633,
+                  height:150,
                   width: width * 0.3475,
                 ),
               ),
@@ -89,16 +89,18 @@ class _Team3State extends State<Team3> {
                 height: height * 0.01,
               ),
               Expanded(
-                child: ListView(
-                  children: isLoading
-                  ? [Center(
-                    child: CircularProgressIndicator(
-                      backgroundColor: Colors.black,
-                      strokeWidth: 1,
-                    ),
-                  )]
-                  : checkBoxList(height),
-                ),
+                child: Container(
+                  child: ListView(
+                    children: isLoading
+                    ? [Center(
+                      child: CircularProgressIndicator(
+                        backgroundColor: Colors.black,
+                        strokeWidth: 1,
+                      ),
+                    )]
+                    : checkBoxList(height),
+                  ),
+                ), 
               ),
               SizedBox(height: height * 0.01),
               InkWell(
