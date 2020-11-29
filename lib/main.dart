@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:onboarding_flow/ui/screens/Splashscreen.dart';
 import 'package:onboarding_flow/ui/screens/settings_screen.dart';
 import "package:onboarding_flow/ui/screens/walk_screen.dart";
@@ -36,6 +37,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.portraitUp,
+    ]);
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
