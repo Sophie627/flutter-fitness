@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:onboarding_flow/models/settings.dart';
 import 'package:onboarding_flow/ui/screens/main_screen.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:onboarding_flow/ui/screens/totalworkouts.dart';
 
@@ -162,13 +163,21 @@ class _ActivityScreenState extends State<ActivityScreen> {
             centerTitle: true,
             leading: new IconButton(
               icon: new Icon(Icons.arrow_back_ios),
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => MainScreen(
+              onPressed: () => Navigator.push(context, 
+                PageTransition(
+                  child: MainScreen(
                     settings: widget.settings,
-                  )),
+                  ), 
+                  type: PageTransitionType.leftToRight,
+                ),
               )),
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (context) => MainScreen(
+              //       settings: widget.settings,
+              //     )),
+              // )),
             title: Text(
               'Activity',
               style: TextStyle(

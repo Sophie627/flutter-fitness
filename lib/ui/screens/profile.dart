@@ -5,6 +5,7 @@ import 'package:flutter_material_pickers/helpers/show_date_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:onboarding_flow/ui/screens/main_screen.dart';
 import 'package:onboarding_flow/models/settings.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 
 
@@ -102,12 +103,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         centerTitle: true,
         leading: new IconButton(
             icon: new Icon(Icons.arrow_back_ios),
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => MainScreen(
+            onPressed: () => Navigator.push(context, 
+              PageTransition(
+                child: MainScreen(
                   settings: widget.settings,
-                )),
+                ), 
+                type: PageTransitionType.leftToRight,
+              ),
             )),
         title: Text(
           'PROFILE',
