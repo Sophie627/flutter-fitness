@@ -840,20 +840,20 @@ class _InOutState extends State<InOut> {
                       }),
                     ),
                     // exerciseCarousel,
-                    Text("CONGRATULATIONS!!",
-                      style: TextStyle(
-                        color: bestColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 24.0,
-                      ),
-                    ),
-                    Text('New High Score',
-                      style: TextStyle(
-                        color: bestColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0,
-                      ),
-                    ),
+                    // Text("CONGRATULATIONS!!",
+                    //   style: TextStyle(
+                    //     color: bestColor,
+                    //     fontWeight: FontWeight.bold,
+                    //     fontSize: 24.0,
+                    //   ),
+                    // ),
+                    // Text('New High Score',
+                    //   style: TextStyle(
+                    //     color: bestColor,
+                    //     fontWeight: FontWeight.bold,
+                    //     fontSize: 20.0,
+                    //   ),
+                    // ),
                     Expanded(
                       child: exerciseCarousel
                     ),
