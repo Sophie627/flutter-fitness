@@ -5,6 +5,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:onboarding_flow/business/validator.dart';
 import 'package:onboarding_flow/ui/screens/workout_admin/workout_skill_form.dart';
 import 'package:onboarding_flow/ui/widgets/custom_text_field.dart';
+import 'package:reorderables/reorderables.dart';
 
 class WorkoutFormScreen extends StatefulWidget {
 
@@ -37,6 +38,8 @@ class _WorkoutFormScreenState extends State<WorkoutFormScreen> {
   int _selectedSkill;
   List<DropdownMenuItem<int>> _dropDownMenuItems;
   int workoutID;
+  List<Widget> skillListWidget = [];
+  List exerciseNoList = [];
 
   Future<void> deleteSkillDialog(String id) async {
     return showDialog<void>(
@@ -101,8 +104,10 @@ class _WorkoutFormScreenState extends State<WorkoutFormScreen> {
               workoutSkillID = [];
               workoutSkillName = [];
               workoutSkillSkillID = [];
+              exerciseNoList = [];
             });
             data.documents.forEach((doc) {
+              exerciseNoList.add(doc['no']);
               workoutSkillSkillID.add(doc['skillID']);
               workoutSkillID.add(doc.documentID);
               maxSkillNo = doc['no'];
@@ -272,27 +277,27 @@ class _WorkoutFormScreenState extends State<WorkoutFormScreen> {
           Expanded(
             child: widget.workoutID == 'createworkout!!!' 
             ? SizedBox(height: 0)
-            : ListView(
+            : skillList()
+          ),
+          widget.workoutID == 'createworkout!!!' 
+          ? SizedBox(height: 0)
+          : SizedBox(height: 30.0,),
+          widget.workoutID == 'createworkout!!!' 
+          ? SizedBox(height: 0)
+          : Container(
+            child: new Center(
+                child: new Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                skillList(),
-                SizedBox(height: 30.0,),
-                Container(
-                  child: new Center(
-                      child: new Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      new Text("Please choose a skill: "),
-                      new DropdownButton(
-                        value: _selectedSkill,
-                        items: _dropDownMenuItems,
-                        onChanged: changedDropDownItem,
-                      )
-                    ],
-                  )),
-                ),
+                new Text("Please choose a skill: "),
+                new DropdownButton(
+                  value: _selectedSkill,
+                  items: _dropDownMenuItems,
+                  onChanged: changedDropDownItem,
+                )
               ],
-            ),
+            )),
           ),
           Padding(
             padding: EdgeInsets.only(top: 20.0, left: 30.0, right: 30.0),
@@ -327,10 +332,11 @@ class _WorkoutFormScreenState extends State<WorkoutFormScreen> {
   }
 
   Widget skillList() {
-    List<Widget> skillList = [];
+    
     workoutSkillName.asMap().forEach((key, value) {
-      skillList.add(
+      skillListWidget.add(
         Slidable(
+          key: ValueKey(key),
           child: ListTile(
             title: Text(value,
               style: TextStyle(
@@ -364,11 +370,22 @@ class _WorkoutFormScreenState extends State<WorkoutFormScreen> {
         ),
       );
     });
+    setState(() {});
     return Container(
       padding: EdgeInsets.only(top: 10.0, left: 50.0, right: 20.0),
-      child: Column(
-        children: skillList,
+      child: ReorderableListView(
+        children: skillListWidget,
+        onReorder: (int oldIndex, int newIndex) {
+          print('oldIndex: $oldIndex, newIndex: $newIndex');
+          Widget row = skillListWidget.removeAt(oldIndex);
+          skillListWidget.insert(newIndex, row);
+          setState(() {});
+          updateIndex(oldIndex, newIndex);
+        },
       ),
+      // Column(
+      //   children: skillList,
+      // ),
     );
   }
 
@@ -398,5 +415,31 @@ class _WorkoutFormScreenState extends State<WorkoutFormScreen> {
     Firestore.instance.collection('exercise' + workoutID.toString()).document(skillID).delete()
     .then((value) => print("Skill Deleted"))
     .catchError((onError) => print("Failed to delete skill: $onError"));
+  }
+
+  void updateIndex(int oldIndex, int newIndex) {
+    List newNoList = [];
+    List tmpList = [];
+    int index = 0;
+    exerciseNoList.asMap().forEach((key, value) { 
+      newNoList.add(index);
+      tmpList.add(index);
+      index ++;
+    });
+    int tmp = tmpList.removeAt(newIndex);
+    tmpList.insert(oldIndex, tmp);
+    print('tmpList $tmpList');
+    workoutSkillID.asMap().forEach((key, value) { 
+      Firestore.instance.collection('exercise' + workoutID.toString()).document(value).updateData({
+        'no': tmpList[key]
+      })
+      .then((value) => print("Skill Updated"))
+      .catchError((onError) => print("Failed to update skill: $onError"));
+    });
+    setState(() {
+      exerciseNoList = newNoList;
+      String tmpSkillID = workoutSkillID.removeAt(oldIndex);
+      workoutSkillID.insert(newIndex, tmpSkillID);
+    });
   }
 }
