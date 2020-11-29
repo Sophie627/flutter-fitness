@@ -236,7 +236,7 @@ class _ChartScreenState extends State<ChartScreen> {
             children: <Widget>[
               Image.network(
                 skillData['url'],
-                fit: BoxFit.fitWidth,
+                fit: BoxFit.contain,
                 height: 150,
                 width: 150,
               ),
