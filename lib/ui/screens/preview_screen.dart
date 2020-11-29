@@ -185,7 +185,7 @@ class _PreviewState extends State<Preview> {
             skillData[index]['url'],
             height: 100.0,
           ),
-          
+          SizedBox(width: 20.0),
           Expanded(
             flex: 6,
             child: Column(
@@ -193,6 +193,7 @@ class _PreviewState extends State<Preview> {
               children: <Widget>[
                 new Text(
                   skillData[index]['name'],
+                  textAlign: TextAlign.center,
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 new Text("Rest"),

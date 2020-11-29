@@ -305,7 +305,7 @@ class _NascarResultsScreenState extends State<NascarResultsScreen> {
     List<Widget> list = new List<Widget>();
     if (workout != null) {
       for(var i = 0; i < workout.length; i++){
-        list.add(
+        if(workout[i].rep != 0) list.add(
           ListTile(
             dense: true,
             leading: Text(workout[i].name),
