@@ -2,10 +2,34 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:onboarding_flow/custom/customButton.dart';
 import 'package:onboarding_flow/res/colors.dart';
+import 'package:onboarding_flow/screens/delayed_animation.dart';
 import 'package:onboarding_flow/screens/nickname.dart';
 import 'package:onboarding_flow/screens/signIn.dart';
 
-class Intro extends StatelessWidget {
+class Intro extends StatefulWidget {
+  @override
+  _IntroState createState() => _IntroState();
+}
+
+class _IntroState extends State<Intro> with SingleTickerProviderStateMixin {
+  final int delayedAmount = 500;
+  double _scale;
+  AnimationController _controller;
+  @override
+  void initState() {
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(
+        milliseconds: 200,
+      ),
+      lowerBound: 0.0,
+      upperBound: 0.1,
+    )..addListener(() {
+        setState(() {});
+      });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
@@ -30,52 +54,62 @@ class Intro extends StatelessWidget {
               SizedBox(
                 height: height * 0.029,
               ),
-              Column(
-                children: [
-                  boldText(text: 'Hi there,'),
-                  boldText(text: "I'm FootyLab"),
-                ],
+              DelayedAnimation(
+                child: boldText(text: 'Hi there,'),
+                delay: delayedAmount + 1000,
+              ),
+              DelayedAnimation(
+                child: boldText(text: "I'm FootyLab"),
+                delay: delayedAmount + 2000,
               ),
               SizedBox(height: height * 0.058),
-              Column(
-                children: [
-                  regularText(text: 'YOUR NEW PERSONAL'),
-                  regularText(text: "TRAINER COMPANION"),
-                ],
+              DelayedAnimation(
+                child: regularText(text: 'YOUR NEW PERSONAL'),
+                delay: delayedAmount + 3000,
+              ),
+              DelayedAnimation(
+                child: regularText(text: "TRAINER COMPANION"),
+                delay: delayedAmount + 3000,
               ),
               SizedBox(height: height * 0.146),
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (ctx) => Nickname(),
-                    ),
-                  );
-                },
-                child: CustomButton(
-                  text: 'Hey FootyLab!',
-                ),
-              ),
-              SizedBox(height: height * 0.058),
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (ctx) => SignIn(),
-                    ),
-                  );
-                },
-                child: Text(
-                  "I Already Have an Account",
-                  style: TextStyle(
-                    fontFamily: "Roboto",
-                    fontWeight: FontWeight.w500,
-                    fontSize: 20,
-                    color: Color(0xffbdd0e9).withOpacity(0.90),
+              DelayedAnimation(
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (ctx) => Nickname(),
+                      ),
+                    );
+                  },
+                  child: CustomButton(
+                    text: 'Hey FootyLab!',
                   ),
                 ),
+                delay: delayedAmount + 4000,
+              ),
+              SizedBox(height: height * 0.058),
+              DelayedAnimation(
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (ctx) => SignIn(),
+                      ),
+                    );
+                  },
+                  child: Text(
+                    "I Already Have an Account",
+                    style: TextStyle(
+                      fontFamily: "Roboto",
+                      fontWeight: FontWeight.w500,
+                      fontSize: 20,
+                      color: Color(0xffbdd0e9).withOpacity(0.90),
+                    ),
+                  ),
+                ),
+                delay: delayedAmount + 5000,
               ),
               SizedBox(height: height * 0.073),
             ],
