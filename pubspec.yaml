@@ -90,7 +90,7 @@ flutter:
         - asset: assets/fonts/hk-grotesk.bold.ttf
     - family: Xbka
       fonts:
-        - asset: assets/fonts/Xbka.otf
+        - asset: assets/fonts/Colo-Pro.otf
     - family: Comic
       fonts:
         - asset: assets/fonts/COMIC.TTF

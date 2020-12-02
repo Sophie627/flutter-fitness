@@ -35,8 +35,10 @@ class _Team2State extends State<Team2> {
     Firestore.instance.collection('states').snapshots().listen((value) {
       value.documents.forEach((element) { 
         stateItems.add(DropdownMenuItem(
-          child: Text(element['name']),
-            value: element.documentID,
+          child: Center(
+            child: Text(element['name']),
+          ),
+          value: element.documentID,
         ));
       });
       setState(() {
@@ -46,7 +48,9 @@ class _Team2State extends State<Team2> {
     Firestore.instance.collection('clubs').snapshots().listen((value) {
       value.documents.forEach((element) { 
         clubItems.add(DropdownMenuItem(
-          child: Text(element['name']),
+          child: Center(
+            child: Text(element['name']),
+          ),
             value: element.documentID,
         ));
       });
@@ -57,7 +61,9 @@ class _Team2State extends State<Team2> {
     Firestore.instance.collection('positions').snapshots().listen((value) {
       value.documents.forEach((element) { 
         positionItems.add(DropdownMenuItem(
-          child: Text(element['name']),
+          child: Center(
+            child: Text(element['name']),
+          ),
             value: element.documentID,
         ));
       });

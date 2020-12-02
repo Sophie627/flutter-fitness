@@ -33,6 +33,7 @@ class _ChartScreenState extends State<ChartScreen> {
   List skillName = [];
   List skillRep = [];
   List skillDate = [];
+  List skillUrl = [];
   bool isLoading = true;
   String radioValue = 'W';
   DateTime fromDate;
@@ -100,6 +101,7 @@ class _ChartScreenState extends State<ChartScreen> {
             print('skillname ${data}');
             setState(() {
               skillName.add(data['name']);
+              skillUrl.add(data['url']);
             });
           });
           setState(() {
@@ -212,6 +214,7 @@ class _ChartScreenState extends State<ChartScreen> {
                   skillRep: skillRep,
                   skillDate: skillDate,
                   skillName: skillName,
+                  skillUrl: skillUrl,
                 )),
             );
           },

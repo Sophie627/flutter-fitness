@@ -26,6 +26,7 @@ class Auth {
   }
 
   static Future<String> signUp(String email, String password) async {
+    print("signup");
     FirebaseUser user = (await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: password)).user;
     String username = "bolesalavb@gmail.com";

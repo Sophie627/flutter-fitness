@@ -64,7 +64,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Firestore.instance.collection('positions').snapshots().listen((value) {
       value.documents.forEach((element) { 
         positionList.add(DropdownMenuItem(
-          child: Text(element['name']),
+          child: Center(
+            child: Text(element['name']),
+          ),
             value: element.documentID,
         ));
       });
@@ -76,7 +78,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Firestore.instance.collection('states').snapshots().listen((value) {
       value.documents.forEach((element) { 
         stateList.add(DropdownMenuItem(
-          child: Text(element['name']),
+          child: Center(
+            child: Text(element['name']),
+          ),
             value: element.documentID,
         ));
       });
@@ -88,7 +92,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     Firestore.instance.collection('clubs').snapshots().listen((value) {
       value.documents.forEach((element) { 
         clubList.add(DropdownMenuItem(
-          child: Text(element['name']),
+          child: Center(
+            child: Text(element['name']),
+          ),
             value: element.documentID,
         ));
       });

@@ -10,8 +10,9 @@ class TotalWorkouts extends StatefulWidget {
   List skillRep;
   List skillDate;
   List skillName;
+  List skillUrl;
 
-  TotalWorkouts({this.settings, this.skillID, this.skillRep, this.skillDate, this.skillName});
+  TotalWorkouts({this.settings, this.skillID, this.skillRep, this.skillDate, this.skillName, this.skillUrl});
   @override
   _TotalWorkoutsState createState() => _TotalWorkoutsState();
 }
@@ -28,10 +29,12 @@ class _TotalWorkoutsState extends State<TotalWorkouts> {
         'rep': widget.skillRep[i],
         'date': widget.skillDate[i],
         'name': widget.skillName[i],
+        'url': widget.skillUrl[i],
       });
     }
     skills.sort((a, b) => a['name'].toLowerCase().compareTo(b['name'].toLowerCase()));
     for(int i = 0; i <widget.skillID.length; i++) {
+      print('skill ${skills[i]["url"]}');
       skillLists.add(
         Column(
           children: <Widget>[
@@ -46,32 +49,31 @@ class _TotalWorkoutsState extends State<TotalWorkouts> {
                     )),
                 );
               },
-              child: ListTile(
-                dense:true, 
-                contentPadding: EdgeInsets.symmetric(horizontal: 16.0,vertical:0,),
-                leading: Column(
-                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment:  CrossAxisAlignment.start,
+              child: Container(
+                margin: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 20.0),
+                child: Row(
                   children: <Widget>[
-                    Text(
-                      DateFormat.yMMMd().format(skills[i]['date'].toDate()),
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 10,
+                    new Image.network(
+                      skills[i]['url'],
+                      height: 100.0,
+                    ),
+                    // SizedBox(width: 20.0),
+                    Expanded(
+                      flex: 6,
+                      child: Text(
+                        skills[i]['name'],
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 18.0,
+                        ),
                       ),
-                      ),
-                    Text(
-                      skills[i]['name'],
+                    ),
+                    Text(skills[i]['rep'].toString() + " Reps",
                       style: TextStyle(
-                        fontSize: 18.0,
+                        fontSize: 18,
                       ),
                     ),
                   ],
-                ),
-                trailing: Text(skills[i]['rep'].toString() + " Reps",
-                  style: TextStyle(
-                    fontSize: 18,
-                  ),
                 ),
               ),
             ),

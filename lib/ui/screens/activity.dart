@@ -27,6 +27,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
   List skillRep = [];
   List skillDate = [];
   List skillList = [];
+  List skillUrl = [];
   bool isLoading = true;
   bool isLogin = true;
 
@@ -87,12 +88,14 @@ class _ActivityScreenState extends State<ActivityScreen> {
             print('skillname ${data}');
             setState(() {
               skillName.add(data['name']);
+              skillUrl.add(data['url']);
             });
           });
           setState(() {
             skillID.add(element['skillID']);
             skillRep.add(element['rep']);
             skillDate.add(element['date']);
+            
           });
         } else {
           int index = skillID.indexOf(element['skillID']);
@@ -124,7 +127,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // print(workoutDate);
+    print('skillurl $skillUrl');
     return isLoading
     ? Material(
       child: Container(
@@ -206,6 +209,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
                                 skillRep: skillRep,
                                 skillDate: skillDate,
                                 skillName: skillName,
+                                skillUrl: skillUrl,
                               )),
                           );
                         },

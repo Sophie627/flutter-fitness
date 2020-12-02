@@ -120,7 +120,7 @@ class _MainScreenState extends State<MainScreen> {
                 icon: new Icon(Icons.menu),
                 onPressed: () => _scaffoldKey.currentState.openDrawer()),
             title: new Text(
-              'Brave Fit',
+              'FootyLAB',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 22,  
